@@ -113,4 +113,48 @@ router.post('/empleado/listaEmpleados/IESS',async(req,res)=>{
     res.send('act')
 })
 
+// Mostrar pantalla de cuentas de empleado
+
+router.get('/empleado/cuenta', async(req,res)=> {
+    // Obtener los parámetros
+    const { id } = req.params;
+
+    // Obtener las cuentas del empleado bajo ese ID
+    const cuentaEmpleado = await pool.query('SELECT ID_CUENTA FROM EMPLEADO WHERE ID_EMPLEADO=?',[id]);
+    const idCuenta = cuentaEmpleado[0]['ID_CUENTA']
+    const cuentas = await pool.query('SELECT * FROM CUENTA WHERE ID_CUENTA=?', [idCuenta]);
+
+    res.send(cuentas);
+
+    //cuando ya tenga esta interfaz
+    //res.render('links/empleado/cuenta')
+})
+
+// Creación de una cuenta
+router.post('/empleado/cuenta',async(req,res)=>{
+
+    // Obtener los parámetros
+    const { id } = req.body;
+    const newCuenta = { id_asiento, descripcion_cuenta, codigo_cuenta, valor_cuenta } = req.body;
+
+    // Consultar sueldo neto del empleado y valor del IESS bajo la ID de los parámetros
+    const empleado = await pool.query('SELECT * FROM EMPLEADO WHERE ID_EMPLEADO=?',[id]);
+    const idMov = await pool.query('select id_movimiento_empleado from empleado where id_empleado=?',[id])
+    const iess = await pool.query('SELECT VALOR_MOVIMIENTO_EMPLEADO FROM MOVIMIENTO_EMPLEADO WHERE ID_MOVIMIENTO_EMPLEADO=?', [idMov]);
+
+    const sueldoNeto = empleado[0]['SUELDO_NETO']
+    const pagoIess = iess[0]['VALOR_MOVIMIENTO_EMPLEADO']
+
+    // Sumar el sueldo neto y el valor del IESS y almacenarlo en el valor de la cuenta
+    newCuenta.valor_cuenta = sueldoNeto + pagoIess
+    
+
+    // Insertar nueva cuenta con el ID de asiento, su descripcion, código y valor
+    await pool.query('INSERT INTO CUENTA set ?', [newCuenta])
+
+    res.send('cuenta creada');
+
+})
+
+
 module.exports = router;
