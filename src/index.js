@@ -2,6 +2,7 @@ const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const itemRoutes = require("./routes/itemRoutes");
 
 //initialization
 const app = express();
@@ -35,6 +36,7 @@ app.use((req,rest,next)=>{
 app.use(require('./routes'));
 app.use(require('./routes/authentication'));
 app.use('/links',require('./routes/links'));
+app.use('/api/item', itemRoutes.default);
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));
