@@ -11,7 +11,7 @@ router.get('/empleado/registrarEmpleado',(req,res)=>{
 })
 
 //enviar el formulario lleno del empleado
-router.post('/empleado/registrarEmpleado', async(req,res)=>{
+router.post('/empleado/registrarEmpleado', async(req,res)=> {
     //datos del formulario
     const{nombre_empleado, apellido_empleado,cedula_empleado,descripcion_cargo,sueldo_horas_cargo,codigo_cargo} = req.body;
     
@@ -26,35 +26,34 @@ router.post('/empleado/registrarEmpleado', async(req,res)=>{
         codigo_cargo
     }
     
-    //inserta un empleado
+    // Inserta un empleado
     await pool.query('INSERT INTO empleado set ?', [newEmpleado])
-    //inserta el cargo para el empleado en la tabla cargo_empleado
+    // Inserta el cargo para el empleado en la tabla cargo_empleado
     await pool.query('INSERT INTO cargo_empleado set ?', [newCargoEmpleado])
-    //obtiene el útlimo cargo_empleado registrado
+    // Obtiene el útlimo cargo_empleado registrado
     const lastCargo = await pool.query('select id_cargo_empleado from cargo_empleado order by id_cargo_empleado desc limit 1')
-    //obtiene el útlimo empleado registrado
+    // Obtiene el útlimo empleado registrado
     const lastEmpleado = await pool.query('select id_empleado from empleado order by id_empleado desc limit 1')
-    //actualiza la columna del id_cargo_empleado de la tabla empleado para asignarle un cargo al último empleado registrado
+    // Actualiza la columna del id_cargo_empleado de la tabla empleado para asignarle un cargo al último empleado registrado
     await pool.query('UPDATE empleado set id_cargo_empleado= ? WHERE ID_empleado = ?',[lastCargo[0].id_cargo_empleado,lastEmpleado[0].id_empleado])
-    //agrega como clave foranea el movimiento del IESS 
+    // Agrega como clave foranea el movimiento del IESS 
     pool.query('UPDATE EMPLEADO SET ID_MOVIMIENTO_EMPLEADO= 1')
     res.send('received')
 
-    // CÓDIGO FERNANDO: tomar horas de empleado y multiplicar por el sueldo asignado por hora y guardar en columna sueldo neto del empleado
-    ///// se codifica que iees puede cobrar el 10 % , suponiendo que se trabaja por 20 dias al mes con 8 horas diarias
-    const sueldo_sincargo_iess=(sueldo_horas_cargo * 20*8)
-    const sueldoNeto =  sueldo_sincargo_iess-(sueldo_sincargo_iess * (10 / 100));
+    // Tomar horas de empleado y multiplicar por el sueldo asignado por hora y guardar en columna sueldo neto del empleado
+
+    // Se codifica que iees puede cobrar el 10 % , suponiendo que se trabaja por 20 dias al mes con 8 horas diarias
+    const sueldo_sincargo_iess = (sueldo_horas_cargo * 20 * 8)
+    const sueldoNeto =  sueldo_sincargo_iess - (sueldo_sincargo_iess * (10 / 100));
     await pool.query('UPDATE empleado SET sueldo_neto = ? WHERE cedula_empleado = ?', [sueldoNeto, cedula_empleado])
 
-    // Creación cuenta de empleado 
-
-    const newCuenta = { descripcion_cuenta, codigo_cuenta, valor_cuenta }
-
+    // Creación cuenta de empleado                                                                                              
+    const newCuenta = { descripcion_cuenta: null, codigo_cuenta: null, valor_cuenta: null }
 
     // Actualizar información de la cuenta con los datos del empleado
     newCuenta.descripcion_cuenta = newCargoEmpleado.descripcion_cargo
     newCuenta.codigo_cuenta = newCargoEmpleado.codigo_cargo
-    newCuenta.valor_cuenta = sueldoNeto; // Cambiar por la variable del sueldo de Fernando !!!!!!!!!
+    newCuenta.valor_cuenta = sueldoNeto
 
     // Insertar nueva cuenta con el ID de asiento, su descripcion, código y valor
     await pool.query('INSERT INTO CUENTA set ?', [newCuenta])
