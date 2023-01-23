@@ -18,7 +18,8 @@ router.post('/empleado/registrarEmpleado', async(req,res)=> {
     const newEmpleado = {
         nombre_empleado,
         apellido_empleado,
-        cedula_empleado
+        cedula_empleado,
+        horas_laboradas:160
     }
     const newCargoEmpleado = {
         descripcion_cargo,
@@ -45,8 +46,9 @@ router.post('/empleado/registrarEmpleado', async(req,res)=> {
     // Se codifica que iees puede cobrar el 10 % , suponiendo que se trabaja por 20 dias al mes con 8 horas diarias
     const sueldo_sincargo_iess = (sueldo_horas_cargo * 20 * 8)
     const sueldoNeto =  sueldo_sincargo_iess - (sueldo_sincargo_iess * (10 / 100));
+    await pool.query('UPDATE empleado SET sueldo = ? WHERE cedula_empleado = ?', [sueldo_sincargo_iess, cedula_empleado])
     await pool.query('UPDATE empleado SET sueldo_neto = ? WHERE cedula_empleado = ?', [sueldoNeto, cedula_empleado])
-
+    
     // Creación cuenta de empleado                                                                                              
     const newCuenta = { descripcion_cuenta: null, codigo_cuenta: null, valor_cuenta: null }
 
