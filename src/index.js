@@ -7,6 +7,14 @@ const itemRoutes = require("./routes/itemRoutes");
 //initialization
 const app = express();
 
+// Inconveniente con CORS
+app.use(function(req, res, next) {    
+    res.header("Access-Control-Allow-Origin", "*");  
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');    
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');    next();
+});
+
 //settings de que puerto va a acceder
 app.set('port', process.env.PORT || 4000);
 app.set('views', path.join(__dirname,'views'));
@@ -41,13 +49,7 @@ app.use('/api/item', itemRoutes.default);
 //public
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Inconveniente con CORS
-app.use(function(req, res, next) {    
-    res.header("Access-Control-Allow-Origin", "*");  
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"); 
-    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');    
-    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');    next();
-});
+
 //starting the server
 app.listen(app.get('port'),()=>{
     console.log('Server on port', app.get('port'));
