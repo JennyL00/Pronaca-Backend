@@ -3,6 +3,8 @@ const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const path = require('path');
 const itemRoutes = require("./routes/itemRoutes");
+const empleadoRoutes = require("./routes/empleadosRoutes");
+const cargo_empleadoRoutes = require("./routes/cargo_empleadoRoutes");
 
 //initialization
 const app = express();
@@ -45,6 +47,8 @@ app.use(require('./routes'));
 app.use(require('./routes/authentication'));
 app.use('/links',require('./routes/links'));
 app.use('/api/item', itemRoutes.default);
+app.use('/api/empleado', empleadoRoutes.default);
+app.use('/api/cargo_empleado', cargo_empleadoRoutes.default);
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));
