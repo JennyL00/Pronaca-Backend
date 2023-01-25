@@ -2,10 +2,14 @@ const express = require('express');
 const morgan = require('morgan');
 const exphbs = require('express-handlebars');
 const path = require('path');
+const itemRoutes = require("./routes/itemRoutes");
+const empleadoRoutes = require("./routes/empleadosRoutes");
+const cargo_empleadoRoutes = require("./routes/cargo_empleadoRoutes");
+const asientoRoutes = require("./routes/asientoRoute");
+const cuentaRoutes = require("./routes/cuentaRoutes");
 
 //initialization
 const app = express();
-
 
 // Inconveniente con CORS
 app.use(function(req, res, next) {    
@@ -44,9 +48,16 @@ app.use((req,rest,next)=>{
 app.use(require('./routes'));
 app.use(require('./routes/authentication'));
 app.use('/links',require('./routes/links'));
+app.use('/api/item', itemRoutes.default);
+app.use('/api/empleado', empleadoRoutes.default);
+app.use('/api/cargo_empleado', cargo_empleadoRoutes.default);
+app.use('/api/asiento', asientoRoutes.default);
+app.use('/api/cuenta', cuentaRoutes.default);
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));
+
+
 //starting the server
 app.listen(app.get('port'),()=>{
     console.log('Server on port', app.get('port'));
