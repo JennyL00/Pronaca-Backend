@@ -24,7 +24,9 @@ drop table if exists EMPLEADO;
 
 drop table if exists ITEM;
 
-drop table if exists LISTA_DESECHABLES;
+drop table if exists TIPO_ITEM;
+
+drop table if exists ESTADO_PRODUCCION;
 
 drop table if exists LISTA_ITEMS;
 
@@ -165,6 +167,7 @@ create table EMPLEADO
 create table ITEM
 (
    ID_ITEM              int not null AUTO_INCREMENT,
+   ID_LISTA_ITEMS       int, 
    CODIGO_ITEM          varchar(100),
    ID_TIPO_ITEM         int,
    NOMBRE_ITEM          varchar(100),
@@ -336,21 +339,21 @@ alter table EMPLEADO add constraint FK_RELATIONSHIP_23 foreign key (ID_CUENTA)
 
 alter table EMPLEADO add constraint FK_RELATIONSHIP_25 foreign key (ID_MOVIMIENTO_EMPLEADO)
       references MOVIMIENTO_EMPLEADO (ID_MOVIMIENTO_EMPLEADO);
-
-alter table ITEM add constraint FK_RELATIONSHIP_20 foreign key (ID_CUENTA)
-      references CUENTA (ID_CUENTA);
+/*NEW RELATION ITEM - ESTADO PRODUCCION*/
+alter table ITEM add constraint FK_RELATIONSHIP_20 foreign key (ID_ESTADO_PRODUCCION)
+      references ESTADO_PRODUCCION (ID_ESTADO_PRODUCCION);
 
 alter table ITEM add constraint FK_RELATIONSHIP_8 foreign key (ID_LISTA_ITEMS)
       references LISTA_ITEMS (ID_LISTA_ITEMS);
-
-alter table ITEM add constraint FK_RELATIONSHIP_9 foreign key (ID_LISTA_ITEMS2)
-      references LISTA_DESECHABLES (ID_LISTA_ITEMS2);
-
-alter table LISTA_DESECHABLES add constraint FK_RELATIONSHIP_14 foreign key (ID_EMPLEADO)
-      references EMPLEADO (ID_EMPLEADO);
-
+/*NEW RELATION ITEM - TIPO_ITEM*/
+alter table ITEM add constraint FK_RELATIONSHIP_9 foreign key (ID_TIPO_ITEM)
+      references TIPO_ITEM (ID_TIPO_ITEM);
+/*NEW RELATIONS LISTA_ITEM - TIPO_LISTA_PRODUC*/
+alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_14 foreign key (ID_TIPO_LISTA_PRODUC)
+      references TIPO_LISTA_PRODUC (ID_TIPO_LISTA_PRODUC);
+/*
 alter table LISTA_DESECHABLES add constraint FK_RELATIONSHIP_24 foreign key (ID_CUENTA)
-      references CUENTA (ID_CUENTA);
+      references CUENTA (ID_CUENTA);*/
 
 alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_13 foreign key (ID_EMPLEADO)
       references EMPLEADO (ID_EMPLEADO);
