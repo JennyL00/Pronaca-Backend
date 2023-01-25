@@ -11,10 +11,6 @@ const cuentaRoutes = require("./routes/cuentaRoutes");
 //initialization
 const app = express();
 
-<<<<<<< HEAD
-=======
-
->>>>>>> main
 // Inconveniente con CORS
 app.use(function(req, res, next) {    
     res.header("Access-Control-Allow-Origin", "*");  
