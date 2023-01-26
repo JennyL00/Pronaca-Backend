@@ -32,9 +32,87 @@ class EmpleadoController {
             res.status(404).json({ text: "Empleado doesn't exists" });
         });
     }
+
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO empleado set?', [req.body]);
+            const{nombre_empleado, apellido_empleado,cedula_empleado,horas_laboradas,nombre_departamento,descripcion_cargo} = req.body;
+            
+            //agregar un cargo y departamento al empleado
+            const cargoEmpleado = yield database_1.default.query('SELECT * FROM CARGO_EMPLEADO WHERE DESCRIPCION_CARGO=?',descripcion_cargo);
+            const stringCargoEmpleado = JSON.parse(JSON.stringify(cargoEmpleado))
+            //agregar un movimiento IESS al empleado
+            const movimiento = yield database_1.default.query('SELECT * FROM MOVIMIENTO_EMPLEADO WHERE DESCRIPCION_MOVIMIENTO_ENPLEADO="IESS"')
+            const stringMovimientoEmpleado = JSON.parse(JSON.stringify(movimiento))
+            //Calcular el valor de la cuenta
+            const sueldoSinIESS = horas_laboradas*stringCargoEmpleado[0].SUELDO_HORAS_CARGO;
+            const valorIESS = sueldoSinIESS*(stringMovimientoEmpleado[0].VALOR_MOVIMIENTO_EMPLEADO/100)
+            const sueldoNeto = sueldoSinIESS - (valorIESS)
+
+            //crear un empleado
+            const newEmpleado = {
+                id_cargo_empleado:stringCargoEmpleado[0].ID_CARGO_EMPLEADO,
+                id_movimiento_empleado:stringMovimientoEmpleado[0].ID_MOVIMIENTO_EMPLEADO,
+                nombre_empleado,
+                apellido_empleado,
+                cedula_empleado,
+                horas_laboradas,
+                sueldo:sueldoSinIESS,
+                sueldo_neto:sueldoNeto
+            }
+            
+            yield database_1.default.query('INSERT INTO empleado set?', newEmpleado);
+            
+            //Crear cuenta y asiento para pago de nómina
+            //crear un asiento
+            const fecha = new Date(Date.now());
+            const newAsiento = {
+                id_informe_financiero:1,
+                fecha_asiento:fecha.toISOString(),
+                debe:0.0,
+                haber:0.0
+            };  
+            
+            yield database_1.default.query('INSERT INTO ASIENTO SET?',newAsiento)            
+            console.log(newAsiento)
+            //crear una cuenta
+            let lastAsiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
+            let stringAsiento = JSON.parse(JSON.stringify(lastAsiento))
+
+            const lastEmpleado = yield database_1.default.query('select * from empleado order by id_empleado desc limit 1')
+            const stringEmpleado = JSON.parse(JSON.stringify(lastEmpleado))            
+
+            const newCuentaNomina = {
+                cue_id_cuenta:7,
+                id_asiento:stringAsiento[0].ID_ASIENTO,
+                id_empleado:stringEmpleado[0].ID_EMPLEADO,
+                descripcion_cuenta:descripcion_cargo,
+                codigo_cuenta:"2.1.1.1.",
+                valor_cuenta:sueldoNeto
+            }
+            
+            yield database_1.default.query('INSERT INTO CUENTA SET?',newCuentaNomina)
+            yield database_1.default.query('UPDATE ASIENTO SET HABER=? WHERE ID_ASIENTO=?',[sueldoNeto,stringAsiento[0].ID_ASIENTO])
+
+            //Crear cuenta y asiento para Beneficio Social
+            //crear un asiento
+            yield database_1.default.query('INSERT INTO ASIENTO SET?',newAsiento)            
+            
+            //crear una cuenta
+            lastAsiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
+            stringAsiento = JSON.parse(JSON.stringify(lastAsiento))
+
+            const newCuentaBeneficio = {
+                cue_id_cuenta:7,
+                id_asiento:stringAsiento[0].ID_ASIENTO,
+                id_empleado:stringEmpleado[0].ID_EMPLEADO,
+                descripcion_cuenta:"IESS",
+                codigo_cuenta:"2.1.1.2.",
+                valor_cuenta:valorIESS
+            }
+
+            yield database_1.default.query('INSERT INTO CUENTA SET?',newCuentaBeneficio)
+            yield database_1.default.query('UPDATE ASIENTO SET HABER=? WHERE ID_ASIENTO=?',[valorIESS,stringAsiento[0].ID_ASIENTO])
+
             res.json({ message: 'Empleado saved' });
         });
     }
