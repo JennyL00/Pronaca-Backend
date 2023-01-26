@@ -10,7 +10,7 @@ class ItemRoutes {
     config() {
         this.router.get('/', itemController_1.itemController.list);
         this.router.get('/:id', itemController_1.itemController.getOne);
-        this.router.get('/productos',itemController_1.itemController.listProducts);
+        this.router.get('/p/',itemController_1.itemController.listProducts);
         this.router.post('/', itemController_1.itemController.create);
         this.router.put('/:id', itemController_1.itemController.update);
         this.router.delete('/:id', itemController_1.itemController.delete);

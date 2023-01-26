@@ -42,6 +42,7 @@ class EmpleadoController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             yield database_1.default.query('UPDATE empleado set ? WHERE id_empleado = ?', [req.body, id]);
+            console.log(id);
             res.json({ message: 'Empleado was updated' });
         });
     }

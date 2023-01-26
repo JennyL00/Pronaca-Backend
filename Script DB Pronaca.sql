@@ -226,10 +226,10 @@ create table LISTA_ITEMS
    ID_EMPLEADO          int,
    ID_CUENTA            int,
    ID_TIPO_LISTA_PRODUC int,
-   DETALLE_LISTA_DESECHABLES text,
-   FECHA_LISTA_DESECHABLES date,
-   ESTADO_LISTA_DESECHABLES varchar(100),
-   DETALLE_ESTADO_LISTA_DESECHABLES text,
+   DETALLE_LISTA        text,
+   FECHA_LISTA          date,
+   ESTADO_LISTA         varchar(100),
+   DETALLE_ESTADO_LISTA text,
    primary key (ID_LISTA_ITEMS)
 );
 
