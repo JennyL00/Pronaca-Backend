@@ -22,6 +22,12 @@ class ItemController {
             res.json(item);
         });
     }
+    listProducts(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const list_productos = yield database_1.default.query('CALL LIST_PRODUCTOS()');
+            res.json(list_productos);
+        });
+    }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;

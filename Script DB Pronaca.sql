@@ -167,9 +167,10 @@ create table EMPLEADO
 create table ITEM
 (
    ID_ITEM              int not null AUTO_INCREMENT,
-   ID_LISTA_ITEMS       int, 
+   ID_LISTA_ITEMS       int,
+   ID_ESTADO_PRODUCION  int,
+   ID_TIPO_ITEM         int, 
    CODIGO_ITEM          varchar(100),
-   ID_TIPO_ITEM         int,
    NOMBRE_ITEM          varchar(100),
    FECHA_FABRI_ITEM     date,
    FECHA1_CADU_ITEM     date,
@@ -180,7 +181,6 @@ create table ITEM
    PESO_ITEM            float,
    CONSERVACION_ITEM    varchar(100),
    DETALLE_ITEM         text,
-   ID_ESTADO_PRODUCION  int,
    primary key (ID_ITEM)
 );
 
@@ -225,6 +225,7 @@ create table LISTA_ITEMS
    ID_LISTA_ITEMS       int not null AUTO_INCREMENT,
    ID_EMPLEADO          int,
    ID_CUENTA            int,
+   ID_TIPO_LISTA_PRODUC int,
    DETALLE_LISTA_DESECHABLES text,
    FECHA_LISTA_DESECHABLES date,
    ESTADO_LISTA_DESECHABLES varchar(100),
@@ -339,9 +340,11 @@ alter table EMPLEADO add constraint FK_RELATIONSHIP_23 foreign key (ID_CUENTA)
 
 alter table EMPLEADO add constraint FK_RELATIONSHIP_25 foreign key (ID_MOVIMIENTO_EMPLEADO)
       references MOVIMIENTO_EMPLEADO (ID_MOVIMIENTO_EMPLEADO);
-/*NEW RELATION ITEM - ESTADO PRODUCCION*/
+/*NEW RELATION ITEM - ESTADO PRODUCCION
 alter table ITEM add constraint FK_RELATIONSHIP_20 foreign key (ID_ESTADO_PRODUCCION)
-      references ESTADO_PRODUCCION (ID_ESTADO_PRODUCCION);
+      references ESTADO_PRODUCCION (ID_ESTADO_PRODUCCION);*/
+ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_20` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
+      REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 alter table ITEM add constraint FK_RELATIONSHIP_8 foreign key (ID_LISTA_ITEMS)
       references LISTA_ITEMS (ID_LISTA_ITEMS);
