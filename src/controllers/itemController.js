@@ -27,7 +27,7 @@ class ItemController {
             const { id } = req.params;
             const item = yield database_1.default.query('SELECT * FROM item WHERE id_item = ?', [id]);
             if (item.length > 0) {
-                return res.json(item);
+                return res.json(item[0]);
             }
             res.status(404).json({ text: "Item doesn't exists" });
         });
