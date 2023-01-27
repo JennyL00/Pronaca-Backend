@@ -8,7 +8,7 @@ class Informe_FinancieroRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', informe_financieroController_1.informe_financieroController.cuentas);
+        
     }
 }
 const informe_financieroRouter = new Informe_FinancieroRoutes();

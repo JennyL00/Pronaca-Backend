@@ -10,7 +10,7 @@ class Cargo_EmpleadoRoutes {
     config() {
         this.router.get('/', cargo_empleadoController_1.cargo_empleadoController.list);
         this.router.get('/:id', cargo_empleadoController_1.cargo_empleadoController.getOne);
-        this.router.post('/', cargo_empleadoController_1.cargo_empleadoController.create);
+        this.router.post('/:id', cargo_empleadoController_1.cargo_empleadoController.create);
         this.router.put('/:id', cargo_empleadoController_1.cargo_empleadoController.update);
         this.router.delete('/:id', cargo_empleadoController_1.cargo_empleadoController.delete);
     }

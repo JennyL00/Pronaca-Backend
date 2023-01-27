@@ -34,7 +34,9 @@ class CuentaController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO cuenta set?', [req.body]);
+            const{nombre_empleado, apellido_empleado,cedula_empleado,horas_laboradas,nombre_departamento,descripcion_cargo} = req.body;
+            const newCuenta = {}
+            yield database_1.default.query('INSERT INTO cuenta set?', [newCuenta]);
             res.json({ message: 'Cuenta saved' });
         });
     }
@@ -50,6 +52,27 @@ class CuentaController {
             const { id } = req.params;
             yield database_1.default.query('DELETE FROM cuenta WHERE id_cuenta = ?', [id]);
             res.json({ message: 'Cuenta was deleted' });
+        });
+    }
+    //calcular  el total de las cuentas, activos, pasivos, etc
+    cuentasPasivo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            
+            //Balance General
+            //cálculo de cuentas por pagar
+            const cuentasPorPagar = yield database_1.default.query('SELECT SUM(VALOR_CUENTA) as MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA= 7')
+            const stringCuentasPorPagar = JSON.parse(JSON.stringify(cuentasPorPagar))
+            yield database_1.default.query('UPDATE CUENTA SET VALOR_CUENTA = ? WHERE ID_CUENTA=7',[stringCuentasPorPagar[0].MONTO_CUENTA])
+            //cálculo de Pasivos corrientes
+            const pasivosCorrientes = yield database_1.default.query('SELECT SUM(VALOR_CUENTA) as MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA= 6')
+            const stringPasivosCorrientes = JSON.parse(JSON.stringify(pasivosCorrientes))
+            yield database_1.default.query('UPDATE CUENTA SET VALOR_CUENTA = ? WHERE ID_CUENTA=6',[stringPasivosCorrientes[0].MONTO_CUENTA])
+            //cálculo de pasivos
+            const pasivos = yield database_1.default.query('SELECT SUM(VALOR_CUENTA) as MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA= 5')
+            const stringPasivos = JSON.parse(JSON.stringify(pasivos))
+            yield database_1.default.query('UPDATE CUENTA SET VALOR_CUENTA = ? WHERE ID_CUENTA=5',[stringPasivos[0].MONTO_CUENTA])
+
+            res.json({ message: 'cuentas actualizadas' });
         });
     }
 }
