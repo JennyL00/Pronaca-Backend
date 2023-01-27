@@ -12,16 +12,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.itemController = void 0;
+exports.itemventasController = void 0;
 const database_1 = __importDefault(require("../database"));
 
-class ItemController {
-    list(req, res) {
+class ItemVentaController {
+    list_productos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const item = yield database_1.default.query('SELECT * FROM item');
-            res.json(item);
+            const list_productos = yield database_1.default.query('CALL LIST_PRODUCTOS()');
+            res.json(list_productos);
         });
-    }    
+    }/*
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
@@ -51,6 +51,6 @@ class ItemController {
             yield database_1.default.query('DELETE FROM item WHERE id_item = ?', [id]);
             res.json({ message: 'Item was deleted' });
         });
-    }
+    }*/
 }
-exports.itemController = new ItemController();
+exports.itemventaController = new ItemVentaController();

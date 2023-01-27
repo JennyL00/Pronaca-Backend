@@ -10,6 +10,7 @@ const cuentaRoutes = require("./routes/cuentaRoutes");
 const tipo_itemRoutes = require("./routes/tipo_itemRoutes");
 const estado_produccionRoutes = require("./routes/estado_produccionRoutes");
 const lista_itemsRoutes = require("./routes/lista_itemsRoutes");
+const itemventaRoutes = require("./routes/itemventaRouter")
 
 //initialization
 const app = express();
@@ -59,6 +60,7 @@ app.use('/api/cuenta', cuentaRoutes.default);
 app.use('/api/tipo_item', tipo_itemRoutes.default);
 app.use('/api/estado_produccion', estado_produccionRoutes.default);
 app.use('/api/lista_items', lista_itemsRoutes.default);
+app.use('/api/itemventa', itemventaRoutes.default);
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));
