@@ -27,7 +27,7 @@ class Tipo_ItemController {
             const { id } = req.params;
             const tipo_item = yield database_1.default.query('SELECT * FROM tipo_item WHERE id_tipo_item = ?', [id]);
             if (tipo_item.length > 0) {
-                return res.json(tipo_item);
+                return res.json(tipo_item[0]);
             }
             res.status(404).json({ text: "Tipo item doesn't exists" });
         });

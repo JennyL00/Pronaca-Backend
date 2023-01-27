@@ -27,7 +27,7 @@ class Lista_ItemsController {
             const { id } = req.params;
             const lista_items = yield database_1.default.query('SELECT * FROM lista_items WHERE id_lista_items = ?', [id]);
             if (lista_items.length > 0) {
-                return res.json(lista_items);
+                return res.json(lista_items[0]);
             }
             res.status(404).json({ text: "Lista Items doesn't exists" });
         });

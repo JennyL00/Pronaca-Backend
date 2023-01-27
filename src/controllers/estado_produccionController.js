@@ -27,7 +27,7 @@ class Estado_ProduccionController {
             const { id } = req.params;
             const estado_produccion = yield database_1.default.query('SELECT * FROM estado_produccion WHERE id_estado_produccion = ?', [id]);
             if (estado_produccion.length > 0) {
-                return res.json(estado_produccion);
+                return res.json(estado_produccion[0]);
             }
             res.status(404).json({ text: "Estado Produccion doesn't exists" });
         });
