@@ -37,8 +37,11 @@ class EmpleadoController {
         return __awaiter(this, void 0, void 0, function* () {
             const{nombre_empleado, apellido_empleado,cedula_empleado,horas_laboradas,nombre_departamento,descripcion_cargo} = req.body;
             //obtener el sueldo por horas de un departamento
-            const departamento = yield database_1.default.query('SELECT * FROM DEPARTAMENTO WHERE nombre_departamento=?',[nombre_departamento]);
+            const departamento = yield database_1.default.query('SELECT * FROM DEPARTAMENTO WHERE id_departamento=?',[nombre_departamento]);
             const stringDepartamento = JSON.parse(JSON.stringify(departamento))
+            //calculo del sueldo sin IESS
+            const sueldoSinIESS = horas_laboradas*stringDepartamento[0].SUELDO_HORAS;
+            
             //crear un empleado
             //crear una cuenta de págo de nómina
             const newCuentaNomina = {
@@ -55,15 +58,14 @@ class EmpleadoController {
             let cuenta = yield database_1.default.query('select * from cuenta order by id_cuenta desc limit 1');
             let stringCuenta = JSON.parse(JSON.stringify(cuenta))
 
-            console.log(stringCargoEmpleado)
-            
             const newEmpleado = {
                 id_cargo_empleado:stringCargoEmpleado[0].ID_CARGO_EMPLEADO,
                 id_cuenta:stringCuenta[0].ID_CUENTA,
                 nombre_empleado,
                 apellido_empleado,
                 cedula_empleado,
-                horas_laboradas
+                horas_laboradas,
+                sueldo:sueldoSinIESS
             }
             yield database_1.default.query('INSERT INTO empleado set?', [newEmpleado]);
 
@@ -96,21 +98,16 @@ class EmpleadoController {
             
             const movimiento = yield database_1.default.query('select * from movimiento_empleado where id_empleado=?',[stringEmpleado[0].ID_EMPLEADO])
             const stringMovimiento = JSON.parse(JSON.stringify(movimiento)) 
-
-            const sueldoSinIESS = horas_laboradas*stringDepartamento[0].SUELDO_HORAS;
+            //calcular valorIESS y sueldo neto
             const valorIESS = sueldoSinIESS*(stringMovimiento[0].VALOR_MOVIMIENTO_EMPLEADO/100)
             const sueldoNeto = sueldoSinIESS - (valorIESS)
 
             //actualiza empleado
-            yield database_1.default.query('UPDATE empleado set sueldo= ? WHERE id_empleado = ?', [sueldoSinIESS,stringEmpleado[0].ID_EMPLEADO]);
             yield database_1.default.query('UPDATE empleado set sueldo_neto= ? WHERE id_empleado = ?', [sueldoNeto,stringEmpleado[0].ID_EMPLEADO]);
             //actualización cuenta IESS
-            
-            yield database_1.default.query('UPDATE cuenta set valor_cuenta= ? WHERE id_cuenta = ?', [valorIESS,stringMovimiento[0].ID_EMPLEADO]);
+            yield database_1.default.query('UPDATE cuenta set valor_cuenta= ? WHERE id_cuenta = ?', [valorIESS,stringMovimiento[0].ID_CUENTA]);
             //actualizar cuenta pago de nómina
-            const movimientoPagoNomina = yield database_1.default.query('SELECT * FROM MOVIMIENTO_EMPLEADO WHERE DESCRIPCION_MOVIMIENTO_ENPLEADO="IESS"')
-            const stringMovimientoPagoNomina = JSON.parse(JSON.stringify(movimiento))
-            yield database_1.default.query('UPDATE cuenta set valor_cuenta= ? WHERE id_cuenta = ?', [sueldoNeto,stringMovimientoPagoNomina[0].ID_CUENTA]);
+            yield database_1.default.query('UPDATE cuenta set valor_cuenta= ? WHERE id_cuenta = ?', [sueldoNeto,stringEmpleado[0].ID_CUENTA]);
 
             res.json({ message: 'Empleado saved' });
         });
