@@ -12,46 +12,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.empleadoController = void 0;
+exports.estado_produccionController = void 0;
 const database_1 = __importDefault(require("../database"));
 
-class EmpleadoController {
+class Estado_ProduccionController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const empleado = yield database_1.default.query('SELECT * FROM empleado');
-            res.json(empleado);
+            const estado_produccion = yield database_1.default.query('SELECT * FROM estado_produccion');
+            res.json(estado_produccion);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const empleado = yield database_1.default.query('SELECT * FROM empleado WHERE id_empleado = ?', [id]);
-            if (empleado.length > 0) {
-                return res.json(empleado);
+            const estado_produccion = yield database_1.default.query('SELECT * FROM estado_produccion WHERE id_estado_produccion = ?', [id]);
+            if (estado_produccion.length > 0) {
+                return res.json(estado_produccion[0]);
             }
-            res.status(404).json({ text: "Empleado doesn't exists" });
+            res.status(404).json({ text: "Estado Produccion doesn't exists" });
         });
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO empleado set?', [req.body]);
-            res.json({ message: 'Empleado saved' });
+            yield database_1.default.query('INSERT INTO estado_produccion set?', [req.body]);
+            res.json({ message: 'Estado Produccion saved' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE empleado set ? WHERE id_empleado = ?', [req.body, id]);
-            console.log(id);
-            res.json({ message: 'Empleado was updated' });
+            yield database_1.default.query('UPDATE estado_produccion set ? WHERE id_estado_produccion = ?', [req.body, id]);
+            res.json({ message: 'Estado Produccion was updated' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('DELETE FROM empleado WHERE id_empleado = ?', [id]);
-            res.json({ message: 'Empleado was deleted' });
+            yield database_1.default.query('DELETE FROM estado_produccion WHERE id_estado_produccion = ?', [id]);
+            res.json({ message: 'Estado Produccion was deleted' });
         });
     }
 }
-exports.empleadoController = new EmpleadoController();
+exports.estado_produccionController = new Estado_ProduccionController();

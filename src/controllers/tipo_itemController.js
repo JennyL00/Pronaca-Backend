@@ -12,46 +12,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.empleadoController = void 0;
+exports.tipo_itemController = void 0;
 const database_1 = __importDefault(require("../database"));
 
-class EmpleadoController {
+class Tipo_ItemController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const empleado = yield database_1.default.query('SELECT * FROM empleado');
-            res.json(empleado);
+            const tipo_item = yield database_1.default.query('SELECT * FROM tipo_item');
+            res.json(tipo_item);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const empleado = yield database_1.default.query('SELECT * FROM empleado WHERE id_empleado = ?', [id]);
-            if (empleado.length > 0) {
-                return res.json(empleado);
+            const tipo_item = yield database_1.default.query('SELECT * FROM tipo_item WHERE id_tipo_item = ?', [id]);
+            if (tipo_item.length > 0) {
+                return res.json(tipo_item[0]);
             }
-            res.status(404).json({ text: "Empleado doesn't exists" });
+            res.status(404).json({ text: "Tipo item doesn't exists" });
         });
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO empleado set?', [req.body]);
-            res.json({ message: 'Empleado saved' });
+            yield database_1.default.query('INSERT INTO tipo_item set?', [req.body]);
+            res.json({ message: 'Tipo item saved' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE empleado set ? WHERE id_empleado = ?', [req.body, id]);
-            console.log(id);
-            res.json({ message: 'Empleado was updated' });
+            yield database_1.default.query('UPDATE tipo_item set ? WHERE id_tipo_item = ?', [req.body, id]);
+            res.json({ message: 'Tipo item was updated' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('DELETE FROM empleado WHERE id_empleado = ?', [id]);
-            res.json({ message: 'Empleado was deleted' });
+            yield database_1.default.query('DELETE FROM tipo_item WHERE id_tipo_item = ?', [id]);
+            res.json({ message: 'Tipo item was deleted' });
         });
     }
 }
-exports.empleadoController = new EmpleadoController();
+exports.tipo_itemController = new Tipo_ItemController();
