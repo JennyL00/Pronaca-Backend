@@ -369,3 +369,23 @@ alter table RECETA_PRODUCCION add constraint FK_RELATIONSHIP_12 foreign key (ID_
       references ITEM (ID_ITEM);
 
 
+INSERT INTO INFORME_FINANCIERO (TIPO_INFORME) VALUES 
+('Balance General'),('Estado de cuentas');
+
+INSERT INTO ASIENTO (ID_INFORME_FINANCIERO,FECHA_ASIENTO,DEBE,HABER) VALUES
+(1,"2022-01-25",0.0,0.0),(1,"2022-01-25",0.0,0.0),(1,"2022-01-25",0.0,0.0),(1,"2022-01-25",0.0,0.0),
+(1,"2022-01-25",0.0,0.0),(1,"2022-01-25",0.0,0.0),(1,"2022-01-25",0.0,0.0),(1,"2022-01-25",0.0,0.0),
+(1,"2022-01-25",0.0,0.0),(2,"2022-01-25",0.0,0.0),(2,"2022-01-25",0.0,0.0),(2,"2022-01-25",0.0,0.0),
+(2,"2022-01-25",0.0,0.0),(2,"2022-01-25",0.0,0.0),(2,"2022-01-25",0.0,0.0),(2,"2022-01-25",0.0,0.0),
+(2,"2022-01-25",0.0,0.0),(2,"2022-01-25",0.0,0.0);
+
+INSERT INTO CUENTA (CUE_ID_CUENTA,ID_ASIENTO,DESCRIPCION_CUENTA,CODIGO_CUENTA,VALOR_CUENTA) VALUES
+(null,1,"Activos","1.",0.0),(1,2,"Activos corrientes","1.1.",0.0),(2,3,"Inventarios","1.1.1.",0.0),
+(1,4,"Activos fijos","1.2.",0.0),(null,5,"Pasivos","2",0.0),(5,6,"Pasivos corrientes","2.1.",0.0),
+(6,7,"Cuentas por pagar","2.1.1.",0.0),(5,8,"Pasivos fijos","2.2.",0.0),(null,9,"Patrimonio","3.",0.0),
+(null,10,"Ingresos","4.",0.0),(10,11,"Ventas","4.1.",0.0),(null,12,"Costos","5",0.0),(12,13,"Costo directo","5.1.",0.0),
+(13,14,"Personal Administrativo","5.1.1",0.0),(12,15,"Costo indirecto","5.2.",0.0),(15,16,"Personal Comercial","5.2.1.",0.0),
+(15,17,"Personal Producción","5.2.2.",0.0),(null,18,"Gastos","6",0.0);
+
+INSERT INTO DEPARTAMENTO (NOMBRE_DEPARTAMENTO,SUELDO_HORAS) VALUES ("Personal Administrativo",3.9)
+INSERT INTO CARGO_EMPLEADO (ID_DEPARTAMENTO,DESCRIPCION_CARGO) VALUES ("1","Contador")

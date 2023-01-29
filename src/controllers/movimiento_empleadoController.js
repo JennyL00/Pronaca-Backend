@@ -52,5 +52,17 @@ class Movimiento_empleadoController {
             res.json({ message: 'movimiento_empleado was deleted' });
         });
     }
+    updateIess(req, res){
+        return __awaiter(this, void 0, void 0, function* () {
+            const {valor_movimiento_empleado} = req.body;
+            yield database_1.default.query('UPDATE EMPLEADO SET SUELDO_NETO=SUELDO-(SUELDO*(?/100))',[valor_movimiento_empleado])
+            
+            yield database_1.default.query('UPDATE movimiento_empleado set valor_movimiento_empleado=? WHERE descripcion_movimiento_enpleado ="IESS"', [valor_movimiento_empleado]);
+            yield database_1.default.query('UPDATE EMPLEADO INNER JOIN CUENTA ON EMPLEADO.ID_CUENTA=CUENTA.ID_CUENTA set CUENTA.valor_cuenta=EMPLEADO.SUELDO_NETO WHERE CUENTA.ID_CUENTA=EMPLEADO.ID_CUENTA');
+            yield database_1.default.query('UPDATE MOVIMIENTO_EMPLEADO AS M INNER JOIN CUENTA AS C ON M.ID_CUENTA=C.ID_CUENTA INNER JOIN EMPLEADO E ON M.ID_EMPLEADO=E.ID_EMPLEADO set C.valor_cuenta=(E.SUELDO-E.SUELDO_NETO) WHERE C.ID_CUENTA=M.ID_CUENTA');
+
+            res.json({ message: 'movimiento_empleado IESS was updated' });
+        });
+    }
 }
 exports.movimiento_empleadoController = new Movimiento_empleadoController();

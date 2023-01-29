@@ -8,6 +8,7 @@ const cargo_empleadoRoutes = require("./routes/cargo_empleadoRoutes");
 const asientoRoutes = require("./routes/asientoRoute");
 const cuentaRoutes = require("./routes/cuentaRoutes");
 const departamentoRoutes = require("./routes/departamentoRoutes")
+const movimiento_empleadoRoutes = require("./routes/movimiento_empleadoRoutes")
 //const cuentasRoutes = require("./routes/informe_financieroRoutes");
 
 //initialization
@@ -56,6 +57,7 @@ app.use('/api/cargo_empleado', cargo_empleadoRoutes.default);
 app.use('/api/asiento', asientoRoutes.default);
 app.use('/api/cuenta', cuentaRoutes.default);
 app.use('/api/departamento',departamentoRoutes.default)
+app.use('/api/movimiento_empleado',movimiento_empleadoRoutes.default)
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));

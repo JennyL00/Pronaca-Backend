@@ -1,56 +1,20 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.itemController = void 0;
-const database_1 = __importDefault(require("../database"));
-
-class ItemController {
-    list(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const item = yield database_1.default.query('SELECT * FROM item');
-            res.json(item);
-        });
+const express_1 = require("express");
+const movimiento_empleadoController_1 = require("../controllers/movimiento_empleadoController");
+class Movimiento_EmpleadoRoutes {
+    constructor() {
+        this.router = (0, express_1.Router)();
+        this.config();
     }
-    getOne(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const item = yield database_1.default.query('SELECT * FROM item WHERE id_item = ?', [id]);
-            if (item.length > 0) {
-                return res.json(item);
-            }
-            res.status(404).json({ text: "Item doesn't exists" });
-        });
-    }
-    create(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO item set?', [req.body]);
-            res.json({ message: 'Item saved' });
-        });
-    }
-    update(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            yield database_1.default.query('UPDATE item set ? WHERE id_item = ?', [req.body, id]);
-            res.json({ message: 'Item was updated' });
-        });
-    }
-    delete(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            yield database_1.default.query('DELETE FROM item WHERE id_item = ?', [id]);
-            res.json({ message: 'Item was deleted' });
-        });
+    config() {
+        this.router.get('/', movimiento_empleadoController_1.movimiento_empleadoController.list);
+        this.router.get('/:id', movimiento_empleadoController_1.movimiento_empleadoController.getOne);
+        this.router.post('/', movimiento_empleadoController_1.movimiento_empleadoController.create);
+        //this.router.put('/:id', movimiento_empleadoController_1.movimiento_empleadoController.update);
+        this.router.delete('/:id', movimiento_empleadoController_1.movimiento_empleadoController.delete);
+        this.router.put('/iess', movimiento_empleadoController_1.movimiento_empleadoController.updateIess);
     }
 }
-exports.itemController = new ItemController();
+const movimiento_empleadoRouter = new Movimiento_EmpleadoRoutes();
+exports.default = movimiento_empleadoRouter.router;
