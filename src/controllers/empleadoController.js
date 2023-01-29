@@ -122,7 +122,8 @@ class EmpleadoController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('DELETE FROM empleado WHERE id_empleado = ?', [id]);
+            yield database_1.default.query('DELETE M, C FROM MOVIMIENTO_EMPLEADO M JOIN CUENTA C ON C.ID_CUENTA=M.ID_CUENTA WHERE M.ID_EMPLEADO = ?', [id]);
+            yield database_1.default.query('DELETE E, C FROM EMPLEADO E JOIN CUENTA C ON C.ID_CUENTA=E.ID_CUENTA WHERE E.ID_EMPLEADO = ?', [id]);
             res.json({ message: 'Empleado was deleted' });
         });
     }
