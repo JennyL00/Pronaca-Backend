@@ -8,6 +8,7 @@ const cargo_empleadoRoutes = require("./routes/cargo_empleadoRoutes");
 const asientoRoutes = require("./routes/asientoRoute");
 const cuentaRoutes = require("./routes/cuentaRoutes");
 const clienteRoutes = require("./routes/clientesRoutes");
+const pedidoRoutes = require("./routes/pedidosRoutes");
 
 //initialization
 const app = express();
@@ -55,6 +56,7 @@ app.use('/api/cargo_empleado', cargo_empleadoRoutes.default);
 app.use('/api/asiento', asientoRoutes.default);
 app.use('/api/cuenta', cuentaRoutes.default);
 app.use('/api/cliente',clienteRoutes.default);
+app.use('/api/pedido',pedidoRoutes.default);
 
 //public
 app.use(express.static(path.join(__dirname, 'public')));
