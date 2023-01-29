@@ -115,10 +115,14 @@ class EmpleadoController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE empleado set ? WHERE id_empleado = ?', [req.body, id]);
+            const { nombre_empleado, apellido_empleado, cedula_empleado } = req.body;
+            yield database_1.default.query("UPDATE empleado set `nombre_empleado` = ?, `apellido_empleado` = ?, `cedula_empleado` = ?  WHERE id_empleado = ?", [nombre_empleado, apellido_empleado, cedula_empleado,id]);
+    
             res.json({ message: 'Empleado was updated' });
         });
     }
+
+
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
