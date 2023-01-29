@@ -112,15 +112,16 @@ class EmpleadoController {
             res.json({ message: 'Empleado saved' });
         });
     }
+    
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            const { nombre_empleado, apellido_empleado, cedula_empleado } = req.body;
-            yield database_1.default.query("UPDATE empleado set `nombre_empleado` = ?, `apellido_empleado` = ?, `cedula_empleado` = ?  WHERE id_empleado = ?", [nombre_empleado, apellido_empleado, cedula_empleado,id]);
-    
-            res.json({ message: 'Empleado was updated' });
-        });
-    }
+        const { id } = req.params;
+        //const { nombre_empleado, apellido_empleado, cedula_empleado } = req.body;
+        const{nombre_empleado, apellido_empleado,cedula_empleado,horas_laboradas} = req.body;
+        yield database_1.default.query("UPDATE empleado set nombre_empleado = ?, apellido_empleado = ?, cedula_empleado = ?, horas_laboradas = ? WHERE id_empleado = ?", [nombre_empleado, apellido_empleado, cedula_empleado, horas_laboradas, id]);
+        res.json({ message: 'Empleado was updated' });
+    });
+}
 
 
     delete(req, res) {
