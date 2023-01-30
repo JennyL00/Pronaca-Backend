@@ -34,12 +34,13 @@ class Cargo_EmpleadoController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const {id} = req.params;
+            const {id_departamento} = req.body;
             const{descripcion_cargo}=req.body
             const newCargo = {
-                id_departamento: id,
+                id_departamento,
                 descripcion_cargo
             }
+            console.log('waiteando')
             yield database_1.default.query('INSERT INTO cargo_empleado set?', [newCargo]);
             res.json({ message: 'Cargo empleado saved' });
         });
