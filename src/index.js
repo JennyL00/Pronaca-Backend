@@ -7,6 +7,9 @@ const empleadoRoutes = require("./routes/empleadosRoutes");
 const cargo_empleadoRoutes = require("./routes/cargo_empleadoRoutes");
 const asientoRoutes = require("./routes/asientoRoute");
 const cuentaRoutes = require("./routes/cuentaRoutes");
+const departamentoRoutes = require("./routes/departamentoRoutes")
+const movimiento_empleadoRoutes = require("./routes/movimiento_empleadoRoutes")
+//const cuentasRoutes = require("./routes/informe_financieroRoutes");
 const tipo_itemRoutes = require("./routes/tipo_itemRoutes");
 const estado_produccionRoutes = require("./routes/estado_produccionRoutes");
 const lista_itemsRoutes = require("./routes/lista_itemsRoutes");
@@ -61,6 +64,8 @@ app.use('/api/empleado', empleadoRoutes.default);
 app.use('/api/cargo_empleado', cargo_empleadoRoutes.default);
 app.use('/api/asiento', asientoRoutes.default);
 app.use('/api/cuenta', cuentaRoutes.default);
+app.use('/api/departamento',departamentoRoutes.default)
+app.use('/api/movimiento_empleado',movimiento_empleadoRoutes.default)
 app.use('/api/tipo_item', tipo_itemRoutes.default);
 app.use('/api/estado_produccion', estado_produccionRoutes.default);
 app.use('/api/lista_items', lista_itemsRoutes.default);
