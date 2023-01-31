@@ -27,7 +27,7 @@ class EmpleadoController {
             const { id } = req.params;
             const empleado = yield database_1.default.query('SELECT * FROM empleado WHERE id_empleado = ?', [id]);
             if (empleado.length > 0) {
-                return res.json(empleado);
+                return res.json(empleado[0]);
             }
             res.status(404).json({ text: "Empleado doesn't exists" });
         });
