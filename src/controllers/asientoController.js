@@ -34,6 +34,7 @@ class AsientoController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            
             yield database_1.default.query('INSERT INTO asiento set?', [req.body]);
             res.json({ message: 'Asiento saved' });
         });
@@ -58,7 +59,7 @@ class AsientoController {
             
             //Balance General
             //asignar asiento activos
-            for(let i=1; i<=4; i++){
+            /*for(let i=1; i<=4; i++){
                 const activos = yield database_1.default.query('SELECT * FROM CUENTA WHERE ID_CUENTA=?',[i]);
                 const stringActivos = JSON.parse(JSON.stringify(activos))     
                 yield database_1.default.query('UPDATE ASIENTO SET DEBE = ? WHERE ID_ASIENTO=?',[stringActivos[0].VALOR_CUENTA, i])
@@ -81,7 +82,7 @@ class AsientoController {
                 const costGastos = yield database_1.default.query('SELECT * FROM CUENTA WHERE ID_CUENTA=?',[i]);
                 const stringCostGastos = JSON.parse(JSON.stringify(costGastos))     
                 yield database_1.default.query('UPDATE ASIENTO SET DEBE = ? WHERE ID_ASIENTO=?',[stringCostGastos[0].VALOR_CUENTA, i])
-            }
+            }*/
             
             res.json({ message: 'asientos actualizados' });
         });

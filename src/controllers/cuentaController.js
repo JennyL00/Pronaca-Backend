@@ -32,6 +32,20 @@ class CuentaController {
             res.status(404).json({ text: "Cuenta doesn't exists" });
         });
     }
+    create(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const {descripcion_cuenta, codigo_cuenta, informe_financiero, cue_id_cuenta} = req.body;
+            const newCuenta = {
+                cue_id_cuenta,
+                descripcion_cuenta, 
+                codigo_cuenta, 
+                informe_financiero, 
+                valor_cuenta
+            }
+            yield database_1.default.query('INSERT INTO CUENTA SET ?', [req.body]);
+            res.json({ message: 'Cuenta saved' });
+        });
+    }
     createCargoEmpleado(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const{id} = req.params;
