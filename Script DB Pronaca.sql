@@ -88,32 +88,32 @@ create table CARGO_EMPLEADO
 );
 
 /*==============================================================*/
-/* Table: CLIENTE_MINORISTA                                     */
+/* Table: CLIENTE                                               */
 /*==============================================================*/
-create table CLIENTE_MINORISTA
+create table CLIENTE
 (
-   ID_CLIENTE_MINO      int not null AUTO_INCREMENT,
-   NOMBRE_CLIENTE_MINO  varchar(200),
-   APELLIDO_MINO        varchar(200),
-   DIRECCION_CLIENTE_MINO varchar(200),
-   CEDULA_RUC_CLIENTE   varchar(50),
-   primary key (ID_CLIENTE_MINO)
+   ID_CLIENTE int not null AUTO_INCREMENT,
+   NOMBRE_CLIENTE varchar(200),
+   APELLIDO_CLIENTE varchar(200),
+   RUC_CEDULA_ varchar(50),
+   EMAIL_CLIENTE varchar (50),
+   ESTADO_CLIENTE varchar(20),
+   ID_UBICACION int,
+   primary key (ID_CLIENTE)
 );
 
 /*==============================================================*/
-/* Table: CLIENTE_POTENCIAL                                     */
+/* Table: UBICACION                                             */
 /*==============================================================*/
-create table CLIENTE_POTENCIAL
+create table UBICACION
 (
-   ID_CLIENTE_POTENCIAL int not null AUTO_INCREMENT,
-   ID_PREVENTA          int,
-   NOMBRE_CLIENTE_POTENCIAL varchar(200),
-   APELLIDO_CLIENTE_POTENCIAL varchar(200),
-   DIRECCION_CLIENTE_POTENCIAL varchar(300),
-   TELEFONO_CLIENTE_POTENCIAL varchar(50),
-   RUC_CEDULA_CLIENTEPOTENCIAL varchar(50),
-   primary key (ID_CLIENTE_POTENCIAL)
+   ID_UBICACION int not null AUTO_INCREMENT,
+   ZONA_UBICACION varchar(200),
+   SECTOR_UBICACION varchar(200),
+   NOM_UBICACION varchar(100),
+   primary key (ID_UBICACION)
 );
+
 
 /*==============================================================*/
 /* Table: CUENTA                                                */
@@ -246,7 +246,7 @@ create table PARAMETRO_IESS
 create table PEDIDO
 (
    ID_PEDIDO            int not null AUTO_INCREMENT,
-   ID_CLIENTE_MINO      int,
+   ID_CLIENTE           int,
    ID_EMPLEADO          int,
    ID_CUENTA            int,
    FECHA_PEDIDO         date,
@@ -273,7 +273,7 @@ create table PREVENTA
 (
    ID_PREVENTA          int not null AUTO_INCREMENT,
    ID_EMPLEADO          int,
-   ID_CLIENTE_POTENCIAL int,
+   ID_CLIENTE           int,
    FECHA_VISITA_PREVENTA date,
    DESCRIPCION_PREVENTA text,
    primary key (ID_PREVENTA)
@@ -330,8 +330,8 @@ alter table ASIENTO add constraint FK_RELATIONSHIP_18 foreign key (ID_CUENTA)
 alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);
 
-alter table CLIENTE_POTENCIAL add constraint FK_RELATIONSHIP_5 foreign key (ID_PREVENTA)
-      references PREVENTA (ID_PREVENTA);
+alter table CLIENTE add constraint FK_RELATIONSHIP_31 foreign key (ID_UBICACION)
+      references UBICACION (ID_UBICACION);
 
 alter table CUENTA add constraint FK_RELATIONSHIP_19 foreign key (CUE_ID_CUENTA)
       references CUENTA (ID_CUENTA);
@@ -387,14 +387,14 @@ alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_22 foreign key (ID_CUENTA
 alter table PEDIDO add constraint FK_RELATIONSHIP_21 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);
 
-alter table PEDIDO add constraint FK_RELATIONSHIP_3 foreign key (ID_CLIENTE_MINO)
-      references CLIENTE_MINORISTA (ID_CLIENTE_MINO);
+alter table PEDIDO add constraint FK_RELATIONSHIP_3 foreign key (ID_CLIENTE)
+      references CLIENTE (ID_CLIENTE);
 
 alter table PEDIDO add constraint FK_RELATIONSHIP_4 foreign key (ID_EMPLEADO)
       references EMPLEADO (ID_EMPLEADO);
 
-alter table PREVENTA add constraint FK_RELATIONSHIP_6 foreign key (ID_CLIENTE_POTENCIAL)
-      references CLIENTE_POTENCIAL (ID_CLIENTE_POTENCIAL);
+alter table PREVENTA add constraint FK_RELATIONSHIP_6 foreign key (ID_CLIENTE)
+      references CLIENTE (ID_CLIENTE);
 
 alter table PREVENTA add constraint FK_RELATIONSHIP_7 foreign key (ID_EMPLEADO)
       references EMPLEADO (ID_EMPLEADO);
@@ -422,6 +422,11 @@ INSERT INTO cargo_empleado(ID_DEPARTAMENTO,DESCRIPCION_CARGO,CODIGO_CARGO) VALUE
 INSERT INTO banco(ID_CUENTA,NOMBRE_BANCO, SALDO) VALUES (3,'Banco Pichincha',5000);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Personal',9.4);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Patronal',11.5);
+
+/* INSERT DE UBICACIONES */
+INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION,NOM_UBICACION) values ("La delicia ", "El Condado", "OE4-234");
+INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION,NOM_UBICACION) values ("Tumbaco", "Santa Rita", "NE4-134");
+INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION,NOM_UBICACION) values ("Norte", "La Luz", "E-144");
 
 
 
