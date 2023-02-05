@@ -19,7 +19,7 @@ class ClienteController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const consulta = 
-            "SELECT cliente.ID_CLIENTE, cliente.NOMBRE_CLIENTE,cliente.APELLIDO_CLIENTE,cliente.RUC_CEDULA,cliente.EMAIL_CLIENTE,cliente.ESTADO_CLIENTE,ubicacion.ID_UBICACION, ubicacion.ZONA_UBICACION,ubicacion.SECTOR_UBICACION,cliente.NUMERO_UBICACION, cliente.TELEFONO_CLIENTE FROM cliente JOIN ubicacion ON ubicacion.ID_UBICACION=cliente.ID_UBICACION;"       
+            "SELECT cliente.ID_CLIENTE, cliente.NOMBRE_CLIENTE,cliente.APELLIDO_CLIENTE,cliente.RUC_CEDULA,cliente.EMAIL_CLIENTE,cliente.ESTADO_CLIENTE,ubicacion.ID_UBICACION,ubicacion.ZONA_UBICACION,ubicacion.SECTOR_UBICACION,cliente.NUMERO_UBICACION, cliente.TELEFONO_CLIENTE FROM cliente JOIN ubicacion ON ubicacion.ID_UBICACION=cliente.ID_UBICACION;"       
             const cliente = yield database_1.default.query(consulta);
             res.json(cliente);
         });
