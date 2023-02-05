@@ -17,6 +17,7 @@ const itemventaRoutes = require("./routes/itemventaRouter")
 const clienteRoutes = require("./routes/clientesRoutes");
 const pedidoRoutes = require("./routes/pedidosRoutes");
 const preventaRoutes = require("./routes/preventasRoutes");
+const ubicacionesRoutes = require("./routes/ubicacionesRoutes");
 
 
 //initialization
@@ -73,6 +74,7 @@ app.use('/api/itemventa', itemventaRoutes.default);
 app.use('/api/cliente',clienteRoutes.default);
 app.use('/api/pedido',pedidoRoutes.default);
 app.use('/api/preventa',preventaRoutes.default);
+app.use('/api/ubicacion',ubicacionesRoutes.default);
 
 
 
