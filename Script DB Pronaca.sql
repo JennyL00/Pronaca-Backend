@@ -95,10 +95,12 @@ create table CLIENTE
    ID_CLIENTE int not null AUTO_INCREMENT,
    NOMBRE_CLIENTE varchar(200),
    APELLIDO_CLIENTE varchar(200),
-   RUC_CEDULA_ varchar(50),
+   RUC_CEDULA varchar(50),
    EMAIL_CLIENTE varchar (50),
    ESTADO_CLIENTE varchar(20),
    ID_UBICACION int,
+   NUMERO_UBICACION varchar(10),
+   TELEFONO_CLIENTE varchar(10),
    primary key (ID_CLIENTE)
 );
 
@@ -110,7 +112,6 @@ create table UBICACION
    ID_UBICACION int not null AUTO_INCREMENT,
    ZONA_UBICACION varchar(200),
    SECTOR_UBICACION varchar(200),
-   NOM_UBICACION varchar(100),
    primary key (ID_UBICACION)
 );
 
@@ -424,9 +425,9 @@ INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Personal',9.4);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Patronal',11.5);
 
 /* INSERT DE UBICACIONES */
-INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION,NOM_UBICACION) values ("La delicia ", "El Condado", "OE4-234");
-INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION,NOM_UBICACION) values ("Tumbaco", "Santa Rita", "NE4-134");
-INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION,NOM_UBICACION) values ("Norte", "La Luz", "E-144");
+INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION) values ("La delicia ", "El Condado");
+INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION) values ("Tumbaco", "Santa Rita");
+INSERT into UBICACION (ZONA_UBICACION,SECTOR_UBICACION) values ("Norte", "La Luz");
 
 
 
