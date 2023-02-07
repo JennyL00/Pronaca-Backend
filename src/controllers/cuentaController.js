@@ -39,8 +39,7 @@ class CuentaController {
                 cue_id_cuenta,
                 descripcion_cuenta, 
                 codigo_cuenta, 
-                informe_financiero, 
-                valor_cuenta
+                informe_financiero
             }
             yield database_1.default.query('INSERT INTO CUENTA SET ?', [req.body]);
             res.json({ message: 'Cuenta saved' });
