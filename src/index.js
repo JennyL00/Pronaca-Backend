@@ -18,6 +18,8 @@ const clienteRoutes = require("./routes/clientesRoutes");
 const pedidoRoutes = require("./routes/pedidosRoutes");
 const preventaRoutes = require("./routes/preventasRoutes");
 const ubicacionesRoutes = require("./routes/ubicacionesRoutes");
+const receta_produccionRoutes = require("./routes/receta_produccionRoutes");
+const tipo_lista_producRoutes = require("./routes/tipo_lista_producRoutes")
 
 
 //initialization
@@ -76,6 +78,8 @@ app.use('/api/pedido',pedidoRoutes.default);
 app.use('/api/preventa',preventaRoutes.default);
 app.use('/api/ubicacion',ubicacionesRoutes.default);
 
+app.use('/api/receta',receta_produccionRoutes.default);
+app.use('/api/tipo_lista',tipo_lista_producRoutes.default);
 
 
 //public
