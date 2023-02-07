@@ -34,50 +34,42 @@ class Movimiento_empleadoController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            //empleado
-            const empleado = yield database_1.default.query('select * from empleado order by id_empleado desc limit 1')
-            const stringEmpleado = JSON.parse(JSON.stringify(empleado))
+            const {nombre_parametro, valor} = req.body
             //cuenta de beneficios sociales
             const beneficiosSociales = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Beneficios sociales"')
             const stringBeneficiosSociales = JSON.parse(JSON.stringify(beneficiosSociales))
             //parámetros
-            const parametrosIess = yield database_1.default.query('Select * from parametro_iess')
+            const parametrosIess = yield database_1.default.query('Select * from parametro_iess order by id_parametro_iess desc limit 1')
             const stringParametrosIess= JSON.parse(JSON.stringify(parametrosIess))
             //crear movimientos para los parámetros iess
             const newMov ={
-                id_empleado:stringEmpleado[0].ID_EMPLEADO,
                 id_cuenta: stringBeneficiosSociales[0].ID_CUENTA,
                 id_parametro_iess: stringParametrosIess[0].ID_PARAMETRO_IESS,
-                descripcion_movimiento_enpleado: stringParametrosIess[0].NOMBRE_PARAMETRO,
-                valor_movimiento_empleado:(stringParametrosIess[0].VALOR/100)*stringEmpleado[0].SUELDO_NETO 
+                descripcion_movimiento_enpleado: nombre_parametro,
+                valor_movimiento_empleado:0.0 
             };
             yield database_1.default.query('INSERT INTO movimiento_empleado set?',newMov)
-            
-            //crear movimientos para los parámetros iess
-            const newMov2 ={
-                id_empleado:stringEmpleado[0].ID_EMPLEADO,
-                id_cuenta: stringBeneficiosSociales[0].ID_CUENTA,
-                id_parametro_iess: stringParametrosIess[1].ID_PARAMETRO_IESS,
-                descripcion_movimiento_enpleado: stringParametrosIess[1].NOMBRE_PARAMETRO,
-                valor_movimiento_empleado: (stringParametrosIess[1].VALOR/100)*stringEmpleado[0].SUELDO_NETO 
-            };
 
-            yield database_1.default.query('INSERT INTO movimiento_empleado set?',newMov2)
-            yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto FROM movimiento_empleado where id_parametro_iess=1 || id_parametro_iess=2) montoBeneficio ON c.id_cuenta = montoBeneficio.id_cuenta SET c.valor_cuenta = montoBeneficio.monto where c.ID_CUENTA=?',[stringBeneficiosSociales[0].ID_CUENTA]);
-
-            //crear movimiento para el sueldo
+            //verificar si existe un movimiento para el pago de nómina
             //cuenta de beneficios sociales
             const pagoNomina = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Pago de nómina"')
             const stringPagoNomina = JSON.parse(JSON.stringify(pagoNomina))
-            const newMov3 ={
-                id_empleado:stringEmpleado[0].ID_EMPLEADO,
-                id_cuenta: stringPagoNomina[0].ID_CUENTA,
-                descripcion_movimiento_enpleado: stringPagoNomina[0].DESCRIPCION_CUENTA,
-                valor_movimiento_empleado: stringEmpleado[0].SUELDO_NETO-(stringParametrosIess[1].VALOR/100)*stringEmpleado[0].SUELDO_NETO -(stringParametrosIess[0].VALOR/100)*stringEmpleado[0].SUELDO_NETO 
-            };
-            yield database_1.default.query('INSERT INTO movimiento_empleado set?',newMov3)
-            yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto FROM movimiento_empleado where id_cuenta=?) montoNomina ON c.id_cuenta = montoNomina.id_cuenta SET c.valor_cuenta = montoNomina.monto where c.ID_CUENTA=?',[stringPagoNomina[0].ID_CUENTA,stringPagoNomina[0].ID_CUENTA]);
+            //Movimientos existentes
+            const movimientos = yield database_1.default.query('SELECT * FROM MOVIMIENTO_EMPLEADO')
+            const stringMovimientos= JSON.parse(JSON.stringify(movimientos))
+            
+            const movimientoPagoNomina = stringMovimientos.filter(movimiento => movimiento.DESCRIPCION_MOVIMIENTO_ENPLEADO==stringPagoNomina[0].DESCRIPCION_CUENTA) 
 
+            if(movimientoPagoNomina.length==0){
+                //crear movimiento para el sueldo
+                const newMovPagoNomina ={
+                    id_cuenta: stringPagoNomina[0].ID_CUENTA,
+                    descripcion_movimiento_enpleado: stringPagoNomina[0].DESCRIPCION_CUENTA,
+                    valor_movimiento_empleado:0.0 
+                };
+                yield database_1.default.query('INSERT INTO movimiento_empleado set?',newMovPagoNomina)
+            }
+            
             res.json({ message: 'movimiento_empleado saved' });
         });
     }

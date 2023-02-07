@@ -10,9 +10,7 @@ drop table if exists INFORME_FINANCIERO;
 
 drop table if exists CARGO_EMPLEADO;
 
-drop table if exists CLIENTE_MINORISTA;
-
-drop table if exists CLIENTE_POTENCIAL;
+drop table if exists CLIENTE;
 
 drop table if exists CUENTA;
 
@@ -24,9 +22,7 @@ drop table if exists EMPLEADO;
 
 drop table if exists ITEM;
 
-drop table if exists TIPO_ITEM;
-
-drop table if exists ESTADO_PRODUCCION;
+drop table if exists LISTA_DESECHABLES;
 
 drop table if exists LISTA_ITEMS;
 
@@ -47,12 +43,24 @@ create table ASIENTO
 (
    ID_ASIENTO           int not null AUTO_INCREMENT,
    ID_INFORME_FINANCIERO     int,
+   ID_CUENTA            int,
    FECHA_ASIENTO        date,
-   CODIGO_ASIENTO       varchar(100),
-   DESCRIPCION_ASIENTO  varchar(100),
+   descripcion_asiento  varchar(100),
    DEBE                 float(8,2),
    HABER                float(8,2),
    primary key (ID_ASIENTO)
+);
+
+/*==============================================================*/
+/* Table: BANCO                                                 */
+/*==============================================================*/
+create table BANCO
+(
+   ID_BANCO           int not null AUTO_INCREMENT,
+   ID_CUENTA            int,
+   NOMBRE_BANCO         varchar(100),
+   SALDO                float(8,2),
+   primary key (ID_BANCO)
 );
 
 /*==============================================================*/
@@ -73,37 +81,23 @@ create table CARGO_EMPLEADO
    ID_CARGO_EMPLEADO     int not null AUTO_INCREMENT,
    ID_DEPARTAMENTO       int,
    DESCRIPCION_CARGO    varchar(100),
-   SUELDO_HORAS_CARGO         float(8,2),
-   CODIGO_CARGO           varchar(20),
    primary key (ID_CARGO_EMPLEADO)
 );
-
 /*==============================================================*/
-/* Table: CLIENTE_MINORISTA                                     */
+/* Table: CLIENTE                                               */
 /*==============================================================*/
-create table CLIENTE_MINORISTA
+create table CLIENTE
 (
-   ID_CLIENTE_MINO      int not null AUTO_INCREMENT,
-   NOMBRE_CLIENTE_MINO  varchar(200),
-   APELLIDO_MINO        varchar(200),
-   DIRECCION_CLIENTE_MINO varchar(200),
-   CEDULA_RUC_CLIENTE   varchar(50),
-   primary key (ID_CLIENTE_MINO)
-);
-
-/*==============================================================*/
-/* Table: CLIENTE_POTENCIAL                                     */
-/*==============================================================*/
-create table CLIENTE_POTENCIAL
-(
-   ID_CLIENTE_POTENCIAL int not null AUTO_INCREMENT,
-   ID_PREVENTA          int,
-   NOMBRE_CLIENTE_POTENCIAL varchar(200),
-   APELLIDO_CLIENTE_POTENCIAL varchar(200),
-   DIRECCION_CLIENTE_POTENCIAL varchar(300),
-   TELEFONO_CLIENTE_POTENCIAL varchar(50),
-   RUC_CEDULA_CLIENTEPOTENCIAL varchar(50),
-   primary key (ID_CLIENTE_POTENCIAL)
+   ID_CLIENTE int not null AUTO_INCREMENT,
+   NOMBRE_CLIENTE varchar(200),
+   APELLIDO_CLIENTE varchar(200),
+   RUC_CEDULA varchar(50),
+   EMAIL_CLIENTE varchar (50),
+   ESTADO_CLIENTE varchar(20),
+   ID_UBICACION int,
+   NUMERO_UBICACION varchar(10),
+   TELEFONO_CLIENTE varchar(10),
+   primary key (ID_CLIENTE)
 );
 
 /*==============================================================*/
@@ -113,9 +107,9 @@ create table CUENTA
 (
    ID_CUENTA            int not null AUTO_INCREMENT,
    CUE_ID_CUENTA        int,
-   ID_ASIENTO           int,
    DESCRIPCION_CUENTA   varchar(200),
    CODIGO_CUENTA        varchar(100),
+   INFORME_FINANCIERO   int,
    VALOR_CUENTA         float(8,2),
    primary key (ID_CUENTA)
 );
@@ -139,7 +133,10 @@ create table DETALLE_PEDIDO
 create table DEPARTAMENTO
 (
    ID_DEPARTAMENTO    int not null AUTO_INCREMENT,
+   ID_CUENTA          int,
    NOMBRE_DEPARTAMENTO       varchar(100),
+   CODIGO_CUENTA        varchar(10),
+   CUENTA               varchar(100),
    primary key (ID_DEPARTAMENTO)
 );
 
@@ -149,13 +146,16 @@ create table DEPARTAMENTO
 create table EMPLEADO
 (
    ID_EMPLEADO          int not null AUTO_INCREMENT,
-   ID_CUENTA            int,
    ID_CARGO_EMPLEADO     int,
+   ID_BANCO              int,
    ID_MOVIMIENTO_EMPLEADO int,
    NOMBRE_EMPLEADO      varchar(200),
    APELLIDO_EMPLEADO       varchar(200),
    CEDULA_EMPLEADO      varchar(10),
-   HORAS_LABORADAS      int,
+   CORREO               varchar(200),
+   HORAS_LABORADAS      float(8.2),
+   SUELDO_FIJO          float(8,2),
+   SUELDO_HORAS         float(8,2),
    SUELDO               float(8,2),
    SUELDO_NETO          float(8,2),
    primary key (ID_EMPLEADO)
@@ -234,12 +234,23 @@ create table LISTA_ITEMS
 );
 
 /*==============================================================*/
+/* Table: Parametro_IESS                                          */
+/*==============================================================*/
+create table PARAMETRO_IESS
+(
+   ID_PARAMETRO_IESS    int not null AUTO_INCREMENT,
+   NOMBRE_PARAMETRO     varchar(100),
+   VALOR                float(8,2),
+   primary key (ID_PARAMETRO_IESS)
+);
+
+/*==============================================================*/
 /* Table: PEDIDO                                                */
 /*==============================================================*/
 create table PEDIDO
 (
    ID_PEDIDO            int not null AUTO_INCREMENT,
-   ID_CLIENTE_MINO      int,
+   ID_CLIENTE           int,
    ID_EMPLEADO          int,
    ID_CUENTA            int,
    FECHA_PEDIDO         date,
@@ -266,7 +277,7 @@ create table PREVENTA
 (
    ID_PREVENTA          int not null AUTO_INCREMENT,
    ID_EMPLEADO          int,
-   ID_CLIENTE_POTENCIAL int,
+   ID_CLIENTE           int,
    FECHA_VISITA_PREVENTA date,
    DESCRIPCION_PREVENTA text,
    primary key (ID_PREVENTA)
@@ -278,6 +289,8 @@ create table PREVENTA
 create table MOVIMIENTO_EMPLEADO
 (
    ID_MOVIMIENTO_EMPLEADO int not null AUTO_INCREMENT,
+   ID_CUENTA              int,
+   ID_PARAMETRO_IESS      int,
    DESCRIPCION_MOVIMIENTO_ENPLEADO varchar(200),
    VALOR_MOVIMIENTO_EMPLEADO float(8,2),
    primary key (ID_MOVIMIENTO_EMPLEADO)
@@ -311,74 +324,44 @@ create table RECETA_PRODUCCION
    primary key (ID_RECETA)
 );
 
-alter table ASIENTO add constraint FK_RELATIONSHIP_17 foreign key (ID_INFORME_FINANCIERO)
-      references INFORME_FINANCIERO (ID_INFORME_FINANCIERO);
-
-alter table CLIENTE_POTENCIAL add constraint FK_RELATIONSHIP_5 foreign key (ID_PREVENTA)
-      references PREVENTA (ID_PREVENTA);
-
-alter table CUENTA add constraint FK_RELATIONSHIP_18 foreign key (ID_ASIENTO)
-      references ASIENTO (ID_ASIENTO);
-
-alter table CUENTA add constraint FK_RELATIONSHIP_19 foreign key (CUE_ID_CUENTA)
-      references CUENTA (ID_CUENTA);
+/*==============================================================*/
+/* Table: UBICACION                                             */
+/*==============================================================*/
+create table UBICACION
+(
+   ID_UBICACION int not null AUTO_INCREMENT,
+   ZONA_UBICACION varchar(200),
+   SECTOR_UBICACION varchar(200),
+   primary key (ID_UBICACION)
+);
 
 alter table DETALLE_PEDIDO add constraint FK_RELATIONSHIP_1 foreign key (ID_ITEM)
       references ITEM (ID_ITEM);
 
 alter table DETALLE_PEDIDO add constraint FK_RELATIONSHIP_2 foreign key (ID_PEDIDO)
       references PEDIDO (ID_PEDIDO);
+	  
+alter table PEDIDO add constraint FK_RELATIONSHIP_3 foreign key (ID_CLIENTE)
+      references CLIENTE (ID_CLIENTE);
 
-alter table CARGO_EMPLEADO add constraint FK_RELATIONSHIP_26 foreign key (ID_DEPARTAMENTO)
-      references DEPARTAMENTO (ID_DEPARTAMENTO);
+alter table PEDIDO add constraint FK_RELATIONSHIP_4 foreign key (ID_EMPLEADO)
+      references EMPLEADO (ID_EMPLEADO);
+	  
+alter table CLIENTE add constraint FK_RELATIONSHIP_5 foreign key (ID_UBICACION)
+      references UBICACION (ID_UBICACION);
+	  
+alter table PREVENTA add constraint FK_RELATIONSHIP_6 foreign key (ID_CLIENTE)
+      references CLIENTE (ID_CLIENTE);
 
-alter table EMPLEADO add constraint FK_RELATIONSHIP_15 foreign key (ID_CARGO_EMPLEADO)
-      references CARGO_EMPLEADO (ID_CARGO_EMPLEADO);
-
-alter table EMPLEADO add constraint FK_RELATIONSHIP_23 foreign key (ID_CUENTA)
-      references CUENTA (ID_CUENTA);
-
-alter table EMPLEADO add constraint FK_RELATIONSHIP_25 foreign key (ID_MOVIMIENTO_EMPLEADO)
-      references MOVIMIENTO_EMPLEADO (ID_MOVIMIENTO_EMPLEADO);
-/*NEW RELATION ITEM - ESTADO PRODUCCION
-alter table ITEM add constraint FK_RELATIONSHIP_20 foreign key (ID_ESTADO_PRODUCCION)
-      references ESTADO_PRODUCCION (ID_ESTADO_PRODUCCION);*/
-ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_20` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
-      REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+alter table PREVENTA add constraint FK_RELATIONSHIP_7 foreign key (ID_EMPLEADO)
+      references EMPLEADO (ID_EMPLEADO);
 
 alter table ITEM add constraint FK_RELATIONSHIP_8 foreign key (ID_LISTA_ITEMS)
       references LISTA_ITEMS (ID_LISTA_ITEMS);
 /*NEW RELATION ITEM - TIPO_ITEM*/
 alter table ITEM add constraint FK_RELATIONSHIP_9 foreign key (ID_TIPO_ITEM)
       references TIPO_ITEM (ID_TIPO_ITEM);
-/*NEW RELATIONS LISTA_ITEM - TIPO_LISTA_PRODUC*/
-alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_14 foreign key (ID_TIPO_LISTA_PRODUC)
-      references TIPO_LISTA_PRODUC (ID_TIPO_LISTA_PRODUC);
-/*
-alter table LISTA_DESECHABLES add constraint FK_RELATIONSHIP_24 foreign key (ID_CUENTA)
-      references CUENTA (ID_CUENTA);*/
-
-alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_13 foreign key (ID_EMPLEADO)
-      references EMPLEADO (ID_EMPLEADO);
-
-alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_22 foreign key (ID_CUENTA)
-      references CUENTA (ID_CUENTA);
-
-alter table PEDIDO add constraint FK_RELATIONSHIP_21 foreign key (ID_CUENTA)
-      references CUENTA (ID_CUENTA);
-
-alter table PEDIDO add constraint FK_RELATIONSHIP_3 foreign key (ID_CLIENTE_MINO)
-      references CLIENTE_MINORISTA (ID_CLIENTE_MINO);
-
-alter table PEDIDO add constraint FK_RELATIONSHIP_4 foreign key (ID_EMPLEADO)
-      references EMPLEADO (ID_EMPLEADO);
-
-alter table PREVENTA add constraint FK_RELATIONSHIP_6 foreign key (ID_CLIENTE_POTENCIAL)
-      references CLIENTE_POTENCIAL (ID_CLIENTE_POTENCIAL);
-
-alter table PREVENTA add constraint FK_RELATIONSHIP_7 foreign key (ID_EMPLEADO)
-      references EMPLEADO (ID_EMPLEADO);
-
+	  
 alter table PROVEEDOR add constraint FK_RELATIONSHIP_10 foreign key (ID_PEDIDO_MATERIAP)
       references PEDIDO_MATERIA_PRIMA (ID_PEDIDO_MATERIAP);
 
@@ -388,6 +371,53 @@ alter table RECETA_PRODUCCION add constraint FK_RELATIONSHIP_11 foreign key (ID_
 alter table RECETA_PRODUCCION add constraint FK_RELATIONSHIP_12 foreign key (ID_ITEM)
       references ITEM (ID_ITEM);
 
+alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_13 foreign key (ID_EMPLEADO)
+      references EMPLEADO (ID_EMPLEADO);
+
+alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_14 foreign key (ID_TIPO_LISTA_PRODUC)
+      references TIPO_LISTA_PRODUC (ID_TIPO_LISTA_PRODUC);
+	  
+alter table EMPLEADO add constraint FK_RELATIONSHIP_15 foreign key (ID_CARGO_EMPLEADO)
+      references CARGO_EMPLEADO (ID_CARGO_EMPLEADO);
+
+alter table EMPLEADO add constraint FK_RELATIONSHIP_16 foreign key (ID_BANCO)
+      references BANCO (ID_BANCO);
+	  
+alter table ASIENTO add constraint FK_RELATIONSHIP_17 foreign key (ID_INFORME_FINANCIERO)
+      references INFORME_FINANCIERO (ID_INFORME_FINANCIERO);
+
+alter table ASIENTO add constraint FK_RELATIONSHIP_18 foreign key (ID_CUENTA)
+      references CUENTA (ID_CUENTA);
+
+alter table CUENTA add constraint FK_RELATIONSHIP_19 foreign key (CUE_ID_CUENTA)
+      references CUENTA (ID_CUENTA);
+	
+/* CONSTRAINT 200*/
+
+
+alter table PEDIDO add constraint FK_RELATIONSHIP_21 foreign key (ID_CUENTA)
+      references CUENTA (ID_CUENTA);
+
+alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_22 foreign key (ID_CUENTA)
+      references CUENTA (ID_CUENTA);
+
+alter table EMPLEADO add constraint FK_RELATIONSHIP_25 foreign key (ID_MOVIMIENTO_EMPLEADO)
+      references MOVIMIENTO_EMPLEADO (ID_MOVIMIENTO_EMPLEADO);
+
+alter table CARGO_EMPLEADO add constraint FK_RELATIONSHIP_26 foreign key (ID_DEPARTAMENTO)
+      references DEPARTAMENTO (ID_DEPARTAMENTO);
+
+alter table MOVIMIENTO_EMPLEADO add constraint FK_RELATIONSHIP_27 foreign key (ID_CUENTA)
+      references CUENTA (ID_CUENTA);
+	  
+alter table DEPARTAMENTO add constraint FK_RELATIONSHIP_28 foreign key (ID_CUENTA)
+      references CUENTA (ID_CUENTA);
+	  
+alter table MOVIMIENTO_EMPLEADO add constraint FK_RELATIONSHIP_29 foreign key (ID_PARAMETRO_IESS)
+      references PARAMETRO_IESS (ID_PARAMETRO_IESS);
+
+alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
+      references CUENTA (ID_CUENTA);  
 
 
 
