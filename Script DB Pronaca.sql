@@ -181,6 +181,7 @@ create table ITEM
    PESO_ITEM            float,
    CONSERVACION_ITEM    varchar(100),
    DETALLE_ITEM         text,
+   ID_RECETAP		int,
    primary key (ID_ITEM)
 );
 
@@ -230,6 +231,7 @@ create table LISTA_ITEMS
    FECHA_LISTA          date,
    ESTADO_LISTA         varchar(100),
    DETALLE_ESTADO_LISTA text,
+   BODEGA			varchar(100),
    primary key (ID_LISTA_ITEMS)
 );
 
@@ -419,3 +421,6 @@ alter table MOVIMIENTO_EMPLEADO add constraint FK_RELATIONSHIP_29 foreign key (I
 
 alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);  
+/*relacion estadoproduccion-item*/
+ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
+	REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
