@@ -18,8 +18,8 @@ const database_1 = __importDefault(require("../database"));
 class ItemController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const item = yield database_1.default.query('SELECT * FROM item');
-            res.json(item);
+            const item = yield database_1.default.query('CALL ITEMS_ALL()');
+            res.json(item[0]);
         });
     }    
     getOne(req, res) {
