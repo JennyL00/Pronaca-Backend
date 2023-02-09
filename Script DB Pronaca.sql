@@ -81,7 +81,6 @@ create table CARGO_EMPLEADO
    ID_CARGO_EMPLEADO     int not null AUTO_INCREMENT,
    ID_DEPARTAMENTO       int,
    DESCRIPCION_CARGO    varchar(100),
-   CODIGO_CARGO           varchar(20),
    primary key (ID_CARGO_EMPLEADO)
 );
 /*==============================================================*/
@@ -136,8 +135,6 @@ create table DEPARTAMENTO
    ID_DEPARTAMENTO    int not null AUTO_INCREMENT,
    ID_CUENTA          int,
    NOMBRE_DEPARTAMENTO       varchar(100),
-   SUELDO_HORAS         float(8,2),
-   SUELDO_FIJO          float(8,2),
    CODIGO_CUENTA        varchar(10),
    CUENTA               varchar(100),
    primary key (ID_DEPARTAMENTO)
@@ -151,11 +148,14 @@ create table EMPLEADO
    ID_EMPLEADO          int not null AUTO_INCREMENT,
    ID_CARGO_EMPLEADO     int,
    ID_BANCO              int,
+   ID_MOVIMIENTO_EMPLEADO int,
    NOMBRE_EMPLEADO      varchar(200),
    APELLIDO_EMPLEADO       varchar(200),
    CEDULA_EMPLEADO      varchar(10),
    CORREO               varchar(200),
    HORAS_LABORADAS      int,
+   SUELDO_FIJO          float(8,2),
+   SUELDO_HORAS         float(8,2),
    SUELDO               float(8,2),
    SUELDO_NETO          float(8,2),
    primary key (ID_EMPLEADO)
@@ -291,7 +291,6 @@ create table PREVENTA
 create table MOVIMIENTO_EMPLEADO
 (
    ID_MOVIMIENTO_EMPLEADO int not null AUTO_INCREMENT,
-   ID_EMPLEADO            int,
    ID_CUENTA              int,
    ID_PARAMETRO_IESS      int,
    DESCRIPCION_MOVIMIENTO_ENPLEADO varchar(200),
@@ -404,8 +403,8 @@ alter table PEDIDO add constraint FK_RELATIONSHIP_21 foreign key (ID_CUENTA)
 alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_22 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);
 
-alter table MOVIMIENTO_EMPLEADO add constraint FK_RELATIONSHIP_25 foreign key (ID_EMPLEADO)
-      references EMPLEADO (ID_EMPLEADO);
+alter table EMPLEADO add constraint FK_RELATIONSHIP_25 foreign key (ID_MOVIMIENTO_EMPLEADO)
+      references MOVIMIENTO_EMPLEADO (ID_MOVIMIENTO_EMPLEADO);
 
 alter table CARGO_EMPLEADO add constraint FK_RELATIONSHIP_26 foreign key (ID_DEPARTAMENTO)
       references DEPARTAMENTO (ID_DEPARTAMENTO);
