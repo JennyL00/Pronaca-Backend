@@ -2,7 +2,11 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     16/1/2023 16:57:43                           */
 /*==============================================================*/
+drop database if exists pronaca;
 
+create database pronaca;
+
+use pronaca;
 
 drop table if exists ASIENTO;
 
@@ -124,6 +128,7 @@ create table DETALLE_PEDIDO
    ID_ITEM              int,
    CANTIDAD_PEDIDO      int,
    DETALLE_PEDIDO       varchar(100),
+   PRECIO_DETALLE_PEDIDO          float(8,2),
    primary key (ID_DETALLE_PEDIDO)
 );
 
@@ -258,6 +263,7 @@ create table PEDIDO
    FECHA_PEDIDO         date,
    PEDIDO_DEVUELTO      int,
    ESTADO_PEDIDO        varchar(100),
+   PRECIO_PEDIDO          float(8,2),
    primary key (ID_PEDIDO)
 );
 
