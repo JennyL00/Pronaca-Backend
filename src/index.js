@@ -21,7 +21,6 @@ const ubicacionesRoutes = require("./routes/ubicacionesRoutes");
 const receta_produccionRoutes = require("./routes/receta_produccionRoutes");
 const tipo_lista_producRoutes = require("./routes/tipo_lista_producRoutes")
 const parametro_iessRoutes = require("./routes/parametro_iessRoutes");
-const bancoRoutes = require("./routes/bancoRoutes")const parametro_iessRoutes = require("./routes/parametro_iessRoutes");
 const bancoRoutes = require("./routes/bancoRoutes")
 
 //initialization
