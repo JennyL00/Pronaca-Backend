@@ -12,15 +12,15 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.estado_resultados_Controller = void 0;
+exports.balanceController = void 0;
 const database_1 = __importDefault(require("../database"));
 
 
-class estado_resultados_Controller {
+class balanceController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            
-
+            const balance = yield database_1.default.query('SELECT * FROM `informe_financiero` WHERE TIPO_INFORME = "Balance"');
+            res.json(balance);    
         });
     }
     getOne(req, res) {
@@ -31,4 +31,4 @@ class estado_resultados_Controller {
     }
 
 }
-exports.estado_resultados_Controller = new estado_resultados_Controller();
+exports.balanceController = new balanceController();

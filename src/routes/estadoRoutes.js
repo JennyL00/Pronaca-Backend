@@ -1,16 +1,17 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const estado_resultados_Controller_1 = require("../controllers/estado_resultados_Controller");
+const estadoController_1 = require("../controllers/estadoController");
 
-class estado_resultados_Routes {
+class estadoRoutes {
     constructor() {
         this.router = (0, express_1.Router)();
         this.config();
     }
     config() {
+        this.router.get('/', estadoController_1.estadoController.list);
         
     }
 }
-const estado_resultados_Router = new estado_resultados_Routes();
-exports.default = estado_resultados_Router.router;
+const estadoRouter = new estadoRoutes();
+exports.default = estadoRouter.router;
