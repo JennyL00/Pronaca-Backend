@@ -2,7 +2,11 @@
 /* DBMS name:      MySQL 5.0                                    */
 /* Created on:     16/1/2023 16:57:43                           */
 /*==============================================================*/
+drop database if exists pronaca;
 
+create database pronaca;
+
+use pronaca;
 
 drop table if exists ASIENTO;
 
@@ -124,6 +128,7 @@ create table DETALLE_PEDIDO
    ID_ITEM              int,
    CANTIDAD_PEDIDO      int,
    DETALLE_PEDIDO       varchar(100),
+   PRECIO_DETALLE_PEDIDO          float(8,2),
    primary key (ID_DETALLE_PEDIDO)
 );
 
@@ -153,7 +158,7 @@ create table EMPLEADO
    APELLIDO_EMPLEADO       varchar(200),
    CEDULA_EMPLEADO      varchar(10),
    CORREO               varchar(200),
-   HORAS_LABORADAS      float(8.2),
+   HORAS_LABORADAS      int,
    SUELDO_FIJO          float(8,2),
    SUELDO_HORAS         float(8,2),
    SUELDO               float(8,2),
@@ -181,6 +186,7 @@ create table ITEM
    PESO_ITEM            float,
    CONSERVACION_ITEM    varchar(100),
    DETALLE_ITEM         text,
+   ID_RECETAP		int,
    primary key (ID_ITEM)
 );
 
@@ -230,6 +236,7 @@ create table LISTA_ITEMS
    FECHA_LISTA          date,
    ESTADO_LISTA         varchar(100),
    DETALLE_ESTADO_LISTA text,
+   BODEGA			varchar(100),
    primary key (ID_LISTA_ITEMS)
 );
 
@@ -256,6 +263,7 @@ create table PEDIDO
    FECHA_PEDIDO         date,
    PEDIDO_DEVUELTO      int,
    ESTADO_PEDIDO        varchar(100),
+   PRECIO_PEDIDO          float(8,2),
    primary key (ID_PEDIDO)
 );
 
@@ -418,6 +426,9 @@ alter table MOVIMIENTO_EMPLEADO add constraint FK_RELATIONSHIP_29 foreign key (I
 
 alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);  
+/*relacion estadoproduccion-item*/
+ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
+	REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 
 
 
