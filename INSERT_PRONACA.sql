@@ -119,3 +119,16 @@ item.LOTE_ITEM, item.CANTIDAD_LOTE_ITEM, item.PRECIO_ITEM, item.PESO_ITEM, item.
 item.ID_RECETAP FROM item, estado_produccion, tipo_item 
 WHERE item.ID_ESTADO_PRODUCION=estado_produccion.ID_ESTADO_PRODUCCION and item.ID_TIPO_ITEM=tipo_item.ID_TIPO_ITEM;
 
+/*
+INformes Financieros , Balance y Estado de Resultados
+*/
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('1', 'Estado', '2019-05-18');
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('2', 'Estado', '2019-05-18');
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('3', 'Balance', '2019-12-02');
+
+INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('1', '2022-12-14', '4560000', '20000', '8000');
+
+INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('2', '2022-12-14', '150000', '30000', '4000');
+
+INSERT INTO BALANCE_GENERAL (ID_INFORME_FINANCIERO, FECHA, ACTIVOS, PASIVOS, PATRIMONIO)
+VALUES (1, '2023-02-11', 100000, 50000, 50000);

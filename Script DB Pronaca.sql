@@ -40,6 +40,11 @@ drop table if exists PROVEEDOR;
 
 drop table if exists RECETA_PRODUCCION;
 
+drop table if exists balance_general;
+
+drop table if exists estado_financiero;
+
+
 /*==============================================================*/
 /* Table: ASIENTO                                               */
 /*==============================================================*/
@@ -74,8 +79,33 @@ create table INFORME_FINANCIERO
 (
    ID_INFORME_FINANCIERO   int not null AUTO_INCREMENT,
    TIPO_INFORME            varchar(100),
+   FECHA DATE NOT NULL,
    primary key (ID_INFORME_FINANCIERO)
 );
+
+create table balance_general
+(
+id_informe_financiero int not null,
+fecha date not null,
+activos decimal(10,2) not null,
+pasivos decimal(10,2) not null,
+patrimonio decimal(10,2) not null,
+primary key (id_informe_financiero),
+foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
+);
+
+create table estado_financiero
+(
+id_informe_financiero int not null,
+fecha date not null,
+ingresos decimal(10,2) not null,
+costos decimal(10,2) not null,
+gastos decimal(10,2) not null,
+primary key (id_informe_financiero),
+foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
+);
+
+
 
 /*==============================================================*/
 /* Table: CARGO_EMPLEADO                                        */
