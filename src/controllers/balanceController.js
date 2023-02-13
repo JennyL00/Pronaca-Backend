@@ -30,5 +30,32 @@ class balanceController {
         });
     }
 
+    create(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+        const { id_informe, date_informe, date_init, date_end, activos, pasivos, patrimonio } = req.body;
+        
+        
+        // Create a financial report
+        
+        const newInformeFinanciero = {
+          id_informe,
+          fecha: date_informe,
+          activos,
+          pasivos,
+          patrimonio
+        };
+        
+        yield database_1.default.query(`INSERT INTO INFORME_FINANCIERO (ID_INFORME_FINANCIERO, TIPO_INFORME, FECHA) VALUES (${id_informe}, 'Balance', '${date_informe}')`);
+        yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (ID_INFORME_FINANCIERO, FECHA, ACTIVOS, PASIVOS, PATRIMONIO) VALUES (${newInformeFinanciero.id_informe}, '${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio})`);
+        
+        res.json({ message: 'Financial report Balance saved' });
+        
+        
+        });
+        }
+      
+        
+        
+
 }
 exports.balanceController = new balanceController();
