@@ -34,8 +34,19 @@ class AsientoController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            
-            yield database_1.default.query('INSERT INTO asiento set?', [req.body]);
+            const {FECHA_ASIENTO,id_cuenta,descripcion_asiento,haber,debe}=req.body
+            //consultar cuenta
+            const cuenta = yield database_1.default.query('SELECT * FROM cuenta WHERE descripcion_cuenta = ?', [descripcion_asiento]);
+            const stringCuenta = JSON.parse(JSON.stringify(cuenta))
+            const newAsiento ={
+                id_informe_financiero:stringCuenta[0].INFORME_FINANCIERO,
+                id_cuenta,
+                FECHA_ASIENTO,
+                descripcion_asiento,
+                debe,
+                haber
+            }
+            yield database_1.default.query('INSERT INTO asiento set?', [newAsiento]);
             res.json({ message: 'Asiento saved' });
         });
     }
