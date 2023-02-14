@@ -16,6 +16,7 @@ const lista_itemsRoutes = require("./routes/lista_itemsRoutes");
 const itemventaRoutes = require("./routes/itemventaRouter")
 const clienteRoutes = require("./routes/clientesRoutes");
 const pedidoRoutes = require("./routes/pedidosRoutes");
+const detalle_pedidoRoutes = require("./routes/detalle_pedidosRoutes");
 const preventaRoutes = require("./routes/preventasRoutes");
 const ubicacionesRoutes = require("./routes/ubicacionesRoutes");
 const receta_produccionRoutes = require("./routes/receta_produccionRoutes");
@@ -76,6 +77,7 @@ app.use('/api/lista_items', lista_itemsRoutes.default);
 app.use('/api/itemventa', itemventaRoutes.default);
 app.use('/api/cliente',clienteRoutes.default);
 app.use('/api/pedido',pedidoRoutes.default);
+app.use('/api/detalle_pedido',detalle_pedidoRoutes.default);
 app.use('/api/preventa',preventaRoutes.default);
 app.use('/api/ubicacion',ubicacionesRoutes.default);
 app.use('/api/parametro_iess',parametro_iessRoutes.default);

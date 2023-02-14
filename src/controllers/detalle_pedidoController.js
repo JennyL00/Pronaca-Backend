@@ -38,7 +38,9 @@ class Detalle_PedidoController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            console.log(req.body);
             yield database_1.default.query('INSERT INTO detalle_pedido set?', [req.body]);
+            
             res.json({ message: 'Detalle Pedido saved' });
         });
     }
