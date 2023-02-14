@@ -19,6 +19,8 @@ const pedidoRoutes = require("./routes/pedidosRoutes");
 const preventaRoutes = require("./routes/preventasRoutes");
 const ubicacionesRoutes = require("./routes/ubicacionesRoutes");
 
+const parametro_iessRoutes = require("./routes/parametro_iessRoutes");
+const bancoRoutes = require("./routes/bancoRoutes")
 
 //initialization
 const app = express();
@@ -75,6 +77,8 @@ app.use('/api/cliente',clienteRoutes.default);
 app.use('/api/pedido',pedidoRoutes.default);
 app.use('/api/preventa',preventaRoutes.default);
 app.use('/api/ubicacion',ubicacionesRoutes.default);
+app.use('/api/parametro_iess',parametro_iessRoutes.default);
+app.use('/api/banco',bancoRoutes.default);
 
 
 

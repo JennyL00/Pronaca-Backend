@@ -11,9 +11,11 @@ class Movimiento_EmpleadoRoutes {
         this.router.get('/', movimiento_empleadoController_1.movimiento_empleadoController.list);
         this.router.get('/:id', movimiento_empleadoController_1.movimiento_empleadoController.getOne);
         this.router.post('/', movimiento_empleadoController_1.movimiento_empleadoController.create);
-        //this.router.put('/:id', movimiento_empleadoController_1.movimiento_empleadoController.update);
+        this.router.put('/:id', movimiento_empleadoController_1.movimiento_empleadoController.update);
         this.router.delete('/:id', movimiento_empleadoController_1.movimiento_empleadoController.delete);
         this.router.put('/iess', movimiento_empleadoController_1.movimiento_empleadoController.updateIess);
+        this.router.put('/actualizarMov/:id', movimiento_empleadoController_1.movimiento_empleadoController.updateMovimientos);
+
     }
 }
 const movimiento_empleadoRouter = new Movimiento_EmpleadoRoutes();

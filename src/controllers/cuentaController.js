@@ -39,60 +39,13 @@ class CuentaController {
                 cue_id_cuenta,
                 descripcion_cuenta, 
                 codigo_cuenta, 
-                informe_financiero, 
-                valor_cuenta
+                informe_financiero
             }
             yield database_1.default.query('INSERT INTO CUENTA SET ?', [req.body]);
             res.json({ message: 'Cuenta saved' });
         });
     }
-    createCargoEmpleado(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const{id} = req.params;
-            //obtener el empleado a pagar
-            const empleado = yield database_1.default.query('SELECT * FROM EMPLEADO WHERE ID_EMPLEADO=?',[id])
-            const stringEmpleado = JSON.parse(JSON.stringify(empleado))
-            
-            //obtener el cargo del Empleado
-            const cargo = yield database_1.default.query('SELECT * FROM CARGO_EMPLEADO WHERE ID_CARGO_EMPLEADO=?',[stringEmpleado[0].ID_CARGO_EMPLEADO])
-            
-            const stringCargo = JSON.parse(JSON.stringify(cargo))
-            //obtener el departamento
-            const departamento = yield database_1.default.query('SELECT * FROM DEPARTAMENTO WHERE ID_DEPARTAMENTO=?',[stringCargo[0].ID_DEPARTAMENTO])
-            const stringDepartamento = JSON.parse(JSON.stringify(departamento))
-            //asignar un codigo a la cuenta dependiendo del departamento
-            let codigo_cuenta = ""
-            let id_cuenta = 0
-            if(stringDepartamento[0].NOMBRE_DEPARTAMENTO == "Personal Administrativo"){
-                codigo_cuenta = "5.1.1."
-                id_cuenta = 14
-            }else{
-                if(stringDepartamento[0].NOMBRE_DEPARTAMENTO == "Personal Comercial"){
-                    codigo_cuenta = "5.2.1."
-                    id_cuenta = 16
-                }else{
-                    if(stringDepartamento[0].NOMBRE_DEPARTAMENTO == "Personal Producción"){
-                        codigo_cuenta = "5.2.2."
-                        id_cuenta = 17
-                    }
-                }
-            }
-
-            const newCuenta = {
-                CUE_ID_CUENTA:id_cuenta,
-                ID_ASIENTO:id_cuenta,
-                DESCRIPCION_CUENTA:stringCargo[0].DESCRIPCION_CARGO,
-                CODIGO_CUENTA:codigo_cuenta,
-                VALOR_CUENTA: stringEmpleado[0].SUELDO
-            }
-            yield database_1.default.query('INSERT INTO cuenta set?', [newCuenta]);
-            //Actualizar horas laboradas del empleado
-            yield database_1.default.query('UPDATE EMPLEADO SET HORAS_LABORADAS=160 WHERE ID_EMPLEADO = ?', [id]);
-            
-            
-            res.json({ message: 'Cuenta Costos saved' });
-        });
-    }
+    
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
@@ -123,22 +76,61 @@ class CuentaController {
         });
     }
 
-    //calcular el total de los costos directos e indirectos
-    cuentasCostos(req,res){
+    //calcular el total de los costos y gastos
+    cuentasCostosGastos(req,res){
         return __awaiter(this, void 0, void 0, function*(){
-            //Estado de resultados
-            //Cálculo de costos directos
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=14) WHERE ID_CUENTA=14')
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=13) WHERE ID_CUENTA=13')
-            //Cálculo de costos indirectos
-            //Personal Comercial
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=16) WHERE ID_CUENTA=16')
-            //Personal Producción
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=17) WHERE ID_CUENTA=17')
-            //costos indirectos
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=15) WHERE ID_CUENTA=15')
-            //Cálculo de costos
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=12) WHERE ID_CUENTA=12')
+        const {id} = req.params;
+        //cuenta costos operativos
+        const cuentaCostosOperativos = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Costos operativos"')
+        const stringCuentaCostosOperativos = JSON.parse(JSON.stringify(cuentaCostosOperativos))
+        //cálculo costos operativos
+        const costosOperativos = yield database_1.default.query('SELECT SUM(E.SUELDO) AS SUELDO FROM EMPLEADO E INNER JOIN CARGO_EMPLEADO C ON E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO INNER JOIN DEPARTAMENTO D ON C.ID_DEPARTAMENTO=D.ID_DEPARTAMENTO WHERE E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO AND C.ID_DEPARTAMENTO=D.ID_DEPARTAMENTO AND D.ID_CUENTA=?',[stringCuentaCostosOperativos[0].ID_CUENTA])
+        const stringCostosOperativos = JSON.parse(JSON.stringify(costosOperativos))
+
+        //cuenta gastos nómina
+        const cuentaGastosNomina = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Gastos nómina"')
+        const stringCuentaGastosNomina = JSON.parse(JSON.stringify(cuentaGastosNomina))
+        //cálculo de gastos nómina
+        const gastosNomina = yield database_1.default.query('SELECT SUM(E.SUELDO) AS SUELDO FROM EMPLEADO E INNER JOIN CARGO_EMPLEADO C ON E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO INNER JOIN DEPARTAMENTO D ON C.ID_DEPARTAMENTO=D.ID_DEPARTAMENTO WHERE E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO AND C.ID_DEPARTAMENTO=D.ID_DEPARTAMENTO AND D.ID_CUENTA=?',[stringCuentaGastosNomina[0].ID_CUENTA])
+        const stringGastosOperativos = JSON.parse(JSON.stringify(gastosNomina))
+        //cuenta de beneficios sociales
+        const beneficiosSociales = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Beneficios sociales"')
+        const stringBeneficiosSociales = JSON.parse(JSON.stringify(beneficiosSociales))
+        //cuenta de nomina
+        const pagoNomina = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Pago de nómina"')
+        const stringPagoNomina = JSON.parse(JSON.stringify(pagoNomina))
+ 
+        //Parámetro iess 
+        const parametros=yield database_1.default.query('SELECT * FROM PARAMETRO_IESS')
+        const stringParametros = JSON.parse(JSON.stringify(parametros))
+
+        //actualizar cuenta costos operativos
+        yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?',[stringCostosOperativos[0].SUELDO,stringCuentaCostosOperativos[0].ID_CUENTA])
+        //actualizar cuenta gastos nómina
+        yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?',[stringGastosOperativos[0].SUELDO,stringCuentaGastosNomina[0].ID_CUENTA])
+        
+        //actualizar datos del empleado
+        yield database_1.default.query('UPDATE EMPLEADO SET HORAS_LABORADAS = 0, SUELDO=SUELDO_FIJO')
+        yield database_1.default.query('UPDATE EMPLEADO SET SUELDO_NETO = SUELDO-(SUELDO*?)-(SUELDO*?)',[stringParametros[0].VALOR/100,stringParametros[1].VALOR/100])
+        //monto para el movimiento
+        let montoMov = yield database_1.default.query('SELECT SUM(SUELDO*?) as monto FROM EMPLEADO',[stringParametros[0].VALOR/100])
+        let stringMontoMov = JSON.parse(JSON.stringify(montoMov))
+        yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_parametro_iess=?', [stringMontoMov[0].monto , stringParametros[0].ID_PARAMETRO_IESS]);
+        montoMov = yield database_1.default.query('SELECT SUM(SUELDO*?) as monto FROM EMPLEADO',[stringParametros[1].VALOR/100])
+        stringMontoMov = JSON.parse(JSON.stringify(montoMov))
+        //actualizar los valores de los movimientos
+        yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_parametro_iess=?', [stringMontoMov[0].monto , stringParametros[1].ID_PARAMETRO_IESS]);
+        yield database_1.default.query('UPDATE movimiento_empleado m inner join (SELECT id_movimiento_empleado, SUM(SUELDO_NETO) as monto FROM EMPLEADO) as e on e.id_movimiento_empleado=m.id_movimiento_empleado set m.valor_movimiento_empleado=e.monto where m.id_cuenta=?', [stringPagoNomina[0].ID_CUENTA]);
+
+        //actualizar la cuenta de beneficios 
+        yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto FROM movimiento_empleado where descripcion_movimiento_enpleado=? || descripcion_movimiento_enpleado=?) montoBeneficio ON c.id_cuenta = montoBeneficio.id_cuenta SET c.valor_cuenta = montoBeneficio.monto where c.ID_CUENTA=?',[stringParametros[0].NOMBRE_PARAMETRO,stringParametros[1].NOMBRE_PARAMETRO,stringBeneficiosSociales[0].ID_CUENTA]);
+        //actualizar la cuenta de pagos de nómina
+        yield database_1.default.query('UPDATE cuenta c INNER JOIN movimiento_empleado m on c.id_cuenta = m.id_cuenta SET c.valor_cuenta = m.valor_movimiento_empleado where c.ID_CUENTA=?',[stringPagoNomina[0].ID_CUENTA]);
+
+        //actualizar banco
+        yield database_1.default.query('UPDATE banco b set b.saldo=b.saldo-?-? where b.id_banco=?',[stringCostosOperativos[0].SUELDO,stringGastosOperativos[0].SUELDO,id]);
+        //actualizar cuenta del banco
+        yield database_1.default.query('UPDATE cuenta c inner join banco b on c.id_cuenta=b.id_cuenta set c.valor_cuenta=b.saldo where c.id_cuenta=(select id_cuenta from banco where id_banco=?) and b.id_banco=?',[id,id]);
 
             res.json({ message: 'cuentas costos actualizadas' });
         });
