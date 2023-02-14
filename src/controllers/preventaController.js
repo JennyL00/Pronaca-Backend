@@ -48,7 +48,7 @@ class PreventaController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('DELETE FROM preventa WHERE preventa = ?', [id]);
+            yield database_1.default.query('DELETE FROM preventa WHERE id_preventa = ?', [id]);
             res.json({ message: 'Preventa was deleted' });
         });
     }
