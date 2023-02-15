@@ -39,10 +39,7 @@ class PedidoController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             
-            yield database_1.default.query('INSERT INTO pedido set?', [req.body]);
-            // yield database_1.default.query('INSERT INTO `pedido`(`ID_CLIENTE`, `ID_EMPLEADO`, `FECHA_PEDIDO`, `ESTADO_PEDIDO`) VALUES (id_cliente,id_empleado,fecha_pedido,estado_pedido)');
-            console.log(req.body);
-            
+            yield database_1.default.query('INSERT INTO pedido set?', [req.body]);            
             res.json({ message: 'Pedido saved' });
         });
     }
