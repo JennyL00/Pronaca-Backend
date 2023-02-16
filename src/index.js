@@ -14,7 +14,7 @@ const itemventaRoutes = require("./routes/itemventaRouter")
 const clienteRoutes = require("./routes/clientesRoutes");
 const pedidoRoutes = require("./routes/pedidosRoutes");
 const receta_produccionRoutes = require("./routes/receta_produccionRoutes");
-const tipo_lista_producRoutes = require("./routes/tipo_lista_producRoutes")
+const pasos_recetaRoutes = require("./routes/pasos_recetaRoutes")
 
 
 //initialization
@@ -69,7 +69,7 @@ app.use('/api/itemventa', itemventaRoutes.default);
 app.use('/api/cliente',clienteRoutes.default);
 app.use('/api/pedido',pedidoRoutes.default);
 app.use('/api/receta',receta_produccionRoutes.default);
-app.use('/api/tipo_lista',tipo_lista_producRoutes.default);
+app.use('/api/pasos_receta',pasos_recetaRoutes.default);
 
 
 //public
