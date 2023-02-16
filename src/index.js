@@ -21,7 +21,7 @@ const parametro_iessRoutes = require("./routes/parametro_iessRoutes");
 const bancoRoutes = require("./routes/bancoRoutes")
 const balanceRoutes=require("./routes/balanceRoutes");
 const estadoRoutes=require("./routes/estadoRoutes");
-
+const detalle_asientoRoutes = require("./routes/detalle_asientoRoutes");
 //initialization
 const app = express();
 
@@ -81,7 +81,7 @@ app.use('/api/banco',bancoRoutes.default);
 //
 app.use('/api/balance',balanceRoutes.default);
 app.use('/api/estado',estadoRoutes.default);
-
+app.use('/api/detalle_asiento',detalle_asientoRoutes.default);
 
 
 //public

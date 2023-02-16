@@ -51,12 +51,8 @@ drop table if exists estado_financiero;
 create table ASIENTO
 (
    ID_ASIENTO           int not null AUTO_INCREMENT,
-   ID_INFORME_FINANCIERO     int,
-   ID_CUENTA            int,
    FECHA_ASIENTO        date,
    descripcion_asiento  varchar(100),
-   DEBE                 float(8,2),
-   HABER                float(8,2),
    primary key (ID_ASIENTO)
 );
 
@@ -140,12 +136,27 @@ create table CLIENTE
 create table CUENTA
 (
    ID_CUENTA            int not null AUTO_INCREMENT,
+   ID_INFORME_FINANCIERO   int,
    CUE_ID_CUENTA        int,
    DESCRIPCION_CUENTA   varchar(200),
    CODIGO_CUENTA        varchar(100),
-   INFORME_FINANCIERO   int,
    VALOR_CUENTA         float(8,2),
    primary key (ID_CUENTA)
+);
+/*==============================================================*/
+/* Table: DETALLE_ASIENTO                                        */
+/*==============================================================*/
+create table DETALLE_ASIENTO
+(
+   ID_DETALLE_ASIENTO    int not null AUTO_INCREMENT,
+   ID_ASIENTO            int,
+   INFORME_FINANCIERO int,
+   ID_CUENTA            int,
+   CODIGO_CUENTA        varchar(100),
+   CUENTA  varchar(100),
+   DEBE                 float(8,2),
+   HABER                float(8,2),
+   primary key (ID_DETALLE_ASIENTO)
 );
 
 /*==============================================================*/
@@ -420,16 +431,18 @@ alter table EMPLEADO add constraint FK_RELATIONSHIP_15 foreign key (ID_CARGO_EMP
 
 alter table EMPLEADO add constraint FK_RELATIONSHIP_16 foreign key (ID_BANCO)
       references BANCO (ID_BANCO);
-	  
-alter table ASIENTO add constraint FK_RELATIONSHIP_17 foreign key (ID_INFORME_FINANCIERO)
-      references INFORME_FINANCIERO (ID_INFORME_FINANCIERO);
 
-alter table ASIENTO add constraint FK_RELATIONSHIP_18 foreign key (ID_CUENTA)
+alter table DETALLE_ASIENTO add constraint FK_RELATIONSHIP_18 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);
+
+alter table DETALLE_ASIENTO add constraint FK_RELATIONSHIP_31 foreign key (ID_ASIENTO)
+      references ASIENTO (ID_ASIENTO);
 
 alter table CUENTA add constraint FK_RELATIONSHIP_19 foreign key (CUE_ID_CUENTA)
       references CUENTA (ID_CUENTA);
-	
+
+alter table CUENTA add constraint FK_RELATIONSHIP_17 foreign key (ID_INFORME_FINANCIERO)
+      references INFORME_FINANCIERO (ID_INFORME_FINANCIERO);
 /* CONSTRAINT 200*/
 
 

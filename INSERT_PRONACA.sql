@@ -35,7 +35,21 @@ INSERT INTO `tipo_item`(`TIPO_ITEM`, `DETALLE_TIPO_ITEM`)
 VALUES ('Producto','Producto para venta');
 
 /*GRUPO_FINANCIERO*/
-INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,INFORME_FINANCIERO,VALOR_CUENTA) VALUES
+/*
+INformes Financieros , Balance y Estado de Resultados
+*/
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('1', 'Estado', '2019-05-18');
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('2', 'Estado', '2019-05-18');
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('3', 'Balance', '2019-12-02');
+
+INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('1', '2022-12-14', '4560000', '20000', '8000');
+
+INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('2', '2022-12-14', '150000', '30000', '4000');
+
+INSERT INTO BALANCE_GENERAL (ID_INFORME_FINANCIERO, FECHA, ACTIVOS, PASIVOS, PATRIMONIO)
+VALUES (1, '2023-02-11', 100000, 50000, 50000);
+
+INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FINANCIERO,VALOR_CUENTA) VALUES
 (null,"Activos","1.",1,0.0),(1,"Activos corrientes","1.1.",1,0.0),(2,"Bancos","1.1.1.",1,0.0),
 (3,"Banco Pichincha","1.1.1.01.",1,5000.0),(1,"Activos fijos","1.2.",1,0.0),(5,"Inventario","1.2.1.",1,0.0),
 (6,"Materia prima","1.2.1.01.",1,0.0),(6,"Insumos","1.2.2.02",1,0.0),(6,"Producto","1.2.3.03.",1,0.0),
@@ -66,7 +80,7 @@ VALUES(2,1,2,'ELVIS','MONTALUISA','0503408080','montaluisa.e@email.com',40,450,2
 
 INSERT INTO `lista_items`(`ID_EMPLEADO`, `ID_CUENTA`, `ID_TIPO_LISTA_PRODUC`, `DETALLE_LISTA`, `FECHA_LISTA`, `ESTADO_LISTA`,
                           `DETALLE_ESTADO_LISTA`) 
-VALUES (1,0,2,'Productos para llenar el stock','2023-01-26','EN PROCESO','PROCESO DE PRODUCCION');
+VALUES (1,1,2,'Productos para llenar el stock','2023-01-26','EN PROCESO','PROCESO DE PRODUCCION');
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`, `PRECIO_ITEM`, `PESO_ITEM`,
@@ -119,16 +133,4 @@ item.LOTE_ITEM, item.CANTIDAD_LOTE_ITEM, item.PRECIO_ITEM, item.PESO_ITEM, item.
 item.ID_RECETAP FROM item, estado_produccion, tipo_item 
 WHERE item.ID_ESTADO_PRODUCION=estado_produccion.ID_ESTADO_PRODUCCION and item.ID_TIPO_ITEM=tipo_item.ID_TIPO_ITEM;
 
-/*
-INformes Financieros , Balance y Estado de Resultados
-*/
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('1', 'Estado', '2019-05-18');
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('2', 'Estado', '2019-05-18');
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('3', 'Balance', '2019-12-02');
 
-INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('1', '2022-12-14', '4560000', '20000', '8000');
-
-INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('2', '2022-12-14', '150000', '30000', '4000');
-
-INSERT INTO BALANCE_GENERAL (ID_INFORME_FINANCIERO, FECHA, ACTIVOS, PASIVOS, PATRIMONIO)
-VALUES (1, '2023-02-11', 100000, 50000, 50000);
