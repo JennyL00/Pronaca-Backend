@@ -12,45 +12,45 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.preventaController = void 0;
+exports.ubicacionController = void 0;
 const database_1 = __importDefault(require("../database"));
 
-class PreventaController {
+class UbicacionController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const preventa = yield database_1.default.query('SELECT * FROM preventa');
-            res.json(preventa);
+            const ubicacion = yield database_1.default.query('SELECT * FROM ubicacion');
+            res.json(ubicacion);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const preventa = yield database_1.default.query('SELECT * FROM preventa WHERE id_preventa = ?', [id]);
-            if (cliente.length > 0) {
-                return res.json(preventa[0]);
+            const ubicacion = yield database_1.default.query('SELECT * FROM ubicacion WHERE id_ubicacion = ?', [id]);
+            if (ubicacion.length > 0) {
+                return res.json(ubicacion[0]);
             }
-            res.status(404).json({ text: "Preventa doesn't exists" });
+            res.status(404).json({ text: "Ubicacion doesn't exists" });
         });
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO preventa set?', [req.body]);
-            res.json({ message: 'Preventa saved' });
+            yield database_1.default.query('INSERT INTO ubicacion set?', [req.body]);
+            res.json({ message: 'Ubicacion saved' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE preventa set ? WHERE id_preventa = ?', [req.body, id]);
-            res.json({ message: 'Preventa was updated' });
+            yield database_1.default.query('UPDATE ubicacion set ? WHERE id_ubicacion = ?', [req.body, id]);
+            res.json({ message: 'Ubicacion was updated' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('DELETE FROM preventa WHERE id_preventa = ?', [id]);
-            res.json({ message: 'Preventa was deleted' });
+            yield database_1.default.query('DELETE FROM ubicacion WHERE id_ubicacion = ?', [id]);
+            res.json({ message: 'ubicacion was deleted' });
         });
     }
 }
-exports.preventaController = new PreventaController();
+exports.ubicacionController = new UbicacionController();

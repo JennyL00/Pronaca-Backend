@@ -19,7 +19,7 @@ class ClienteController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const consulta = 
-            "SELECT cliente.ID_CLIENTE, cliente.NOMBRE_CLIENTE,cliente.APELLIDO_CLIENTE,cliente.RUC_CEDULA,cliente.EMAIL_CLIENTE,cliente.ESTADO_CLIENTE,ubicacion.ZONA_UBICACION,ubicacion.SECTOR_UBICACION,cliente.NUMERO_UBICACION, cliente.TELEFONO_CLIENTE FROM cliente JOIN ubicacion ON ubicacion.ID_UBICACION=cliente.ID_UBICACION;"       
+            "SELECT cliente.ID_CLIENTE, cliente.NOMBRE_CLIENTE,cliente.APELLIDO_CLIENTE,cliente.RUC_CEDULA,cliente.EMAIL_CLIENTE,cliente.ESTADO_CLIENTE,ubicacion.ID_UBICACION,ubicacion.ZONA_UBICACION,ubicacion.SECTOR_UBICACION,cliente.NUMERO_UBICACION, cliente.TELEFONO_CLIENTE FROM cliente JOIN ubicacion ON ubicacion.ID_UBICACION=cliente.ID_UBICACION;"       
             const cliente = yield database_1.default.query(consulta);
             res.json(cliente);
         });
@@ -27,7 +27,9 @@ class ClienteController {
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const cliente = yield database_1.default.query('SELECT * FROM cliente_potencial WHERE id_cliente_potencial = ?', [id]);
+            const consulta = 
+            "SELECT cliente.ID_CLIENTE, cliente.NOMBRE_CLIENTE,cliente.APELLIDO_CLIENTE,cliente.RUC_CEDULA,cliente.EMAIL_CLIENTE,cliente.ESTADO_CLIENTE,ubicacion.ID_UBICACION, ubicacion.ZONA_UBICACION,ubicacion.SECTOR_UBICACION,cliente.NUMERO_UBICACION, cliente.TELEFONO_CLIENTE FROM cliente JOIN ubicacion ON ubicacion.ID_UBICACION=cliente.ID_UBICACION WHERE ID_CLIENTE = ?;"
+            const cliente = yield database_1.default.query(/*'SELECT * FROM cliente_potencial WHERE id_cliente_potencial = ?'*/consulta, [id]);
             if (cliente.length > 0) {
                 return res.json(cliente[0]);
             }
@@ -36,21 +38,21 @@ class ClienteController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO cliente_potencial set?', [req.body]);
+            yield database_1.default.query('INSERT INTO cliente set?', [req.body]);
             res.json({ message: 'Cliente saved' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE cliente_potencial set ? WHERE id_cliente_potencial = ?', [req.body, id]);
+            yield database_1.default.query('UPDATE cliente set ? WHERE id_cliente = ?', [req.body, id]);
             res.json({ message: 'Cliente was updated' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('DELETE FROM cliente_potencial WHERE id_cliente_potencial = ?', [id]);
+            yield database_1.default.query('DELETE FROM cliente WHERE id_cliente = ?', [id]);
             res.json({ message: 'Cliente was deleted' });
         });
     }
