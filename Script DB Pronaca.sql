@@ -230,6 +230,7 @@ create table ITEM
 create table TIPO_ITEM
 (
    ID_TIPO_ITEM 		int not null AUTO_INCREMENT,
+   ID_CUENTA            int,
    TIPO_ITEM	        varchar(100),
    DETALLE_TIPO_ITEM    text,
    primary key (ID_TIPO_ITEM)
@@ -264,7 +265,6 @@ create table LISTA_ITEMS
 (
    ID_LISTA_ITEMS       int not null AUTO_INCREMENT,
    ID_EMPLEADO          int,
-   ID_CUENTA            int,
    DETALLE_LISTA        text,
    FECHA_LISTA          date,
    ESTADO_LISTA         varchar(100),
@@ -442,7 +442,7 @@ alter table CUENTA add constraint FK_RELATIONSHIP_19 foreign key (CUE_ID_CUENTA)
 alter table PEDIDO add constraint FK_RELATIONSHIP_21 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);
 
-alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_22 foreign key (ID_CUENTA)
+alter table TIPO_ITEM add constraint FK_RELATIONSHIP_22 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);
 
 alter table EMPLEADO add constraint FK_RELATIONSHIP_25 foreign key (ID_MOVIMIENTO_EMPLEADO)
