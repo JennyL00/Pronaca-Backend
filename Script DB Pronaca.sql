@@ -40,11 +40,6 @@ drop table if exists PROVEEDOR;
 
 drop table if exists RECETA_PRODUCCION;
 
-drop table if exists balance_general;
-
-drop table if exists estado_financiero;
-
-
 /*==============================================================*/
 /* Table: ASIENTO                                               */
 /*==============================================================*/
@@ -78,7 +73,6 @@ create table INFORME_FINANCIERO
    FECHA DATE NOT NULL,
    primary key (ID_INFORME_FINANCIERO)
 );
-
 create table balance_general
 (
 id_informe_financiero int not null,
@@ -100,9 +94,6 @@ gastos decimal(10,2) not null,
 primary key (id_informe_financiero),
 foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
 );
-
-
-
 /*==============================================================*/
 /* Table: CARGO_EMPLEADO                                        */
 /*==============================================================*/
@@ -143,6 +134,7 @@ create table CUENTA
    VALOR_CUENTA         float(8,2),
    primary key (ID_CUENTA)
 );
+
 /*==============================================================*/
 /* Table: DETALLE_ASIENTO                                        */
 /*==============================================================*/
@@ -223,11 +215,12 @@ create table ITEM
    FECHA2_CADU_ITEM     date,
    LOTE_ITEM            varchar(100),
    CANTIDAD_LOTE_ITEM   int,
+   UNIDAD_MEDIDA        varchar(100),
    PRECIO_ITEM          float(8,2),
    PESO_ITEM            float,
    CONSERVACION_ITEM    varchar(100),
    DETALLE_ITEM         text,
-   ID_RECETAP		int,
+   ID_PASO_RECETA		int,
    primary key (ID_ITEM)
 );
 
@@ -256,13 +249,13 @@ create table ESTADO_PRODUCCION
 /*==============================================================*/
 /* Table: TIPO_LISTA_PRODUC                                     */
 /*==============================================================*/
-create table TIPO_LISTA_PRODUC
+/*create table TIPO_LISTA_PRODUC
 (
    ID_TIPO_LISTA_PRODUC int not null AUTO_INCREMENT,
    TIPO_LISTA_ITEMS		varchar(100),
    DETALLE_TIPO_LISTA 	text,
    primary key (ID_TIPO_LISTA_PRODUC)
-);
+);*/
 
 /*==============================================================*/
 /* Table: LISTA_ITEMS                                           */
@@ -272,7 +265,6 @@ create table LISTA_ITEMS
    ID_LISTA_ITEMS       int not null AUTO_INCREMENT,
    ID_EMPLEADO          int,
    ID_CUENTA            int,
-   ID_TIPO_LISTA_PRODUC int,
    DETALLE_LISTA        text,
    FECHA_LISTA          date,
    ESTADO_LISTA         varchar(100),
@@ -309,14 +301,14 @@ create table PEDIDO
 );
 
 /*==============================================================*/
-/* Table: PEDIDO_MATERIA_PRIMA                                  */
+/* Table: RECETA_PRODUCCION                                  */
 /*==============================================================*/
-create table PEDIDO_MATERIA_PRIMA
+create table RECETA_PRODUCCION
 (
-   ID_PEDIDO_MATERIAP   int not null AUTO_INCREMENT,
-   DETALLE_PEDIDO_MATERIAP varchar(200),
-   FECHA_PEDIDO_MATERIAP date,
-   primary key (ID_PEDIDO_MATERIAP)
+   ID_RECETA_PRODUCCION   int not null AUTO_INCREMENT,
+   NOMBRE_RECETA          varchar(200),
+   DETALLE_PEDIDO_PRODUCCION varchar(200),
+   primary key (ID_RECETA_PRODUCCION)
 );
 
 /*==============================================================*/
@@ -351,7 +343,7 @@ create table MOVIMIENTO_EMPLEADO
 create table PROVEEDOR
 (
    ID_PROVEEDOR         int not null AUTO_INCREMENT,
-   ID_PEDIDO_MATERIAP   int,
+   /*ID_PEDIDO_MATERIAP   int,*/
    NOMBRE_PROVEEDOR     varchar(100),
    TIPO_PROVEEDOR       varchar(100),
    RUC                  varchar(100),
@@ -361,16 +353,16 @@ create table PROVEEDOR
 /*==============================================================*/
 /* Table: RECETA_PRODUCCION                                     */
 /*==============================================================*/
-create table RECETA_PRODUCCION
+create table PASO_RECETA
 (
-   ID_RECETA            int not null AUTO_INCREMENT,
-   ID_ITEM              int,
-   ID_PEDIDO_MATERIAP   int,
-   NOMBRE_RECETA        varchar(100),
-   DESCRIPCION_RECETA   text,
-   CATEGORIA_RECETA     varchar(100),
+   ID_PASO_RECETA            int not null AUTO_INCREMENT,
+   /*ID_ITEM              int,*/
+   ID_RECETA_PRODUCCION   int,
+   NOMBRE_PASO_RECETA        varchar(100),
+   DESCRIPCION_PASO_RECETA   text,
+   CATEGORIA_PASO_RECETA     varchar(100),
    TIEMPO_PRODUC_RECETA time,
-   primary key (ID_RECETA)
+   primary key (ID_PASO_RECETA)
 );
 
 /*==============================================================*/
@@ -411,38 +403,39 @@ alter table ITEM add constraint FK_RELATIONSHIP_8 foreign key (ID_LISTA_ITEMS)
 alter table ITEM add constraint FK_RELATIONSHIP_9 foreign key (ID_TIPO_ITEM)
       references TIPO_ITEM (ID_TIPO_ITEM);
 	  
-alter table PROVEEDOR add constraint FK_RELATIONSHIP_10 foreign key (ID_PEDIDO_MATERIAP)
-      references PEDIDO_MATERIA_PRIMA (ID_PEDIDO_MATERIAP);
+/*alter table PROVEEDOR add constraint FK_RELATIONSHIP_10 foreign key (ID_PEDIDO_MATERIAP)
+      references PEDIDO_MATERIA_PRIMA (ID_PEDIDO_MATERIAP);*/
 
-alter table RECETA_PRODUCCION add constraint FK_RELATIONSHIP_11 foreign key (ID_PEDIDO_MATERIAP)
-      references PEDIDO_MATERIA_PRIMA (ID_PEDIDO_MATERIAP);
+alter table PASO_RECETA add constraint FK_RELATIONSHIP_11 foreign key (ID_RECETA_PRODUCCION)
+      references RECETA_PRODUCCION (ID_RECETA_PRODUCCION);
 
-alter table RECETA_PRODUCCION add constraint FK_RELATIONSHIP_12 foreign key (ID_ITEM)
-      references ITEM (ID_ITEM);
+alter table ITEM add constraint FK_RELATIONSHIP_12 foreign key (ID_PASO_RECETA)
+      references PASO_RECETA (ID_PASO_RECETA);
 
 alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_13 foreign key (ID_EMPLEADO)
       references EMPLEADO (ID_EMPLEADO);
 
-alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_14 foreign key (ID_TIPO_LISTA_PRODUC)
-      references TIPO_LISTA_PRODUC (ID_TIPO_LISTA_PRODUC);
+/*alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_14 foreign key (ID_TIPO_LISTA_PRODUC)
+      references TIPO_LISTA_PRODUC (ID_TIPO_LISTA_PRODUC);*/
 	  
 alter table EMPLEADO add constraint FK_RELATIONSHIP_15 foreign key (ID_CARGO_EMPLEADO)
       references CARGO_EMPLEADO (ID_CARGO_EMPLEADO);
 
 alter table EMPLEADO add constraint FK_RELATIONSHIP_16 foreign key (ID_BANCO)
       references BANCO (ID_BANCO);
+	  
+alter table CUENTA add constraint FK_RELATIONSHIP_17 foreign key (ID_INFORME_FINANCIERO)
+      references INFORME_FINANCIERO (ID_INFORME_FINANCIERO);
 
 alter table DETALLE_ASIENTO add constraint FK_RELATIONSHIP_18 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);
 
 alter table DETALLE_ASIENTO add constraint FK_RELATIONSHIP_31 foreign key (ID_ASIENTO)
       references ASIENTO (ID_ASIENTO);
-
+      
 alter table CUENTA add constraint FK_RELATIONSHIP_19 foreign key (CUE_ID_CUENTA)
       references CUENTA (ID_CUENTA);
-
-alter table CUENTA add constraint FK_RELATIONSHIP_17 foreign key (ID_INFORME_FINANCIERO)
-      references INFORME_FINANCIERO (ID_INFORME_FINANCIERO);
+	
 /* CONSTRAINT 200*/
 
 
@@ -472,7 +465,3 @@ alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
 /*relacion estadoproduccion-item*/
 ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
 	REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-
-
-
-
