@@ -91,14 +91,14 @@ class Movimiento_empleadoController {
             yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_parametro_iess=?', [stringMontoMov[0].monto , stringParametrosIess[0].ID_PARAMETRO_IESS]);
             montoMov = yield database_1.default.query('SELECT SUM(SUELDO*?) as monto FROM EMPLEADO',[stringParametrosIess[1].VALOR/100])
             stringMontoMov = JSON.parse(JSON.stringify(montoMov))
-            //actualizar los valores de los movimientos
             yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_parametro_iess=?', [stringMontoMov[0].monto , stringParametrosIess[1].ID_PARAMETRO_IESS]);
-            yield database_1.default.query('UPDATE movimiento_empleado m inner join (SELECT id_movimiento_empleado, SUM(SUELDO_NETO) as monto FROM EMPLEADO) as e on e.id_movimiento_empleado=m.id_movimiento_empleado set m.valor_movimiento_empleado=e.monto where m.id_cuenta=?', [stringPagoNomina[0].ID_CUENTA]);
-
+            montoMov = yield database_1.default.query('SELECT id_movimiento_empleado, SUM(SUELDO_NETO) as monto FROM EMPLEADO')
+            stringMontoMov = JSON.parse(JSON.stringify(montoMov))
+            yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_cuenta=?', [stringMontoMov[0].monto,stringPagoNomina[0].ID_CUENTA]);
             //actualizar la cuenta de beneficios 
-            yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto FROM movimiento_empleado where descripcion_movimiento_enpleado=? || descripcion_movimiento_enpleado=?) montoBeneficio ON c.id_cuenta = montoBeneficio.id_cuenta SET c.valor_cuenta = montoBeneficio.monto where c.ID_CUENTA=?',[stringParametrosIess[0].NOMBRE_PARAMETRO,stringParametrosIess[1].NOMBRE_PARAMETRO,stringBeneficiosSociales[0].ID_CUENTA]);
+            yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) as monto FROM movimiento_empleado where descripcion_movimiento_enpleado=? || descripcion_movimiento_enpleado=?) montoBeneficio ON c.id_cuenta = montoBeneficio.id_cuenta SET c.valor_cuenta = montoBeneficio.monto where c.ID_CUENTA=?',[stringParametrosIess[0].NOMBRE_PARAMETRO,stringParametrosIess[1].NOMBRE_PARAMETRO,stringBeneficiosSociales[0].ID_CUENTA]);
             //actualizar la cuenta de pagos de nómina
-            yield database_1.default.query('UPDATE cuenta c INNER JOIN movimiento_empleado m on c.id_cuenta = m.id_cuenta SET c.valor_cuenta = m.valor_movimiento_empleado where c.ID_CUENTA=?',[stringPagoNomina[0].ID_CUENTA]);
+            yield database_1.default.query('UPDATE cuenta c INNER JOIN movimiento_empleado m on c.id_cuenta = m.id_cuenta SET c.valor_cuenta = m.valor_movimiento_empleado where m.ID_CUENTA=?',[stringPagoNomina[0].ID_CUENTA]);
 
             res.json({ message: 'movimiento_empleado was updated' });
         });
@@ -110,29 +110,6 @@ class Movimiento_empleadoController {
             res.json({ message: 'movimiento_empleado was deleted' });
         });
     }
-    updateMovimientos(req, res){
-        return __awaiter(this, void 0, void 0, function* () {
-            const parametros = yield database_1.default.query('SELECT * FROM PARAMETRO_IESS')
-            const stringParametros = JSON.parse(JSON.stringify(parametros))
-            //actualizar la cuenta de beneficios 
-            yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto FROM movimiento_empleado where id_parametro_iess=1 || id_parametro_iess=2) montoBeneficio ON c.id_cuenta = montoBeneficio.id_cuenta SET c.valor_cuenta = montoBeneficio.monto where c.ID_CUENTA=?',[stringBeneficiosSociales[0].ID_CUENTA]);
-            //actualizar la cuenta de pagos de nómina
-            yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto FROM movimiento_empleado where id_cuenta=?) montoNomina ON c.id_cuenta = montoNomina.id_cuenta SET c.valor_cuenta = montoNomina.monto where c.ID_CUENTA=?',[stringPagoNomina[0].ID_CUENTA,stringPagoNomina[0].ID_CUENTA]);
-
-            res.json({ message: 'movimiento_empleado IESS was updated' });
-        });
-    }
-    updateIess(req, res){
-        return __awaiter(this, void 0, void 0, function* () {
-            const {valor_movimiento_empleado} = req.body;
-            yield database_1.default.query('UPDATE EMPLEADO SET SUELDO_NETO=SUELDO-(SUELDO*(?/100))',[valor_movimiento_empleado])
-            
-            yield database_1.default.query('UPDATE movimiento_empleado set valor_movimiento_empleado=? WHERE descripcion_movimiento_enpleado ="IESS"', [valor_movimiento_empleado]);
-            yield database_1.default.query('UPDATE EMPLEADO INNER JOIN CUENTA ON EMPLEADO.ID_CUENTA=CUENTA.ID_CUENTA set CUENTA.valor_cuenta=EMPLEADO.SUELDO_NETO WHERE CUENTA.ID_CUENTA=EMPLEADO.ID_CUENTA');
-            yield database_1.default.query('UPDATE MOVIMIENTO_EMPLEADO AS M INNER JOIN CUENTA AS C ON M.ID_CUENTA=C.ID_CUENTA INNER JOIN EMPLEADO E ON M.ID_EMPLEADO=E.ID_EMPLEADO set C.valor_cuenta=(E.SUELDO-E.SUELDO_NETO) WHERE C.ID_CUENTA=M.ID_CUENTA');
-
-            res.json({ message: 'movimiento_empleado IESS was updated' });
-        });
-    }
+    
 }
 exports.movimiento_empleadoController = new Movimiento_empleadoController();
