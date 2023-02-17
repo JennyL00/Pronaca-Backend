@@ -220,6 +220,7 @@ create table ITEM
    PESO_ITEM            float,
    CONSERVACION_ITEM    varchar(100),
    DETALLE_ITEM         text,
+   ID_PEDIDO_PROVEEDOR  int, 
    ID_PASO_RECETA		int,
    primary key (ID_ITEM)
 );
@@ -246,17 +247,6 @@ create table ESTADO_PRODUCCION
    DETALLE_ESTADO_PRODU text,
    primary key (ID_ESTADO_PRODUCCION)
 );
-
-/*==============================================================*/
-/* Table: TIPO_LISTA_PRODUC                                     */
-/*==============================================================*/
-/*create table TIPO_LISTA_PRODUC
-(
-   ID_TIPO_LISTA_PRODUC int not null AUTO_INCREMENT,
-   TIPO_LISTA_ITEMS		varchar(100),
-   DETALLE_TIPO_LISTA 	text,
-   primary key (ID_TIPO_LISTA_PRODUC)
-);*/
 
 /*==============================================================*/
 /* Table: LISTA_ITEMS                                           */
@@ -338,6 +328,19 @@ create table MOVIMIENTO_EMPLEADO
 );
 
 /*==============================================================*/
+/* Table: PEDIDO_PROVEEDOR                                    */
+/*==============================================================*/
+create table PEDIDO_PROVEEDOR
+(
+   ID_PEDIDO_PROVEEDOR int not null AUTO_INCREMENT,
+   ID_CUENTA int,
+   ID_PROVEEDOR int,
+   FECHA_PEDIDO_PROVEEDOR		date,
+   DETALLE_PEDIDO_PROVEEDOR 	text,
+   primary key (ID_PEDIDO_PROVEEDOR)
+);
+
+/*==============================================================*/
 /* Table: PROVEEDOR                                             */
 /*==============================================================*/
 create table PROVEEDOR
@@ -403,8 +406,11 @@ alter table ITEM add constraint FK_RELATIONSHIP_8 foreign key (ID_LISTA_ITEMS)
 alter table ITEM add constraint FK_RELATIONSHIP_9 foreign key (ID_TIPO_ITEM)
       references TIPO_ITEM (ID_TIPO_ITEM);
 	  
-/*alter table PROVEEDOR add constraint FK_RELATIONSHIP_10 foreign key (ID_PEDIDO_MATERIAP)
-      references PEDIDO_MATERIA_PRIMA (ID_PEDIDO_MATERIAP);*/
+alter table PEDIDO_PROVEEDOR add constraint FK_RELATIONSHIP_10 foreign key (ID_PROVEEDOR)
+      references PROVEEDOR (ID_PROVEEDOR);
+
+alter table PEDIDO_PROVEEDOR add constraint FK_RELATIONSHIP_14 foreign key (ID_CUENTA)
+      references CUENTA (ID_CUENTA);
 
 alter table PASO_RECETA add constraint FK_RELATIONSHIP_11 foreign key (ID_RECETA_PRODUCCION)
       references RECETA_PRODUCCION (ID_RECETA_PRODUCCION);
@@ -414,9 +420,6 @@ alter table ITEM add constraint FK_RELATIONSHIP_12 foreign key (ID_PASO_RECETA)
 
 alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_13 foreign key (ID_EMPLEADO)
       references EMPLEADO (ID_EMPLEADO);
-
-/*alter table LISTA_ITEMS add constraint FK_RELATIONSHIP_14 foreign key (ID_TIPO_LISTA_PRODUC)
-      references TIPO_LISTA_PRODUC (ID_TIPO_LISTA_PRODUC);*/
 	  
 alter table EMPLEADO add constraint FK_RELATIONSHIP_15 foreign key (ID_CARGO_EMPLEADO)
       references CARGO_EMPLEADO (ID_CARGO_EMPLEADO);
