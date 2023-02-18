@@ -16,7 +16,13 @@ const lista_itemsRoutes = require("./routes/lista_itemsRoutes");
 const itemventaRoutes = require("./routes/itemventaRouter")
 const clienteRoutes = require("./routes/clientesRoutes");
 const pedidoRoutes = require("./routes/pedidosRoutes");
+
 const preventaRoutes = require("./routes/preventasRoutes");
+const ubicacionesRoutes = require("./routes/ubicacionesRoutes");
+const receta_produccionRoutes = require("./routes/receta_produccionRoutes");
+const pasos_recetaRoutes = require("./routes/pasos_recetaRoutes")
+
+
 const parametro_iessRoutes = require("./routes/parametro_iessRoutes");
 const bancoRoutes = require("./routes/bancoRoutes")
 const balanceRoutes=require("./routes/balanceRoutes");
@@ -75,13 +81,18 @@ app.use('/api/lista_items', lista_itemsRoutes.default);
 app.use('/api/itemventa', itemventaRoutes.default);
 app.use('/api/cliente',clienteRoutes.default);
 app.use('/api/pedido',pedidoRoutes.default);
+
 app.use('/api/preventa',preventaRoutes.default);
+app.use('/api/ubicacion',ubicacionesRoutes.default);
 app.use('/api/parametro_iess',parametro_iessRoutes.default);
 app.use('/api/banco',bancoRoutes.default);
 //
 app.use('/api/balance',balanceRoutes.default);
 app.use('/api/estado',estadoRoutes.default);
 app.use('/api/detalle_asiento',detalle_asientoRoutes.default);
+
+app.use('/api/receta',receta_produccionRoutes.default);
+app.use('/api/pasos_receta',pasos_recetaRoutes.default);
 
 
 //public

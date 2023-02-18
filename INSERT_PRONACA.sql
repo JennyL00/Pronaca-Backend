@@ -26,14 +26,6 @@ VALUES ('Finalizado','El producto esta listo para la venta al cliente');
 INSERT INTO `estado_produccion`(`ESTADO_PRODUCCION`, `DETALLE_ESTADO_PRODU`) 
 VALUES ('Sin Stock','Este producto se encuentra agotado');
 
-/*Tipo Item*/
-INSERT INTO `tipo_item`(`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
-VALUES ('Materia Prima','Material para produccion');
-INSERT INTO `tipo_item`(`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
-VALUES ('Insumos','Insumos para produccion');
-INSERT INTO `tipo_item`(`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
-VALUES ('Producto','Producto para venta');
-
 /*GRUPO_FINANCIERO*/
 /*
 INformes Financieros , Balance y Estado de Resultados
@@ -89,9 +81,25 @@ INSERT INTO `empleado`(`ID_CARGO_EMPLEADO`, `ID_BANCO`, `ID_MOVIMIENTO_EMPLEADO`
 `APELLIDO_EMPLEADO`, `CEDULA_EMPLEADO`, `CORREO`, `HORAS_LABORADAS`, `SUELDO_FIJO`, `SUELDO_HORAS`, `SUELDO`, `SUELDO_NETO`) 
 VALUES(2,1,2,'ELVIS','MONTALUISA','0503408080','montaluisa.e@email.com',40,450,2,450,500);
 
-INSERT INTO `lista_items`(`ID_EMPLEADO`, `ID_CUENTA`, `DETALLE_LISTA`, `FECHA_LISTA`, `ESTADO_LISTA`,
+
+/*Tipo Item*/
+INSERT INTO `tipo_item`(`ID_CUENTA`,`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
+VALUES (7,'Materia Prima','Material para produccion');
+INSERT INTO `tipo_item`(`ID_CUENTA`,`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
+VALUES (8,'Insumos','Insumos para produccion');
+INSERT INTO `tipo_item`(`ID_CUENTA`,`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
+VALUES (9,'Producto','Producto para venta');
+
+
+INSERT INTO `lista_items`(`ID_EMPLEADO`, `DETALLE_LISTA`, `FECHA_LISTA`, `ESTADO_LISTA`,
                           `DETALLE_ESTADO_LISTA`) 
-VALUES (1,20,'PLUMROSE MORTADELA EN','2023-01-20','GENERADA','PROCESO DE PRODUCCION');
+VALUES (1,'PLUMROSE MORTADELA EN','2023-01-20','GENERADA','PROCESO DE PRODUCCION');
+
+INSERT INTO `proveedor` (`NOMBRE_PROVEEDOR`, `TIPO_PROVEEDOR`, `RUC`) 
+VALUES ('PROVEEDOR DE CARNE ', 'CARNICO', '1234567890001');
+
+INSERT INTO `pedido_proveedor` (`ID_PEDIDO_PROVEEDOR`, `ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`) 
+VALUES (NULL, '17', '1', '2023-01-18', 'PEDIDO CARNE PARA EMBUTIDOS PLUMROSE');
 
 INSERT INTO `receta_produccion`(`NOMBRE_RECETA`, `DETALLE_PEDIDO_PRODUCCION`) 
 VALUES ('MORTADELA PLUMROSE','MORTADELA LINEA DIARIA FAMILIAR - PESO:170G');
@@ -139,10 +147,10 @@ tipo_item.TIPO_ITEM='Producto' AND estado_produccion.ESTADO_PRODUCCION='Finaliza
 
 CREATE PROCEDURE LIST_ITEM_ALL()
 SELECT lista_items.ID_LISTA_ITEMS, lista_items.ID_EMPLEADO,empleado.NOMBRE_EMPLEADO,empleado.APELLIDO_EMPLEADO,
-lista_items.ID_CUENTA,cuenta.DESCRIPCION_CUENTA,lista_items.DETALLE_LISTA, lista_items.FECHA_LISTA, lista_items.ESTADO_LISTA, 
+lista_items.DETALLE_LISTA, lista_items.FECHA_LISTA, lista_items.ESTADO_LISTA, 
 lista_items.DETALLE_ESTADO_LISTA, lista_items.BODEGA
-FROM lista_items, empleado,cuenta 
-WHERE lista_items.ID_EMPLEADO=empleado.ID_EMPLEADO and lista_items.ID_CUENTA=cuenta.ID_CUENTA; 
+FROM lista_items, empleado
+WHERE lista_items.ID_EMPLEADO=empleado.ID_EMPLEADO; 
 
 CREATE PROCEDURE ITEMS_ALL()
 SELECT item.ID_ITEM, item.ID_LISTA_ITEMS, .item.ID_ESTADO_PRODUCION,estado_produccion.ESTADO_PRODUCCION, item.ID_TIPO_ITEM,
