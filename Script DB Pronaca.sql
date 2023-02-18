@@ -259,7 +259,7 @@ create table LISTA_ITEMS
    FECHA_LISTA          date,
    ESTADO_LISTA         varchar(100),
    DETALLE_ESTADO_LISTA text,
-   BODEGA			varchar(100),
+   ID_RECETAP		int,
    primary key (ID_LISTA_ITEMS)
 );
 
