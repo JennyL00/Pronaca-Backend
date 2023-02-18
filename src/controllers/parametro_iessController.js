@@ -34,7 +34,12 @@ class Parametro_IessController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO parametro_iess set?', [req.body]);
+            const {nombre_parametro, valor, DESCRIPCION_CUENTA} = req.body
+            const newParametro={
+                nombre_parametro,
+                valor
+            }
+            yield database_1.default.query('INSERT INTO parametro_iess set?', [newParametro]);
  
             res.json({ message: 'Parámetro saved' });
         });
@@ -42,7 +47,9 @@ class Parametro_IessController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE parametro_iess set ? WHERE id_parametro_iess = ?', [req.body, id]);
+            const {nombre_parametro, valor, DESCRIPCION_CUENTA} = req.body
+            
+            yield database_1.default.query('UPDATE parametro_iess set nombre_parametro=?, valor=? WHERE id_parametro_iess = ?', [nombre_parametro,valor, id]);
             res.json({ message: 'Parámetro was updated' });
         });
     }
