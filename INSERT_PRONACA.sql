@@ -92,8 +92,8 @@ VALUES (9,'Producto','Producto para venta');
 
 
 INSERT INTO `lista_items`(`ID_EMPLEADO`, `DETALLE_LISTA`, `FECHA_LISTA`, `ESTADO_LISTA`,
-                          `DETALLE_ESTADO_LISTA`) 
-VALUES (1,'PLUMROSE MORTADELA EN','2023-01-20','GENERADA','PROCESO DE PRODUCCION');
+                          `DETALLE_ESTADO_LISTA`,`ID_RECETAP`) 
+VALUES (1,'PLUMROSE MORTADELA EN','2023-01-20','GENERADA','PROCESO DE PRODUCCION',1);
 
 INSERT INTO `proveedor` (`NOMBRE_PROVEEDOR`, `TIPO_PROVEEDOR`, `RUC`) 
 VALUES ('PROVEEDOR DE CARNE ', 'CARNICO', '1234567890001');
@@ -148,7 +148,7 @@ tipo_item.TIPO_ITEM='Producto' AND estado_produccion.ESTADO_PRODUCCION='Finaliza
 CREATE PROCEDURE LIST_ITEM_ALL()
 SELECT lista_items.ID_LISTA_ITEMS, lista_items.ID_EMPLEADO,empleado.NOMBRE_EMPLEADO,empleado.APELLIDO_EMPLEADO,
 lista_items.DETALLE_LISTA, lista_items.FECHA_LISTA, lista_items.ESTADO_LISTA, 
-lista_items.DETALLE_ESTADO_LISTA, lista_items.BODEGA
+lista_items.DETALLE_ESTADO_LISTA, lista_items.ID_RECETAP
 FROM lista_items, empleado
 WHERE lista_items.ID_EMPLEADO=empleado.ID_EMPLEADO; 
 
@@ -156,6 +156,6 @@ CREATE PROCEDURE ITEMS_ALL()
 SELECT item.ID_ITEM, item.ID_LISTA_ITEMS, .item.ID_ESTADO_PRODUCION,estado_produccion.ESTADO_PRODUCCION, item.ID_TIPO_ITEM,
 tipo_item.TIPO_ITEM,item.CODIGO_ITEM, item.NOMBRE_ITEM, item.FECHA_FABRI_ITEM, item.FECHA1_CADU_ITEM, item.FECHA2_CADU_ITEM,
 item.LOTE_ITEM, item.CANTIDAD_LOTE_ITEM, item.PRECIO_ITEM, item.PESO_ITEM, item.CONSERVACION_ITEM, item.DETALLE_ITEM, 
-item.ID_RECETAP FROM item, estado_produccion, tipo_item 
+item.ID_PASO_RECETA FROM item, estado_produccion, tipo_item 
 WHERE item.ID_ESTADO_PRODUCION=estado_produccion.ID_ESTADO_PRODUCCION and item.ID_TIPO_ITEM=tipo_item.ID_TIPO_ITEM;
 
