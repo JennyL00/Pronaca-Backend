@@ -32,6 +32,16 @@ class Detalle_asientoController {
             res.status(404).json({ text: "Detalle Asiento doesn't exists" });
         });
     }
+    getDetalleAsiento(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
+            const stringiAsiento = JSON.parse(JSON.stringify(asiento))
+            const detalle_asiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?', [stringiAsiento[0].ID_ASIENTO]);
+            console.log(detalle_asiento)
+            res.json(detalle_asiento);
+            //res.status(404).json({ text: "Detalle Asiento doesn't exists" });
+        });
+    }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const {cuenta,haber, debe}=req.body

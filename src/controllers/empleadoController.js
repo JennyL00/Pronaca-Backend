@@ -37,7 +37,7 @@ class EmpleadoController {
         return __awaiter(this, void 0, void 0, function* () {
             const{nombre_empleado, apellido_empleado,cedula_empleado,correo, horas_laboradas,sueldo_fijo,sueldo_horas,nombre_departamento,descripcion_cargo} = req.body;
             //obtener el movimiento de pago de nómina
-            const movimientoNomina = yield database_1.default.query('SELECT * FROM MOVIMIENTO_EMPLEADO WHERE DESCRIPCION_MOVIMIENTO_ENPLEADO="Pago de nómina"');
+            const movimientoNomina = yield database_1.default.query('SELECT * FROM MOVIMIENTO_EMPLEADO WHERE DESCRIPCION_MOVIMIENTO_ENPLEADO="Nómina por pagar"');
             const stringMovimientoNomina = JSON.parse(JSON.stringify(movimientoNomina))
             
             //obtener los parámetros del iess
@@ -103,18 +103,6 @@ class EmpleadoController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             yield database_1.default.query('DELETE FROM EMPLEADO WHERE ID_EMPLEADO = ?', [id]);
-            //cuenta de beneficios sociales
-            const beneficiosSociales = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Beneficios sociales"')
-            const stringBeneficiosSociales = JSON.parse(JSON.stringify(beneficiosSociales))
-            //cuenta de nomina
-            const pagoNomina = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Pago de nómina"')
-            const stringPagoNomina = JSON.parse(JSON.stringify(pagoNomina))
-            
-            //actualizar la cuenta de beneficios 
-            //yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto on monto.id_cuenta=c.id_cuenta FROM movimiento_empleado where id_parametro_iess=1 || id_parametro_iess=2) montoBeneficio ON c.id_cuenta = montoBeneficio.id_cuenta SET c.valor_cuenta = montoBeneficio.monto where c.ID_CUENTA=?',[stringBeneficiosSociales[0].ID_CUENTA]);
-            //actualizar la cuenta de pagos de nómina
-            //yield database_1.default.query('UPDATE cuenta c INNER JOIN (SELECT id_cuenta, SUM(valor_movimiento_empleado) monto on monto.id_cuenta=c.id_cuenta FROM movimiento_empleado where id_cuenta=?) montoNomina ON c.id_cuenta = montoNomina.id_cuenta SET c.valor_cuenta = montoNomina.monto where c.ID_CUENTA=?',[stringPagoNomina[0].ID_CUENTA,stringPagoNomina[0].ID_CUENTA]);
-
             res.json({ message: 'Empleado was deleted' });
         });
     }
