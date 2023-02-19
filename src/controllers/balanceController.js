@@ -32,9 +32,10 @@ class balanceController {
 
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-        const { id_informe, date_informe, date_init, date_end, activos, pasivos, patrimonio } = req.body;
+        const {  date_init, date_end, activos, pasivos, patrimonio } = req.body;
         
-        
+        const id_informe = Math.floor(Math.random() * 1000000);
+        const date_informe = new Date().toISOString().substring(0, 10);
         // Create a financial report
         
         const newInformeFinanciero = {
@@ -42,7 +43,7 @@ class balanceController {
           fecha: date_informe,
           activos,
           pasivos,
-          patrimonio
+          patrimonio:4738168900
         };
         
         yield database_1.default.query(`INSERT INTO INFORME_FINANCIERO (ID_INFORME_FINANCIERO, TIPO_INFORME, FECHA) VALUES (${id_informe}, 'Balance', '${date_informe}')`);
