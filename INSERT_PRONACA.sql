@@ -148,7 +148,7 @@ tipo_item.TIPO_ITEM='Producto' AND estado_produccion.ESTADO_PRODUCCION='Finaliza
 CREATE PROCEDURE LIST_ITEM_ALL()
 SELECT lista_items.ID_LISTA_ITEMS, lista_items.ID_EMPLEADO,empleado.NOMBRE_EMPLEADO,empleado.APELLIDO_EMPLEADO,
 lista_items.DETALLE_LISTA, lista_items.FECHA_LISTA, lista_items.ESTADO_LISTA, 
-lista_items.DETALLE_ESTADO_LISTA, lista_items.BODEGA
+lista_items.DETALLE_ESTADO_LISTA, lista_items.ID_RECETAP
 FROM lista_items, empleado
 WHERE lista_items.ID_EMPLEADO=empleado.ID_EMPLEADO; 
 
