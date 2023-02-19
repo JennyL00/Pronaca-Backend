@@ -156,6 +156,6 @@ CREATE PROCEDURE ITEMS_ALL()
 SELECT item.ID_ITEM, item.ID_LISTA_ITEMS, .item.ID_ESTADO_PRODUCION,estado_produccion.ESTADO_PRODUCCION, item.ID_TIPO_ITEM,
 tipo_item.TIPO_ITEM,item.CODIGO_ITEM, item.NOMBRE_ITEM, item.FECHA_FABRI_ITEM, item.FECHA1_CADU_ITEM, item.FECHA2_CADU_ITEM,
 item.LOTE_ITEM, item.CANTIDAD_LOTE_ITEM, item.PRECIO_ITEM, item.PESO_ITEM, item.CONSERVACION_ITEM, item.DETALLE_ITEM, 
-item.ID_RECETAP FROM item, estado_produccion, tipo_item 
+item.ID_PASO_RECETA FROM item, estado_produccion, tipo_item 
 WHERE item.ID_ESTADO_PRODUCION=estado_produccion.ID_ESTADO_PRODUCCION and item.ID_TIPO_ITEM=tipo_item.ID_TIPO_ITEM;
 
