@@ -56,6 +56,7 @@ class Parametro_IessController {
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            yield database_1.default.query('DELETE FROM movimiento_empleado WHERE id_parametro_iess = ?', [id]);
             yield database_1.default.query('DELETE FROM parametro_iess WHERE id_parametro_iess = ?', [id]);
             res.json({ message: 'Parámetro was deleted' });
         });

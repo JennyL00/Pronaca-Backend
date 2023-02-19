@@ -10,6 +10,7 @@ class Detalle_asientoRoutes {
     config() {
         this.router.get('/', detalle_asientoController_1.detalle_asientoController.list);
         this.router.get('/:id', detalle_asientoController_1.detalle_asientoController.getOne);
+        this.router.get('/detalle/:id', detalle_asientoController_1.detalle_asientoController.getDetalleAsiento);
         this.router.post('/', detalle_asientoController_1.detalle_asientoController.create);
         this.router.put('/:id', detalle_asientoController_1.detalle_asientoController.update);
         this.router.delete('/:id', detalle_asientoController_1.detalle_asientoController.delete);

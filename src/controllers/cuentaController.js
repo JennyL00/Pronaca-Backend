@@ -19,6 +19,8 @@ class CuentaController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const cuenta = yield database_1.default.query('SELECT * FROM cuenta');
+            const c = yield database_1.default.query('SELECT distinct c2.descripcion_cuenta AS DESCRIPCION_CUENTA, c2.codigo_cuenta AS CODIGO_CUENTA, c2.id_cuenta AS ID_CUENTA FROM Cuenta as c1 LEFT JOIN Cuenta AS c2 ON (c2.cue_id_cuenta = c1.id_cuenta OR c1.id_cuenta = c2.id_cuenta ) ORDER BY c1.cue_id_cuenta ASC, c1.id_cuenta ASC, c2.id_cuenta ASC, c2.cue_id_cuenta ASC')
+           
             res.json(cuenta);
         });
     }
@@ -34,15 +36,8 @@ class CuentaController {
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const {descripcion_cuenta, codigo_cuenta, informe_financiero, cue_id_cuenta} = req.body;
-            const newCuenta = {
-                cue_id_cuenta,
-                descripcion_cuenta, 
-                codigo_cuenta, 
-                informe_financiero
-            }
             yield database_1.default.query('INSERT INTO CUENTA SET ?', [req.body]);
-            res.json({ message: 'Cuenta saved' });
+                        res.json({ message: 'Cuenta saved' });
         });
     }
     
@@ -58,21 +53,6 @@ class CuentaController {
             const { id } = req.params;
             yield database_1.default.query('DELETE FROM cuenta WHERE id_cuenta = ?', [id]);
             res.json({ message: 'Cuenta was deleted' });
-        });
-    }
-    //calcular  el total de las cuentas pasivos
-    cuentasPasivo(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            
-            //Balance General
-            //cálculo de cuentas por pagar
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=7) WHERE ID_CUENTA=7')
-            //cálculo de Pasivos corrientes
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=6) WHERE ID_CUENTA=6')
-            //cálculo de pasivos
-            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = (SELECT SUM(VALOR_CUENTA) AS MONTO_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA=5) WHERE ID_CUENTA=5')
-
-            res.json({ message: 'cuentas actualizadas' });
         });
     }
 
