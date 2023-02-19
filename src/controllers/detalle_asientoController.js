@@ -37,9 +37,8 @@ class Detalle_asientoController {
             const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
             const stringiAsiento = JSON.parse(JSON.stringify(asiento))
             const detalle_asiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?', [stringiAsiento[0].ID_ASIENTO]);
-            console.log(detalle_asiento)
+            
             res.json(detalle_asiento);
-            //res.status(404).json({ text: "Detalle Asiento doesn't exists" });
         });
     }
     create(req, res) {
@@ -77,6 +76,23 @@ class Detalle_asientoController {
             const { id } = req.params;
             yield database_1.default.query('DELETE FROM detalle_asiento WHERE id_detalle_asiento = ?', [id]);
             res.json({ message: 'detalle_asiento was deleted' });
+        });
+    }
+
+    //suma verificar detalle asiento para coincidir
+    totalDetalleAsiento(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
+            const stringAsiento = JSON.parse(JSON.stringify(asiento))
+            //SUMA Debe
+            const debe = yield database_1.default.query('SELECT SUM(DEBE) AS MONTODEBE FROM detalle_asiento WHERE id_asiento = ?', [stringAsiento[0].ID_ASIENTO]);
+            const stringDebe = JSON.parse(JSON.stringify(debe))
+            //SUMA Haber
+            const haber = yield database_1.default.query('SELECT SUM(HABER) AS MONTOHABER FROM detalle_asiento WHERE id_asiento = ?', [stringAsiento[0].ID_ASIENTO]);
+            const stringHaber = JSON.parse(JSON.stringify(haber))
+
+            
+            res.json(detalle_asiento);
         });
     }
 }

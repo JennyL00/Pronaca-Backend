@@ -32,6 +32,15 @@ class AsientoController {
             res.status(404).json({ text: "Asiento doesn't exists" });
         });
     }
+    getOneAsiento(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
+            if (asiento.length > 0) {
+                return res.json(asiento);
+            }
+            res.status(404).json({ text: "Asiento doesn't exists" });
+        });
+    }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const {FECHA_ASIENTO,descripcion_asiento}=req.body
