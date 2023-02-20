@@ -19,7 +19,8 @@ class ItemVentaController {
     list_productos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const list_productos = yield database_1.default.query('CALL LIST_PRODUCTOS()');
-            res.json(list_productos);
+            res.json(list_productos[0]);
+            console.log(list_productos[0])
         });
     }/*
     getOne(req, res) {
