@@ -4,6 +4,10 @@ VALUES ('Materia Prima','Material utilizado para la produccion de un producto');
 INSERT INTO `tipo_lista_produc`(`TIPO_LISTA_ITEMS`, `DETALLE_TIPO_LISTA`) 
 VALUES ('Productos Produccion','Productos que son realizados en la empresa');*/
 
+/* ubicaciones */
+INSERT INTO `ubicacion` (`ID_UBICACION`, `ZONA_UBICACION`, `SECTOR_UBICACION`) VALUES (NULL, 'Norte', 'La delicia, el condado');
+INSERT INTO `ubicacion` (`ID_UBICACION`, `ZONA_UBICACION`, `SECTOR_UBICACION`) VALUES (NULL, 'Eloy Alfaro', 'San Bartolo');
+
 /*Estado Produccion*/
 INSERT INTO `estado_produccion`(`ESTADO_PRODUCCION`, `DETALLE_ESTADO_PRODU`) 
 VALUES ('Prepoduccion','El produccto aun no se encuentra en proceso de produccion');
