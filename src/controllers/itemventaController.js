@@ -20,7 +20,7 @@ class ItemVentaController {
         return __awaiter(this, void 0, void 0, function* () {
             const list_productos = yield database_1.default.query('CALL LIST_PRODUCTOS()');
             res.json(list_productos[0]);
-            console.log(list_productos[0])
+            //console.log(list_productos[0])
         });
     }/*
     getOne(req, res) {
@@ -54,4 +54,4 @@ class ItemVentaController {
         });
     }*/
 }
-exports.itemventaController = new ItemVentaController();
+exports.itemventasController = new ItemVentaController();

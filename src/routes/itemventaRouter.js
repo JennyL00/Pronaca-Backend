@@ -8,7 +8,7 @@ class ItemVentaRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', itemventaController_1.itemventaController.list_productos);
+        this.router.get('/', itemventaController_1.itemventasController.list_productos);
     }
 }
 const itemventaRouter = new ItemVentaRoutes();
