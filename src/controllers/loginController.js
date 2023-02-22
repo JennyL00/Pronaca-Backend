@@ -16,14 +16,16 @@ exports.loginController = void 0;
 const database_1 = __importDefault(require("../database"));
 
 class LoginController {
-    getOne(req, res) {
+    get(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { nombre } = req.params;
-            const empleado = yield database_1.default.query('SELECT empleado.nombre_empleado FROM empleado WHERE nombre_empleado = ?', [nombre]);
+            const { nombre, cedula } = req.body;
+            const empleado = yield database_1.default.query('SELECT empleado.nombre_empleado FROM empleado WHERE nombre_empleado = ? and cedula_empleado = ?', [nombre, cedula]);
             if (empleado.length > 0) {
-                return res.json(empleado[0]);
+                return res.json({text: "Empleado existe"});
+            } else {
+                return res.json({ text: "Empleado no existe" });
             }
-            res.status(404).json({ text: "Empleado doesn't exists" });
+            
         });
     }
 

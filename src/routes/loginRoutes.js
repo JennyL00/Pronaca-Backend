@@ -8,7 +8,7 @@ class LoginRoutes {
         this.config();
     }
     config() {
-        this.router.get('/:nombre', loginController_1.loginController.getOne);
+        this.router.post('/', loginController_1.loginController.get);
     }
 }
 const loginRouter = new LoginRoutes();
