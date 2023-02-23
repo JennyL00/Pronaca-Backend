@@ -25,11 +25,12 @@ class Receta_ProduccionController {
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const receta = yield database_1.default.query('SELECT * FROM receta_produccion WHERE id_receta_produccion = ?', [id]);
-            if (receta.length > 0) {
+            const pasos_receta = yield database_1.default.query('SELECT * FROM paso_receta WHERE id_receta_produccion = ?', [id]);
+            /*if (receta.length > 0) {
                 return res.json(receta[0]);
             }
-            res.status(404).json({ text: "Receta de Produccion doesn't exists" });
+            res.status(404).json({ text: "Receta de Produccion doesn't exists" });*/
+            res.json(pasos_receta);
         });
     }
     create(req, res) {
