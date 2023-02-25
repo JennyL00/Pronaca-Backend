@@ -39,7 +39,7 @@ class Detalle_PedidoController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(req.body);
-            yield database_1.default.query('INSERT INTO detalle_pedido INSERT INTO detalle_pedido(ID_PEDIDO, ID_ITEM, CANTIDAD_PEDIDO, PRECIO_DETALLE_PEDIDO) VALUES', [req.body.map( obj => [obj.ID_PEDIDO, obj.ID_ITEM, obj.CANTIDAD_PEDIDO, obj.PRECIO_DETALLE_PEDIDO])]);
+            yield database_1.default.query('INSERT INTO detalle_pedido (ID_PEDIDO, ID_ITEM, CANTIDAD_PEDIDO, PRECIO_DETALLE_PEDIDO) VALUES ?', [req.body.map( obj => [obj.id_pedido, obj.id_item, obj.cantidad_pedido, obj.precio_detalle_pedido])]);
             
             res.json({ message: 'Detalle Pedido saved' });
         });
