@@ -95,13 +95,29 @@ class Movimiento_empleadoController {
             yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_cuenta=?', [stringMontoMov[0].montoPersonal , stringCuentaPersonal[0].ID_CUENTA]);
             yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_cuenta=?', [stringMontoMov[0].montoPatronal , stringAportePatronal[0].ID_CUENTA]);
             //monto para cuenta personal y patronal
-            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [stringMontoMov[0].montoPersonal , stringCuentaPersonal[0].ID_CUENTA]);
-            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [stringMontoMov[0].montoPatronal , stringAportePatronal[0].ID_CUENTA]);
+            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [-stringMontoMov[0].montoPersonal , stringCuentaPersonal[0].ID_CUENTA]);
+            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [-stringMontoMov[0].montoPatronal , stringAportePatronal[0].ID_CUENTA]);
             //sueldo_neto
             montoMov = yield database_1.default.query('SELECT SUM(SUELDO_NETO) as monto FROM EMPLEADO')
             stringMontoMov = JSON.parse(JSON.stringify(montoMov))
             yield database_1.default.query('UPDATE movimiento_empleado m set m.valor_movimiento_empleado=? where m.id_cuenta=?', [stringMontoMov[0].monto,stringPagoNomina[0].ID_CUENTA]);
-            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [stringMontoMov[0].monto, stringPagoNomina[0].ID_CUENTA]);
+            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [-stringMontoMov[0].monto, stringPagoNomina[0].ID_CUENTA]);
+            //cuenta gasto administrativo
+            let montoDepartamento = yield database_1.default.query('SELECT SUM(SUELDO_NETO) as monto, D.ID_CUENTA AS ID FROM EMPLEADO E INNER JOIN CARGO_EMPLEADO C ON E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO INNER JOIN DEPARTAMENTO D ON D.ID_DEPARTAMENTO=C.ID_DEPARTAMENTO where D.NOMBRE_DEPARTAMENTO="Administrativo"')
+            let stringMontoDepartamento = JSON.parse(JSON.stringify(montoDepartamento))
+            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [stringMontoDepartamento[0].monto, stringMontoDepartamento[0].ID]);
+            //cuenta costos producción
+            montoDepartamento = yield database_1.default.query('SELECT SUM(SUELDO_NETO) as monto, D.ID_CUENTA AS ID FROM EMPLEADO E INNER JOIN CARGO_EMPLEADO C ON E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO INNER JOIN DEPARTAMENTO D ON D.ID_DEPARTAMENTO=C.ID_DEPARTAMENTO where D.NOMBRE_DEPARTAMENTO="Produccion"')
+            stringMontoDepartamento = JSON.parse(JSON.stringify(montoDepartamento))
+            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [stringMontoDepartamento[0].monto, stringMontoDepartamento[0].ID]);
+            //cuenta costos comercial
+            montoDepartamento = yield database_1.default.query('SELECT SUM(SUELDO_NETO) as monto, D.ID_CUENTA AS ID FROM EMPLEADO E INNER JOIN CARGO_EMPLEADO C ON E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO INNER JOIN DEPARTAMENTO D ON D.ID_DEPARTAMENTO=C.ID_DEPARTAMENTO where D.NOMBRE_DEPARTAMENTO="Comercial"')
+            stringMontoDepartamento = JSON.parse(JSON.stringify(montoDepartamento))
+            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [stringMontoDepartamento[0].monto, stringMontoDepartamento[0].ID]);
+            //cuenta gastos financiero
+            montoDepartamento = yield database_1.default.query('SELECT SUM(SUELDO_NETO) as monto, D.ID_CUENTA AS ID FROM EMPLEADO E INNER JOIN CARGO_EMPLEADO C ON E.ID_CARGO_EMPLEADO=C.ID_CARGO_EMPLEADO INNER JOIN DEPARTAMENTO D ON D.ID_DEPARTAMENTO=C.ID_DEPARTAMENTO where D.NOMBRE_DEPARTAMENTO="Financiero"')
+            stringMontoDepartamento = JSON.parse(JSON.stringify(montoDepartamento))
+            yield database_1.default.query('UPDATE cuenta c set c.valor_cuenta=? where c.id_cuenta=?', [stringMontoDepartamento[0].monto, stringMontoDepartamento[0].ID]);
             
             res.json({ message: 'movimiento_empleado was updated' });
         });
