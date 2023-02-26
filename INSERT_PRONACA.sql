@@ -30,16 +30,11 @@ VALUES ('Sin Stock','Este producto se encuentra agotado');
 /*
 INformes Financieros , Balance y Estado de Resultados
 */
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('1', 'Estado', '2019-05-18');
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('2', 'Estado', '2019-05-18');
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('3', 'Balance', '2019-12-02');
+DELETE FROM informe_financiero;
+DELETE FROM estado_financiero;
+DELETE FROM BALANCE_GENERAL;
 
-INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('1', '2022-12-14', '4560000', '20000', '8000');
 
-INSERT INTO `estado_financiero` (`id_informe_financiero`, `fecha`, `ingresos`, `costos`, `gastos`) VALUES ('2', '2022-12-14', '150000', '30000', '4000');
-
-INSERT INTO BALANCE_GENERAL (ID_INFORME_FINANCIERO, FECHA, ACTIVOS, PASIVOS, PATRIMONIO)
-VALUES (1, '2023-02-11', 100000, 50000, 50000);
 
 INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FINANCIERO,VALOR_CUENTA) VALUES
 (null,"Activos","1.",1,0.0),(1,"Activos corrientes","1.1.",1,0.0),(2,"Bancos","1.1.1.",1,0.0),
