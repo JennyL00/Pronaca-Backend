@@ -34,10 +34,9 @@ class Detalle_asientoController {
     }
     getDetalleAsiento(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
-            const stringiAsiento = JSON.parse(JSON.stringify(asiento))
-            const detalle_asiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?', [stringiAsiento[0].ID_ASIENTO]);
-            
+            const {id} = req.params;
+            const detalle_asiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?', [id]);
+           
             res.json(detalle_asiento);
         });
     }
@@ -78,21 +77,34 @@ class Detalle_asientoController {
             res.json({ message: 'detalle_asiento was deleted' });
         });
     }
-
-    //suma verificar detalle asiento para coincidir
-    totalDetalleAsiento(req, res) {
+    deleteDetalles(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
-            const stringAsiento = JSON.parse(JSON.stringify(asiento))
-            //SUMA Debe
-            const debe = yield database_1.default.query('SELECT SUM(DEBE) AS MONTODEBE FROM detalle_asiento WHERE id_asiento = ?', [stringAsiento[0].ID_ASIENTO]);
-            const stringDebe = JSON.parse(JSON.stringify(debe))
-            //SUMA Haber
-            const haber = yield database_1.default.query('SELECT SUM(HABER) AS MONTOHABER FROM detalle_asiento WHERE id_asiento = ?', [stringAsiento[0].ID_ASIENTO]);
-            const stringHaber = JSON.parse(JSON.stringify(haber))
+            const { id } = req.params;
+            yield database_1.default.query('DELETE FROM detalle_asiento WHERE id_asiento = ?', [id]);
+            res.json({ message: 'detalle_asiento was deleted' });
+        });
+    }
 
+    cerrarCuentas(req, res){
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const detallesAsiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?',[id])
+            const stringDetalleAsiento = JSON.parse(JSON.stringify(detallesAsiento))
             
-            res.json(detalle_asiento);
+            for(var i =0; i<stringDetalleAsiento.length; i++){
+                yield database_1.default.query('UPDATE CUENTA set VALOR_CUENTA=(VALOR_CUENTA+?) WHERE id_cuenta=?', [stringDetalleAsiento[i].DEBE, stringDetalleAsiento[i].ID_CUENTA])
+                yield database_1.default.query('UPDATE CUENTA set VALOR_CUENTA=(VALOR_CUENTA-?) WHERE ID_CUENTA = ?', [stringDetalleAsiento[i].HABER, stringDetalleAsiento[i].ID_CUENTA]);    
+                if(stringDetalleAsiento[i].ID_CUENTA==7){
+                    yield database_1.default.query('UPDATE BANCO set saldo=(saldo+?) WHERE id_cuenta=?', [stringDetalleAsiento[i].DEBE, stringDetalleAsiento[i].ID_CUENTA])
+                    yield database_1.default.query('UPDATE BANCO set saldo=(saldo-?) WHERE id_cuenta=?', [stringDetalleAsiento[i].HABER, stringDetalleAsiento[i].ID_CUENTA])
+                }else{
+                    if(stringDetalleAsiento[i].ID_CUENTA==8){
+                        yield database_1.default.query('UPDATE BANCO set saldo=(saldo+?) WHERE id_cuenta=?', [stringDetalleAsiento[i].DEBE, stringDetalleAsiento[i].ID_CUENTA])
+                        yield database_1.default.query('UPDATE BANCO set saldo=(saldo-?) WHERE id_cuenta=?', [stringDetalleAsiento[i].HABER, stringDetalleAsiento[i].ID_CUENTA])
+                    }
+                }
+            }
+            res.json({ message: 'cuentas por cobrar were update' });
         });
     }
 }
