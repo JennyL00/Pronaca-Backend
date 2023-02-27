@@ -284,6 +284,9 @@ create table PEDIDO
    ID_CUENTA            int,
    FECHA_PEDIDO         date,
    ESTADO_PEDIDO        varchar(100),
+   IVA_PEDIDO           float(8,2),
+   SUBTOTAL_PEDIDO      float(8,2),
+   TOTAL_PEDIDO         float(8,2),
    primary key (ID_PEDIDO)
 );
 
