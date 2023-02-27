@@ -14,6 +14,8 @@ class Detalle_asientoRoutes {
         this.router.post('/', detalle_asientoController_1.detalle_asientoController.create);
         this.router.put('/:id', detalle_asientoController_1.detalle_asientoController.update);
         this.router.delete('/:id', detalle_asientoController_1.detalle_asientoController.delete);
+        this.router.delete('/detalles/:id', detalle_asientoController_1.detalle_asientoController.deleteDetalles);
+        this.router.get('/cerrarCuentas/:id', detalle_asientoController_1.detalle_asientoController.cerrarCuentas);
     }
 }
 const detalle_asientoRouter = new Detalle_asientoRoutes();

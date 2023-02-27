@@ -34,12 +34,10 @@ class Detalle_asientoController {
     }
     getDetalleAsiento(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')
-            const stringiAsiento = JSON.parse(JSON.stringify(asiento))
-            const detalle_asiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?', [stringiAsiento[0].ID_ASIENTO]);
-            console.log(detalle_asiento)
+            const {id} = req.params;
+            const detalle_asiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?', [id]);
+           
             res.json(detalle_asiento);
-            //res.status(404).json({ text: "Detalle Asiento doesn't exists" });
         });
     }
     create(req, res) {
@@ -77,6 +75,36 @@ class Detalle_asientoController {
             const { id } = req.params;
             yield database_1.default.query('DELETE FROM detalle_asiento WHERE id_detalle_asiento = ?', [id]);
             res.json({ message: 'detalle_asiento was deleted' });
+        });
+    }
+    deleteDetalles(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            yield database_1.default.query('DELETE FROM detalle_asiento WHERE id_asiento = ?', [id]);
+            res.json({ message: 'detalle_asiento was deleted' });
+        });
+    }
+
+    cerrarCuentas(req, res){
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const detallesAsiento = yield database_1.default.query('SELECT * FROM detalle_asiento WHERE id_asiento = ?',[id])
+            const stringDetalleAsiento = JSON.parse(JSON.stringify(detallesAsiento))
+            
+            for(var i =0; i<stringDetalleAsiento.length; i++){
+                yield database_1.default.query('UPDATE CUENTA set VALOR_CUENTA=(VALOR_CUENTA+?) WHERE id_cuenta=?', [stringDetalleAsiento[i].DEBE, stringDetalleAsiento[i].ID_CUENTA])
+                yield database_1.default.query('UPDATE CUENTA set VALOR_CUENTA=(VALOR_CUENTA-?) WHERE ID_CUENTA = ?', [stringDetalleAsiento[i].HABER, stringDetalleAsiento[i].ID_CUENTA]);    
+                if(stringDetalleAsiento[i].ID_CUENTA==7){
+                    yield database_1.default.query('UPDATE BANCO set saldo=(saldo+?) WHERE id_cuenta=?', [stringDetalleAsiento[i].DEBE, stringDetalleAsiento[i].ID_CUENTA])
+                    yield database_1.default.query('UPDATE BANCO set saldo=(saldo-?) WHERE id_cuenta=?', [stringDetalleAsiento[i].HABER, stringDetalleAsiento[i].ID_CUENTA])
+                }else{
+                    if(stringDetalleAsiento[i].ID_CUENTA==8){
+                        yield database_1.default.query('UPDATE BANCO set saldo=(saldo+?) WHERE id_cuenta=?', [stringDetalleAsiento[i].DEBE, stringDetalleAsiento[i].ID_CUENTA])
+                        yield database_1.default.query('UPDATE BANCO set saldo=(saldo-?) WHERE id_cuenta=?', [stringDetalleAsiento[i].HABER, stringDetalleAsiento[i].ID_CUENTA])
+                    }
+                }
+            }
+            res.json({ message: 'cuentas por cobrar were update' });
         });
     }
 }
