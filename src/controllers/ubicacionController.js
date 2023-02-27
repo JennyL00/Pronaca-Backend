@@ -33,8 +33,9 @@ class UbicacionController {
         });
     }
     create(req, res) {
+        console.log("REQ.BODY",req.body)
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO ubicacion set?', [req.body]);
+            yield database_1.default.query('INSERT INTO ubicacion (ID_UBICACION, ZONA_UBICACION, SECTOR_UBICACION) VALUES ?', [req.body.map( obj => [obj.ID_UBICACION, obj.ZONA_UBICACION, obj.SECTOR_UBICACION ])]);
             res.json({ message: 'Ubicacion saved' });
         });
     }
