@@ -116,7 +116,7 @@ create table CLIENTE
    EMAIL_CLIENTE varchar (50),
    ESTADO_CLIENTE varchar(20),
    ID_UBICACION int,
-   NUMERO_UBICACION varchar(10),
+   NUMERO_UBICACION varchar(50),
    TELEFONO_CLIENTE varchar(10),
    primary key (ID_CLIENTE)
 );
@@ -382,7 +382,7 @@ alter table DETALLE_PEDIDO add constraint FK_RELATIONSHIP_1 foreign key (ID_ITEM
       references ITEM (ID_ITEM);
 
 alter table DETALLE_PEDIDO add constraint FK_RELATIONSHIP_2 foreign key (ID_PEDIDO)
-      references PEDIDO (ID_PEDIDO);
+      references PEDIDO (ID_PEDIDO) ON DELETE CASCADE;
 	  
 alter table PEDIDO add constraint FK_RELATIONSHIP_3 foreign key (ID_CLIENTE)
       references CLIENTE (ID_CLIENTE);
@@ -466,4 +466,4 @@ alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
       references CUENTA (ID_CUENTA);  
 /*relacion estadoproduccion-item*/
 ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
-	REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
