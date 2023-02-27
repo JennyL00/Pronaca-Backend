@@ -14,6 +14,7 @@ class CuentaRoutes {
         this.router.put('/:id', cuentaController_1.cuentaController.update);
         this.router.delete('/:id', cuentaController_1.cuentaController.delete);
         this.router.get('/cuentasCostosGastos/:id', cuentaController_1.cuentaController.cuentasCostosGastos);
+        this.router.get('/cuentasInventario/:id', cuentaController_1.cuentaController.cuentasInventario);
 
     }
 }
