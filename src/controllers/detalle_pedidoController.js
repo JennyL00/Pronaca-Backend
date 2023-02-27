@@ -19,7 +19,7 @@ class Detalle_PedidoController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const consulta =
-            "SELECT detalle_pedido.ID_DETALLE_PEDIDO, detalle_pedido.ID_PEDIDO, item.NOMBRE_ITEM, CANTIDAD_PEDIDO, DETALLE_PEDIDO FROM detalle_pedido JOIN item ON detalle_pedido.ID_ITEM = item.ID_ITEM;"
+            "SELECT detalle_pedido.ID_DETALLE_PEDIDO, detalle_pedido.ID_PEDIDO, item.NOMBRE_ITEM, CANTIDAD_PEDIDO, PRECIO_DETALLE_PEDIDO FROM detalle_pedido JOIN item ON detalle_pedido.ID_ITEM = item.ID_ITEM;"
             const detalle_pedido = yield database_1.default.query(consulta);
             res.json(detalle_pedido);
         });
@@ -28,7 +28,7 @@ class Detalle_PedidoController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             const consulta =
-            "SELECT ID_DETALLE_PEDIDO, ID_PEDIDO, ID_ITEM, CANTIDAD_PEDIDO, DETALLE_PEDIDO FROM detalle_pedido WHERE ID_DETALLE_PEDIDO = ?;"
+            "SELECT ID_DETALLE_PEDIDO, ID_PEDIDO, ID_ITEM, CANTIDAD_PEDIDO, PRECIO_DETALLE_PEDIDO FROM detalle_pedido WHERE ID_DETALLE_PEDIDO = ?;"
             const detalle_pedido = yield database_1.default.query(consulta, [id]);
             if (detalle_pedido.length > 0) {
                 return res.json(detalle_pedido[0]);
@@ -39,7 +39,7 @@ class Detalle_PedidoController {
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             console.log(req.body);
-            yield database_1.default.query('INSERT INTO detalle_pedido set?', [req.body]);
+            yield database_1.default.query('INSERT INTO detalle_pedido (ID_PEDIDO, ID_ITEM, CANTIDAD_PEDIDO, PRECIO_DETALLE_PEDIDO) VALUES ?', [req.body.map( obj => [obj.id_pedido, obj.id_item, obj.cantidad_pedido, obj.precio_detalle_pedido])]);
             
             res.json({ message: 'Detalle Pedido saved' });
         });

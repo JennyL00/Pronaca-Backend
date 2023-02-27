@@ -160,7 +160,6 @@ create table DETALLE_PEDIDO
    ID_PEDIDO            int,
    ID_ITEM              int,
    CANTIDAD_PEDIDO      int,
-   DETALLE_PEDIDO       varchar(100),
    PRECIO_DETALLE_PEDIDO          float(8,2),
    primary key (ID_DETALLE_PEDIDO)
 );
