@@ -30,10 +30,8 @@ VALUES ('Sin Stock','Este producto se encuentra agotado');
 /*
 INformes Financieros , Balance y Estado de Resultados
 */
-DELETE FROM informe_financiero;
-DELETE FROM estado_financiero;
-DELETE FROM BALANCE_GENERAL;
-
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('1', 'Balance', '2019-05-18');
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('2', 'Estado', '2019-05-18');
 
 
 INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FINANCIERO,VALOR_CUENTA) VALUES
@@ -84,11 +82,11 @@ VALUES(2,1,2,'ELVIS','MONTALUISA','0503408080','montaluisa.e@email.com',40,450,2
 
 /*Tipo Item*/
 INSERT INTO `tipo_item`(`ID_CUENTA`,`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
-VALUES (7,'Materia Prima','Material para produccion');
+VALUES (10,'Materia Prima','Material para produccion');
 INSERT INTO `tipo_item`(`ID_CUENTA`,`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
-VALUES (8,'Insumos','Insumos para produccion');
+VALUES (11,'Insumos','Insumos para produccion');
 INSERT INTO `tipo_item`(`ID_CUENTA`,`TIPO_ITEM`, `DETALLE_TIPO_ITEM`) 
-VALUES (9,'Producto','Producto para venta');
+VALUES (12,'Producto','Producto para venta');
 
 
 INSERT INTO `lista_items`(`ID_EMPLEADO`, `DETALLE_LISTA`, `FECHA_LISTA`, `ESTADO_LISTA`,
