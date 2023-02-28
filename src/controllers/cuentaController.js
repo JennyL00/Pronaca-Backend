@@ -180,6 +180,67 @@ class CuentaController {
         });
     }
 
+    cuentasPedidos(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+
+            ////// Cuenta cuentas por cobrar (clientes)
+            const cuentaClientes = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Clientes"')
+            const stringCuentaClientes = JSON.parse(JSON.stringify(cuentaClientes))
+
+            // Cálculo de las cuentas por cobrar
+            // Toma todos los pedidos con estado "Pendiente" y los suma (incluye el IVA)
+            const porCobrar = yield database_1.default.query('SELECT SUM(P.TOTAL_PEDIDO) AS TOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Pendiente"')
+            const stringPorCobrar = JSON.parse(JSON.stringify(porCobrar))
+            const cuentaPorCobrar = stringPorCobrar[0].TOTAL_PEDIDO * (-1) || 0.00;
+
+            // Actualizar cuentas por cobrar (clientes)
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [cuentaPorCobrar, stringCuentaClientes[0].ID_CUENTA])
+
+
+
+
+            ////// Cuenta de ventas y costos de ventas
+            const cuentaVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Ventas"')
+            const stringCuentaVentas = JSON.parse(JSON.stringify(cuentaVentas))
+            const cuentaCostosVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "IVA en ventas"')
+            const stringCuentaCostosVentas = JSON.parse(JSON.stringify(cuentaCostosVentas))
+
+            // Cálculo de las ventas
+            // Toma todos los pedidos con estado "Entregado" y los suma (sin IVA)
+            const ventas = yield database_1.default.query('SELECT SUM(P.SUBOTAL_PEDIDO) AS SUBTOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Entregado"')
+            const stringVentas = JSON.parse(JSON.stringify(ventas))
+            const valorCuentaVentas = stringVentas[0].SUBTOTAL_PEDIDO * (-1) || 0.00;
+            const valorCuentaCostosVentas = stringVentas[0].SUBTOTAL_PEDIDO || 0.00;
+
+            // NOTA: se debería restar el costo de producción al costo de ventas
+
+            // Actualizar ventas e iva en ventas
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [valorCuentaVentas, stringCuentaVentas[0].ID_CUENTA])
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [valorCuentaCostosVentas, stringCuentaCostosVentas[0].ID_CUENTA])
+
+
+
+
+            ////// Cuenta IVA en ventas
+            const cuentaIva = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "IVA en ventas"')
+            const stringCuentaIva = JSON.parse(JSON.stringify(cuentaIva))
+
+            // Cálculo del IVA
+            // Toma todos los pedidos con estado "Entregado" y suma su IVA
+            const iva = yield database_1.default.query('SELECT SUM(P.IVA_PEDIDO) AS IVA_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Entregado"')
+            const stringIva = JSON.parse(JSON.stringify(iva))
+            const totalIva = stringIva[0].IVA_PEDIDO * (-1) || 0.00;
+
+            // Actualizar cuenta IVA en ventas
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [totalIva, stringCuentaIva[0].ID_CUENTA])
+
+
+            res.json({ message: 'cuentas de pedidos actualizadas' });
+
+        });
+    }
+
     actualizarIngresos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
