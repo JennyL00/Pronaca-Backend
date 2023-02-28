@@ -28,6 +28,8 @@ const bancoRoutes = require("./routes/bancoRoutes")
 const balanceRoutes=require("./routes/balanceRoutes");
 const estadoRoutes=require("./routes/estadoRoutes");
 const detalle_asientoRoutes = require("./routes/detalle_asientoRoutes");
+const loginRoutes = require("./routes/loginRoutes")
+
 //initialization
 const app = express();
 
@@ -86,11 +88,10 @@ app.use('/api/preventa',preventaRoutes.default);
 app.use('/api/ubicacion',ubicacionesRoutes.default);
 app.use('/api/parametro_iess',parametro_iessRoutes.default);
 app.use('/api/banco',bancoRoutes.default);
-//
 app.use('/api/balance',balanceRoutes.default);
 app.use('/api/estado',estadoRoutes.default);
 app.use('/api/detalle_asiento',detalle_asientoRoutes.default);
-
+app.use('/api/login',loginRoutes.default);
 app.use('/api/receta',receta_produccionRoutes.default);
 app.use('/api/pasos_receta',pasos_recetaRoutes.default);
 
