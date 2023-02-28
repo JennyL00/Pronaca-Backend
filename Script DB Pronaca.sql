@@ -468,3 +468,24 @@ alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
 /*relacion estadoproduccion-item*/
 ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
 REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+/*==============================================================*/
+/* Table: BODEGA                                                */
+/*==============================================================*/
+create table BODEGA
+(
+   ID_BODEGA int not null AUTO_INCREMENT,
+   NOMBRE varchar(200),
+   SECTOR_UBICACION varchar(200),
+   primary key (ID_BODEGA)
+);
+
+/*==============================================================*/
+/* Table: BODEGAITEM                                                */
+/*==============================================================*/
+create table BODEGAITEM
+(
+   ID_BODEGA int,
+   ID_ITEM int,
+   CANTIDAD int
+);
