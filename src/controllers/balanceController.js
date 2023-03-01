@@ -17,16 +17,16 @@ const database_1 = __importDefault(require("../database"));
 
 
 class balanceController {
+
   list(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-      const balance = yield database_1.default.query('SELECT * FROM `informe_financiero` WHERE TIPO_INFORME = "Balance"');
+      const balance = yield database_1.default.query('SELECT * FROM `balance_general`');
       res.json(balance);
     });
   }
   getOne(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-
-      res.status(404).json({ text: "Balances doesn't exists" });
+      res.status(404).json({ text: "Balances doesn't exist" });
     });
   }
 
