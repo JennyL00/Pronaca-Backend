@@ -24,11 +24,21 @@ class balanceController {
       res.json(balance);
     });
   }
+
+  
   getOne(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-      res.status(404).json({ text: "Balances doesn't exist" });
+    const { id } = req.params;
+    database.query('SELECT * FROM balance_general WHERE id_balance = ?', [id], (error, result) => {
+        if (error) {
+            console.log(error);
+            return res.status(500).send('Error retrieving balance details');
+        }
+        if (result.length === 0) {
+            return res.status(404).send('Balance not found');
+        }
+        return res.status(200).send(result[0]);
     });
-  }
+}
 
   ///////////////////
   create(req, res) {

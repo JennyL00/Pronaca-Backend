@@ -11,6 +11,8 @@ class balanceRoutes {
     config() {
          this.router.get('/', balanceController_1.balanceController.list);
          this.router.post('/', balanceController_1.balanceController.create);
+         this.router.get('/:id', balanceController_1.balanceController.getOne);
+
             
             
         
