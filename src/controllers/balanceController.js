@@ -36,10 +36,11 @@ class balanceController {
       const { date_init, date_end } = req.body;
   
       try {
-        // Calcular el id
-        const result = yield database_1.default.query('SELECT MAX(ID_INFORME_FINANCIERO) AS max_id FROM INFORME_FINANCIERO');
-        const max_id = result[0].max_id;
-        const id_informe = max_id + 1;
+        // // Calcular el id
+        // const result = yield database_1.default.query('SELECT MAX(ID_INFORME_FINANCIERO) AS max_id FROM INFORME_FINANCIERO');
+        // const max_id = result[0].max_id;
+        // const id_informe = max_id + 1;
+
         const date_informe = new Date().toISOString().substring(0, 10);
   
         // Filtrar por fecha
@@ -67,17 +68,18 @@ class balanceController {
         const resultado_balance = patrimonio_pronaca - suma_pasivos + suma_activos;
   
         // Create a financial report
-        const newInformeFinanciero = {
-          id_informe,
-          fecha: date_informe,
-          activos: suma_activos,
-          pasivos: suma_pasivos,
-          patrimonio: patrimonio_pronaca,
-          resultado_balance
-        };
-  
-        yield database_1.default.query(`INSERT INTO INFORME_FINANCIERO (ID_INFORME_FINANCIERO, TIPO_INFORME, FECHA) VALUES (${id_informe}, 'Balance', '${date_informe}')`);
-        yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (ID_INFORME_FINANCIERO, FECHA, ACTIVOS, PASIVOS, PATRIMONIO, RESULTADO_BALANCE) VALUES (${newInformeFinanciero.id_informe}, '${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.resultado_balance})`);
+      // Create a financial report
+      const newInformeFinanciero = {
+        fecha: date_informe,
+        activos: suma_activos,
+        pasivos: suma_pasivos,
+        patrimonio: patrimonio_pronaca,
+        tipo_informe: 1
+      };
+
+      yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe})`);
+
+        
   
         res.json({ message: 'Financial report Balance saved' });
       } catch (error) {
