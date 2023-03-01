@@ -40,8 +40,13 @@ class BodegaController{
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params;
-            yield database_1.default.query('UPDATE bodega set ? WHERE id_bodega = ?', [req.body, id]);
+            const {id} = req.params;
+            const {cantidad, iditem, idubicacion} = req.body;
+            const ubicacion = yield database_1.default.query('SELECT * FROM UBICACION WHERE ID_UBICACION = ?',[idubicacion]);
+            const stringUbicacion = JSON.parse(JSON.stringify(ubicacion))
+            const bodega = yield database_1.default.query('SELECT * FROM BODEGA WHERE SECTOR_UBICACION = ?',[stringUbicacion[0].SECTOR_UBICACION]);
+            const stringBodega = JSON.parse(JSON.stringify(bodega))
+            yield database_1.default.query('UPDATE bodegaitem SET cantidad=cantidad-? WHERE bodegaitem.ID_ITEM=? AND bodegaitem.ID_BODEGA=?', [cantidad, iditem, stringBodega[0].ID_BODEGA]);
             res.json({ message: 'Bodega fue actualizada' });
         });
     }
