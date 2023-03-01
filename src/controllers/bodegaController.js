@@ -33,9 +33,8 @@ class BodegaController{
         });
     }
     create(req, res) {
-        console.log("REQ.BODY",req.body)
         return __awaiter(this, void 0, void 0, function* () {
-            yield database_1.default.query('INSERT INTO bodega (NOMBRE, SECTOR_UBICACION) VALUES ?', [req.body.map( obj => [obj.NOMBRE, obj.SECTOR_UBICACION ])]);
+            yield database_1.default.query('INSERT INTO bodega set?', [req.body]);
             res.json({ message: 'Bodega guardada' });
         });
     }
@@ -51,6 +50,28 @@ class BodegaController{
             const { id } = req.params;
             yield database_1.default.query('DELETE FROM bodega WHERE id_bodega = ?', [id]);
             res.json({ message: 'Bodega fue borrada' });
+        });
+    }
+
+    getQuantity(req, res){
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const bodega = yield database_1.default.query(`SELECT bodega.NOMBRE, bodega.SECTOR_UBICACION ,item.NOMBRE_ITEM, bodegaitem.CANTIDAD FROM bodega INNER JOIN bodegaitem ON bodegaitem.ID_BODEGA = bodega.ID_BODEGA
+                                                                INNER JOIN item ON bodegaitem.ID_ITEM = item.ID_ITEM where bodegaitem.ID_BODEGA = ?`,[id]);
+            if (bodega.length > 0) {
+                return res.json(bodega);
+            }
+            res.status(404).json({ text: "Bodega no existe" });
+        });
+    }
+    getOne(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const bodega = yield database_1.default.query('SELECT * FROM bodega WHERE id_bodega = ?', [id]);
+            if (bodega.length > 0) {
+                return res.json(bodega[0]);
+            }
+            res.status(404).json({ text: "Bodega no existe" });
         });
     }
 }
