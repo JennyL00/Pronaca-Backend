@@ -199,25 +199,33 @@ class CuentaController {
 
 
 
-
-            ////// Cuenta de ventas y costos de ventas
+            ////// Cuenta de ventas 
             const cuentaVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Ventas"')
             const stringCuentaVentas = JSON.parse(JSON.stringify(cuentaVentas))
-            const cuentaCostosVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "IVA en ventas"')
-            const stringCuentaCostosVentas = JSON.parse(JSON.stringify(cuentaCostosVentas))
 
             // Cálculo de las ventas
-            // Toma todos los pedidos con estado "Entregado" y los suma (sin IVA)
-            const ventas = yield database_1.default.query('SELECT SUM(P.SUBOTAL_PEDIDO) AS SUBTOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Entregado"')
+            // Toma el subtotal de todos los pedidos con estado "Entregado" y los suma
+            const ventas = yield database_1.default.query('SELECT SUM(P.SUBTOTAL_PEDIDO) AS SUBTOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Entregado"')
             const stringVentas = JSON.parse(JSON.stringify(ventas))
             const valorCuentaVentas = stringVentas[0].SUBTOTAL_PEDIDO * (-1) || 0.00;
-            const valorCuentaCostosVentas = stringVentas[0].SUBTOTAL_PEDIDO || 0.00;
 
-            // NOTA: se debería restar el costo de producción al costo de ventas
-
-            // Actualizar ventas e iva en ventas
+            // Actualizar ventas
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [valorCuentaVentas, stringCuentaVentas[0].ID_CUENTA])
+
+
+
+
+            /////// Cuenta costos de ventas
+            const cuentaCostosVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Costos de ventas"')
+            const stringCuentaCostosVentas = JSON.parse(JSON.stringify(cuentaCostosVentas))
+
+            // Cálculo del costo de producción, se resta el 10% al subtotal del pedido
+            const valorCuentaCostosVentas = stringVentas[0].SUBTOTAL_PEDIDO - ( stringVentas[0].SUBTOTAL_PEDIDO * 0.1 ) || 0.00;
+
+            // Actualizar costos de ventas
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [valorCuentaCostosVentas, stringCuentaCostosVentas[0].ID_CUENTA])
+
+
 
 
 
