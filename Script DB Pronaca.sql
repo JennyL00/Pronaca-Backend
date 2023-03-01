@@ -93,7 +93,9 @@ fecha date not null,
 ingresos decimal(10,2) not null,
 costos decimal(10,2) not null,
 gastos decimal(10,2) not null,
-primary key (id_estado ),
+ID_informe_financiero int not null,
+primary key (id_estado),
+
 foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
 );
 /*==============================================================*/
