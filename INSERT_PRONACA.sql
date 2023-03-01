@@ -34,8 +34,22 @@ VALUES ('Sin Stock','Este producto se encuentra agotado');
 /*
 INformes Financieros , Balance y Estado de Resultados
 */
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('1', 'Balance', '2019-05-18');
-INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`, `FECHA`) VALUES ('2', 'Estado', '2019-05-18');
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`) VALUES ('1', 'Balance');
+INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`) VALUES ('2', 'Estado');
+/*
+INformes Financieros , Balance */
+
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, ID_informe_financiero) VALUES
+('2022-01-31', 100000.00, 60000.00, 40000.00, 1),
+('2022-02-28', 120000.00, 70000.00, 50000.00, 1),
+('2022-03-31', 130000.00, 80000.00, 50000.00, 1),
+('2022-04-30', 140000.00, 90000.00, 50000.00, 1),
+('2022-05-31', 150000.00, 100000.00, 50000.00, 1);
+
+
+
+
+
 
 
 INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FINANCIERO,VALOR_CUENTA) VALUES

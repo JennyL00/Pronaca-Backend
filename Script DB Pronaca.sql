@@ -73,25 +73,27 @@ create table INFORME_FINANCIERO
    FECHA DATE NOT NULL,
    primary key (ID_INFORME_FINANCIERO)
 );
+
 create table balance_general
 (
-id_informe_financiero int not null,
+id_balance int not null AUTO_INCREMENT,
 fecha date not null,
 activos decimal(10,2) not null,
 pasivos decimal(10,2) not null,
 patrimonio decimal(10,2) not null,
-primary key (id_informe_financiero),
+ID_informe_financiero int not null
+primary key (id_balance),
 foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
 );
 
 create table estado_financiero
 (
-id_informe_financiero int not null,
+id_estado int not null AUTO_INCREMENT,,
 fecha date not null,
 ingresos decimal(10,2) not null,
 costos decimal(10,2) not null,
 gastos decimal(10,2) not null,
-primary key (id_informe_financiero),
+primary key (id_estado ),
 foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
 );
 /*==============================================================*/
