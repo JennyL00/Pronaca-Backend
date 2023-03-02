@@ -27,16 +27,13 @@ class balanceController {
 
   
   getOne(req, res) {
-    const { id } = req.params;
-    database.query('SELECT * FROM balance_general WHERE id_balance = ?', [id], (error, result) => {
-        if (error) {
-            console.log(error);
-            return res.status(500).send('Error retrieving balance details');
-        }
-        if (result.length === 0) {
-            return res.status(404).send('Balance not found');
-        }
-        return res.status(200).send(result[0]);
+    return __awaiter(this, void 0, void 0, function* () {
+      const { id } = req.params;
+      const balance = yield database_1.default.query('SELECT * FROM balance_general WHERE id_balance = ?', [id]);
+      if (balance.length > 0) {
+        return res.json(balance);
+      }
+      res.status(404).json({ text: "Departamento doesn't exists" });
     });
 }
 
