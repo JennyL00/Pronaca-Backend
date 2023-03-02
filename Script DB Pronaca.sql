@@ -222,6 +222,7 @@ create table ITEM
    DETALLE_ITEM         text,
    ID_PEDIDO_PROVEEDOR  int, 
    ID_PASO_RECETA		int,
+   ID_BODEGA            int,
    primary key (ID_ITEM)
 );
 
