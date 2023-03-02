@@ -31,7 +31,7 @@ class balanceController {
       const { id } = req.params;
       const balance = yield database_1.default.query('SELECT * FROM balance_general WHERE id_balance = ?', [id]);
       if (balance.length > 0) {
-        return res.json(balance);
+        return res.json(balance[0]);
       }
       res.status(404).json({ text: "Departamento doesn't exists" });
     });
