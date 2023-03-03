@@ -164,6 +164,7 @@ create table DETALLE_PEDIDO
    ID_PEDIDO            int,
    ID_ITEM              int,
    CANTIDAD_PEDIDO      int,
+   SUBTOTAL_DETALLE_PEDIDO float(8,2),
    PRECIO_DETALLE_PEDIDO          float(8,2),
    primary key (ID_DETALLE_PEDIDO)
 );
@@ -225,6 +226,7 @@ create table ITEM
    DETALLE_ITEM         text,
    ID_PEDIDO_PROVEEDOR  int, 
    ID_PASO_RECETA		int,
+   ID_BODEGA            int,
    primary key (ID_ITEM)
 );
 
@@ -472,3 +474,24 @@ alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
 /*relacion estadoproduccion-item*/
 ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
 REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
+
+/*==============================================================*/
+/* Table: BODEGA                                                */
+/*==============================================================*/
+create table BODEGA
+(
+   ID_BODEGA int not null AUTO_INCREMENT,
+   NOMBRE varchar(200),
+   SECTOR_UBICACION varchar(200),
+   primary key (ID_BODEGA)
+);
+
+/*==============================================================*/
+/* Table: BODEGAITEM                                                */
+/*==============================================================*/
+create table BODEGAITEM
+(
+   ID_BODEGA int,
+   ID_ITEM int,
+   CANTIDAD int
+);

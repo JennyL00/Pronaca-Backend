@@ -29,6 +29,7 @@ const balanceRoutes=require("./routes/balanceRoutes");
 const estadoRoutes=require("./routes/estadoRoutes");
 const detalle_asientoRoutes = require("./routes/detalle_asientoRoutes");
 const loginRoutes = require("./routes/loginRoutes")
+const bodegaRoutes = require("./routes/bodegaRoutes");
 
 //initialization
 const app = express();
@@ -94,6 +95,7 @@ app.use('/api/detalle_asiento',detalle_asientoRoutes.default);
 app.use('/api/login',loginRoutes.default);
 app.use('/api/receta',receta_produccionRoutes.default);
 app.use('/api/pasos_receta',pasos_recetaRoutes.default);
+app.use('/api/bodega',bodegaRoutes.default);
 
 
 //public
