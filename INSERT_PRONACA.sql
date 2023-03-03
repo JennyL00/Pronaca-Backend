@@ -82,9 +82,15 @@ INSERT INTO `departamento`(`ID_CUENTA`, `NOMBRE_DEPARTAMENTO`, `CODIGO_CUENTA`, 
 INSERT INTO departamento( ID_CUENTA, NOMBRE_DEPARTAMENTO,CODIGO_CUENTA, CUENTA) VALUES (51,'Comercial','5.1.1.01.','Costos personal comercial');
 INSERT INTO `departamento`(`ID_CUENTA`, `NOMBRE_DEPARTAMENTO`, `CODIGO_CUENTA`, `CUENTA`) VALUES (59,'Financiero','6.1.1.02.','Gastos personal financiero');
 
-INSERT INTO cargo_empleado(ID_DEPARTAMENTO,DESCRIPCION_CARGO) VALUES (1,'Contador');
+INSERT INTO cargo_empleado(ID_DEPARTAMENTO,DESCRIPCION_CARGO) VALUES (4,'Contador');
 INSERT INTO `cargo_empleado`(`ID_DEPARTAMENTO`, `DESCRIPCION_CARGO`) VALUES (2,'Gestor de Produccion');
 INSERT INTO `cargo_empleado`(`ID_DEPARTAMENTO`, `DESCRIPCION_CARGO`) VALUES (2,'Operario Produccion');
+INSERT INTO `cargo_empleado`(`ID_DEPARTAMENTO`, `DESCRIPCION_CARGO`) VALUES (3,'Transportista');
+INSERT INTO `cargo_empleado`(`ID_DEPARTAMENTO`, `DESCRIPCION_CARGO`) VALUES (3,'Asesor de ventas');
+INSERT INTO `cargo_empleado`(`ID_DEPARTAMENTO`, `DESCRIPCION_CARGO`) VALUES (3,'Distribuidor minorista de barrio');
+INSERT INTO `cargo_empleado`(`ID_DEPARTAMENTO`, `DESCRIPCION_CARGO`) VALUES (1,'Operador de nómina');
+INSERT INTO `cargo_empleado`(`ID_DEPARTAMENTO`, `DESCRIPCION_CARGO`) VALUES (4,'Tesorero');
+
 INSERT INTO banco(ID_CUENTA,NOMBRE_BANCO, SALDO) VALUES (7,'Banco Pichincha',5000);
 INSERT INTO banco(ID_CUENTA,NOMBRE_BANCO, SALDO) VALUES (8,'Banco Internacional',5000);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Personal',9.4);
