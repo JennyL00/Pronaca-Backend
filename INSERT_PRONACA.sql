@@ -45,6 +45,14 @@ INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, ID_informe_fin
 ('2022-03-31', 130000.00, 80000.00, 50000.00, 1),
 ('2022-04-30', 140000.00, 90000.00, 50000.00, 1),
 ('2022-05-31', 150000.00, 100000.00, 50000.00, 1);
+/* estado de Resultados */
+
+INSERT INTO estado_financiero (fecha, ingresos, costos, gastos, ID_informe_financiero)
+VALUES ('2022-01-01', 1000.00, 500.00, 300.00, 2),
+       ('2022-02-01', 1200.00, 550.00, 350.00, 2),
+       ('2022-03-01', 1500.00, 600.00, 400.00, 2);
+
+
 
 
 

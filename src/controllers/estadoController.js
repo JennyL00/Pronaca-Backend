@@ -19,7 +19,7 @@ const database_1 = __importDefault(require("../database"));
 class estadoController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const estado = yield database_1.default.query('SELECT * FROM `informe_financiero` WHERE TIPO_INFORME = "Estado"');
+            const estado = yield database_1.default.query('SELECT * FROM ESTADO_FINANCIERO');
             res.json(estado); 
 
         });
