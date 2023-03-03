@@ -26,8 +26,12 @@ class estadoController {
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            
-            res.status(404).json({ text: "Estados doesn't exists" });
+          const { id } = req.params;
+          const estado = yield database_1.default.query('SELECT * FROM ESTADO_FINANCIERO WHERE id_estado = ?', [id]);
+          if (estado.length > 0) {
+            return res.json(estado[0]);
+          }
+          res.status(404).json({ text: "Balance doesn't exists" });
         });
     }
 
