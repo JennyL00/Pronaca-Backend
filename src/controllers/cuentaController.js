@@ -214,13 +214,15 @@ class CuentaController {
 
 
 
-
             /////// Cuenta costos de ventas
             const cuentaCostosVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Costos de ventas"')
             const stringCuentaCostosVentas = JSON.parse(JSON.stringify(cuentaCostosVentas))
 
-            // Cálculo del costo de producción, se resta el 10% al subtotal del pedido
-            const valorCuentaCostosVentas = stringVentas[0].SUBTOTAL_PEDIDO - ( stringVentas[0].SUBTOTAL_PEDIDO * 0.1 ) || 0.00;
+            // Obtención del detalle de pedido para obtener el costo de ventas
+            const costoProduccion = yield database_1.default.query('SELECT SUM(D.SUBTOTAL_DETALLE_PEDIDO) AS COSTO_PRODUCCION FROM DETALLE_PEDIDO D INNER JOIN PEDIDO P ON D.ID_PEDIDO = P.ID_PEDIDO WHERE P.ESTADO_PEDIDO = "Entregado"')
+            const stringCostoProduccion = JSON.parse(JSON.stringify(costoProduccion))
+
+            const valorCuentaCostosVentas = stringCostoProduccion[0].COSTO_PRODUCCION || 0.00;
 
             // Actualizar costos de ventas
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [valorCuentaCostosVentas, stringCuentaCostosVentas[0].ID_CUENTA])
