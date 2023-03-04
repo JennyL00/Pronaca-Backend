@@ -125,7 +125,7 @@ class CuentaController {
             const stringCuentaMateriaPrima = JSON.parse(JSON.stringify(cuentaMateriaPrima))
 
             // Cálculo inventario materia prima
-            const materiaPrima = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaMateriaPrima[0].ID_CUENTA])
+            const materiaPrima = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaMateriaPrima[0].ID_CUENTA])
             const stringMateriaPrima = JSON.parse(JSON.stringify(materiaPrima))
             let materiaPrimaPorSumar = stringMateriaPrima[0].PRECIO_ITEM || 0.00;
 
@@ -139,7 +139,7 @@ class CuentaController {
             const stringCuentaInsumos = JSON.parse(JSON.stringify(cuentaInsumos))
 
             // Cálculo inventario insumos
-            const insumos = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaInsumos[0].ID_CUENTA])
+            const insumos = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaInsumos[0].ID_CUENTA])
             const stringInsumos = JSON.parse(JSON.stringify(insumos))
             let insumosPorSumar = stringInsumos[0].PRECIO_ITEM || 0.00;
 
@@ -153,7 +153,7 @@ class CuentaController {
             const stringCuentaProducto = JSON.parse(JSON.stringify(cuentaProducto))
 
             // Cálculo inventario producto
-            const producto = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaProducto[0].ID_CUENTA])
+            const producto = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaProducto[0].ID_CUENTA])
             const stringProducto = JSON.parse(JSON.stringify(producto))
             let productoPorSumar = stringProducto[0].PRECIO_ITEM || 0.00;
 
@@ -214,13 +214,15 @@ class CuentaController {
 
 
 
-
             /////// Cuenta costos de ventas
             const cuentaCostosVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Costos de ventas"')
             const stringCuentaCostosVentas = JSON.parse(JSON.stringify(cuentaCostosVentas))
 
-            // Cálculo del costo de producción, se resta el 10% al subtotal del pedido
-            const valorCuentaCostosVentas = stringVentas[0].SUBTOTAL_PEDIDO - ( stringVentas[0].SUBTOTAL_PEDIDO * 0.1 ) || 0.00;
+            // Obtención del detalle de pedido para obtener el costo de ventas
+            const costoProduccion = yield database_1.default.query('SELECT SUM(D.SUBTOTAL_DETALLE_PEDIDO) AS COSTO_PRODUCCION FROM DETALLE_PEDIDO D INNER JOIN PEDIDO P ON D.ID_PEDIDO = P.ID_PEDIDO WHERE P.ESTADO_PEDIDO = "Entregado"')
+            const stringCostoProduccion = JSON.parse(JSON.stringify(costoProduccion))
+
+            const valorCuentaCostosVentas = stringCostoProduccion[0].COSTO_PRODUCCION || 0.00;
 
             // Actualizar costos de ventas
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [valorCuentaCostosVentas, stringCuentaCostosVentas[0].ID_CUENTA])
