@@ -18,9 +18,10 @@ const database_1 = __importDefault(require("../database"));
 class Detalle_PedidoController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params
             const consulta =
-            "SELECT detalle_pedido.ID_DETALLE_PEDIDO, detalle_pedido.ID_PEDIDO, item.NOMBRE_ITEM, detalle_pedido.CANTIDAD_PEDIDO, detalle_pedido.SUBTOTAL_DETALLE_PEDIDO, detalle_pedido.PRECIO_DETALLE_PEDIDO FROM detalle_pedido JOIN item ON detalle_pedido.ID_ITEM = item.ID_ITEM;"
-            const detalle_pedido = yield database_1.default.query(consulta);
+            "SELECT detalle_pedido.ID_DETALLE_PEDIDO, detalle_pedido.ID_PEDIDO, item.NOMBRE_ITEM, detalle_pedido.CANTIDAD_PEDIDO, detalle_pedido.SUBTOTAL_DETALLE_PEDIDO, detalle_pedido.PRECIO_DETALLE_PEDIDO FROM detalle_pedido JOIN item ON detalle_pedido.ID_ITEM = item.ID_ITEM WHERE detalle_pedido.ID_PEDIDO = ?;"
+            const detalle_pedido = yield database_1.default.query(consulta, [id]);
             res.json(detalle_pedido);
         });
     }
