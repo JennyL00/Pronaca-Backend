@@ -44,7 +44,7 @@ class Detalle_asientoController {
         return __awaiter(this, void 0, void 0, function* () {
             const {cuenta,haber, debe}=req.body
             //cuenta
-            const infCuenta = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta=?',[cuenta])
+            const infCuenta = yield database_1.default.query('SELECT * FROM CUENTA WHERE id_cuenta=?',[cuenta])
             const stringinfCuenta = JSON.parse(JSON.stringify(infCuenta))
             //ultimo asiento
             const asiento = yield database_1.default.query('select * from asiento order by id_asiento desc limit 1')

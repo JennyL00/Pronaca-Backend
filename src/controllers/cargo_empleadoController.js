@@ -25,9 +25,9 @@ class Cargo_EmpleadoController {
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const cargo_empleado = yield database_1.default.query('SELECT * FROM cargo_empleado WHERE id_empleado = ?', [id]);
+            const cargo_empleado = yield database_1.default.query('SELECT * FROM cargo_empleado WHERE id_cargo_empleado = ?', [id]);
             if (cargo_empleado.length > 0) {
-                return res.json(cargo_empleado);
+                return res.json(cargo_empleado[0]);
             }
             res.status(404).json({ text: "cargo empleado doesn't exists" });
         });

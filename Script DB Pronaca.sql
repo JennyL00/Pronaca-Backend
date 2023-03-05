@@ -73,25 +73,29 @@ create table INFORME_FINANCIERO
    FECHA DATE NOT NULL,
    primary key (ID_INFORME_FINANCIERO)
 );
-create table balance_general
-(
-id_informe_financiero int not null,
-fecha date not null,
-activos decimal(10,2) not null,
-pasivos decimal(10,2) not null,
-patrimonio decimal(10,2) not null,
-primary key (id_informe_financiero),
-foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
+
+create table balance_general (
+  id_balance int not null AUTO_INCREMENT,
+  fecha date not null,
+  activos decimal(10,2) not null,
+  pasivos decimal(10,2) not null,
+  patrimonio decimal(10,2) not null,
+  ID_informe_financiero int not null,
+  primary key (id_balance),
+  foreign key (ID_informe_financiero) references informe_financiero(id_informe_financiero)
 );
+
 
 create table estado_financiero
 (
-id_informe_financiero int not null,
+id_estado int not null AUTO_INCREMENT,
 fecha date not null,
 ingresos decimal(10,2) not null,
 costos decimal(10,2) not null,
 gastos decimal(10,2) not null,
-primary key (id_informe_financiero),
+ID_informe_financiero int not null,
+primary key (id_estado),
+
 foreign key (id_informe_financiero) references informe_financiero(id_informe_financiero)
 );
 /*==============================================================*/
@@ -160,6 +164,7 @@ create table DETALLE_PEDIDO
    ID_PEDIDO            int,
    ID_ITEM              int,
    CANTIDAD_PEDIDO      int,
+   SUBTOTAL_DETALLE_PEDIDO float(8,2),
    PRECIO_DETALLE_PEDIDO          float(8,2),
    primary key (ID_DETALLE_PEDIDO)
 );
@@ -221,6 +226,7 @@ create table ITEM
    DETALLE_ITEM         text,
    ID_PEDIDO_PROVEEDOR  int, 
    ID_PASO_RECETA		int,
+   ID_BODEGA            int,
    primary key (ID_ITEM)
 );
 
@@ -337,6 +343,9 @@ create table PEDIDO_PROVEEDOR
    ID_PROVEEDOR int,
    FECHA_PEDIDO_PROVEEDOR		date,
    DETALLE_PEDIDO_PROVEEDOR 	text,
+   CANTIDAD_PEDIDO int,
+   SUBTOTAL_PEDIDO_PROVEEDOR float(8,2),
+   TOTAL_PEDIDO_PROVEEDOR float(8,2),
    primary key (ID_PEDIDO_PROVEEDOR)
 );
 
