@@ -31,9 +31,49 @@ class estadoController {
           if (estado.length > 0) {
             return res.json(estado[0]);
           }
-          res.status(404).json({ text: "Balance doesn't exists" });
+          res.status(404).json({ text: "Estado doesn't exists" });
         });
     }
+
+
+
+    create(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+          const {date_end} = req.body;
+      
+          try {
+  
+            const date_estado = new Date().toISOString().substring(0, 10);
+            /// toma el valor de las cuentas (Ventas)
+            const ingresos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 46`);
+            const ingresos = ingresos_cuenta[0].VALOR_CUENTA;
+            /// toma el valor de las cuentas (Costo de Ventas)
+            const costos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 53`);
+            const costos = costos_cuenta[0].VALOR_CUENTA;
+            /// toma el valor de las cuentas (Gastos Operacion) 
+
+            const gastos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA as total_gastos FROM CUENTA WHERE ID_CUENTA = 50`);
+            const gastos = gastos_cuenta[0].VALOR_CUENTA || 0;
+
+
+            const newEstadoFinanciero = {
+                fecha: date_estado,
+                ingresos:ingresos,///costos de venta
+                costos:costos,//costos de ventas
+                gastos:gastos ,//gastos operacion
+                tipo_informe: 2
+            };
+        
+            yield database_1.default.query(`INSERT INTO estado_financiero (fecha, ingresos, costos, gastos, ID_informe_financiero) VALUES ('${newEstadoFinanciero.fecha}', ${newEstadoFinanciero.ingresos}, ${newEstadoFinanciero.costos}, ${newEstadoFinanciero.gastos}, ${newEstadoFinanciero.tipo_informe})`);
+        
+
+            res.json({ message: 'Financial report Estado saved' });
+          } catch (error) {
+            console.log(error);
+            res.status(500).send({ message: "Error en el servidor" });
+          }
+        });
+      }
 
 }
 exports.estadoController = new estadoController();

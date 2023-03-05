@@ -11,6 +11,7 @@ class estadoRoutes {
     config() {
         this.router.get('/', estadoController_1.estadoController.list);
         this.router.get('/:id', estadoController_1.estadoController.getOne);
+        this.router.post('/', estadoController_1.estadoController.create);
         
     }
 }

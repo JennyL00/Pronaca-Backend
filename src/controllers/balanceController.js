@@ -40,7 +40,7 @@ class balanceController {
   ///////////////////
   create(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
-      const { date_init, date_end } = req.body;
+      const {date_end } = req.body;
   
       try {
         // // Calcular el id
@@ -51,7 +51,7 @@ class balanceController {
         const date_informe = new Date().toISOString().substring(0, 10);
   
         // Filtrar por fecha
-        const lista_asiento_fecha_filtro = yield database_1.default.query(`SELECT * FROM ASIENTO INNER JOIN DETALLE_ASIENTO ON ASIENTO.ID_ASIENTO = DETALLE_ASIENTO.ID_ASIENTO WHERE ASIENTO.FECHA_ASIENTO > '${date_init}' AND ASIENTO.FECHA_ASIENTO < '${date_end}'`);
+        //const lista_asiento_fecha_filtro = yield database_1.default.query(`SELECT * FROM ASIENTO INNER JOIN DETALLE_ASIENTO ON ASIENTO.ID_ASIENTO = DETALLE_ASIENTO.ID_ASIENTO WHERE ASIENTO.FECHA_ASIENTO > '${date_init}' AND ASIENTO.FECHA_ASIENTO < '${date_end}'`);
 
         //const lista_cuenta_codigo_filtro_activos = lista_asiento_fecha_filtro.filter(detalle_asiento => detalle_asiento.CODIGO_CUENTA.startsWith('1.'));
         //const lista_cuenta_codigo_filtro_pasivos = lista_asiento_fecha_filtro.filter(detalle_asiento => detalle_asiento.CODIGO_CUENTA.startsWith('2.'));
