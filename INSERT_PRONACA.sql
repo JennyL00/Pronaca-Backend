@@ -74,7 +74,7 @@ INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FI
 (null,"Pasivos","2.",1,0.0),(23,"Pasivos corrientes","2.1.",1,0.0),
 (24,"Cuentas por pagar","2.1.1.",1,0.0),(25,"Cuentas por pagar proveedor","2.1.1.01.",1,-254),
 (24,"Anticipo de clientes","2.1.2.",1,0.0),(24,"Obligaciones fiscales por pagar","2.1.3.",1,0.0),
-(28,"IVA en ventas","2.1.3.01.",1,0.0),(28,"Retención del IVA","2.1.3.02.",1,0.0),
+(28,"IVA en ventas","2.1.3.01.",1,0.0),(28,"Impuestos por pagar","2.1.3.02.",1,0.0),
 (24,"Obligaciones con el IESS","2.1.4.",1,0.0),(31,"Aporte personal por pagar","2.1.4.01.",1,0.0),
 (31,"Aporte patronal por pagar","2.1.4.02.",1,0.0),(24,"Provisión beneficios sociales","2.1.5.",1,0.0),
 (24,"Sueldos, comisiones por pagar","2.1.6.",1,0.0),(35,"Nómina por pagar","2.1.6.01.",1,0.0),
@@ -104,6 +104,7 @@ INSERT INTO banco(ID_CUENTA,NOMBRE_BANCO, SALDO) VALUES (7,'Banco Pichincha',250
 INSERT INTO banco(ID_CUENTA,NOMBRE_BANCO, SALDO) VALUES (8,'Banco Internacional',25000);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Personal',9.4);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Patronal',11.5);
+INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Impuesto a la renta',0.22);
 INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (23,1,'personal',0.0);
 INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (27,null,'Nómina por pagar',0.0);
 INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (24,2,'patronal',0.0);
