@@ -46,19 +46,22 @@ class estadoController {
             const date_estado = new Date().toISOString().substring(0, 10);
             /// toma el valor de las cuentas (Ventas)
             const ingresos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 46`);
+
             const ingresos = ingresos_cuenta[0].VALOR_CUENTA;
             /// toma el valor de las cuentas (Costo de Ventas)
             const costos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 53`);
             const costos = costos_cuenta[0].VALOR_CUENTA;
-            /// toma el valor de las cuentas (Gastos Operacion) 
+            /// toma el valor de las cuentas (Gastos Operacion , 50,51,52) 
 
-            const gastos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA as total_gastos FROM CUENTA WHERE ID_CUENTA = 50`);
-            const gastos = gastos_cuenta[0].VALOR_CUENTA || 0;
+              const gastos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA as total_gastos FROM CUENTA WHERE ID_CUENTA = 50`);
+              const gastos_cuenta51y52 = yield database_1.default.query(`SELECT SUM(VALOR_CUENTA) as total_gastos FROM CUENTA WHERE ID_CUENTA IN (51, 52)`);
+              const gastos = (gastos_cuenta[0].total_gastos || 0) + (gastos_cuenta51y52[0].total_gastos || 0);
+
 
 
             const newEstadoFinanciero = {
                 fecha: date_estado,
-                ingresos:ingresos,///costos de venta
+                ingresos:-ingresos,///costos de venta
                 costos:costos,//costos de ventas
                 gastos:gastos ,//gastos operacion
                 tipo_informe: 2
