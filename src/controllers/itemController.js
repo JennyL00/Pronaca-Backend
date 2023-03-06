@@ -41,7 +41,13 @@ class ItemController {
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
+            const {id_tipo_item,cantidad_lote_item,precio_item} = req.body
             yield database_1.default.query('UPDATE item set ? WHERE id_item = ?', [req.body, id]);
+            //actualizar las cuentas por pagar proveedores
+            if(id_tipo_item==1){
+                yield database_1.default.query('UPDATE cuenta set valor_cuenta=(valor_cuenta-?) WHERE id_cuenta=26', [cantidad_lote_item*precio_item]);
+            }
+            
             res.json({ message: 'Item was updated' });
         });
     }
