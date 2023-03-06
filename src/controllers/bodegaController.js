@@ -40,12 +40,21 @@ class BodegaController{
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const {cantidad, id_item, id_ubicacion} = req.body;
-            const ubicacion = yield database_1.default.query('SELECT ZONA_UBICACION FROM UBICACION WHERE ID_UBICACION = ?',[id_ubicacion]);
-            const stringUbicacion = JSON.parse(JSON.stringify(ubicacion))
+            //const {cantidad, id_item, id_cliente} = req.body;
+            //var consulta = "";
+            const valor = req.body;
+            const cliente = yield database_1.default.query('SELECT ID_UBICACION FROM CLIENTE WHERE ID_CLIENTE = ?',[valor[1].id_cliente]);
+            const stringCliente = JSON.parse(JSON.stringify(cliente));
+            const ubicacion = yield database_1.default.query('SELECT ZONA_UBICACION FROM UBICACION WHERE ID_UBICACION = ?',[stringCliente[0].ID_UBICACION]);
+            const stringUbicacion = JSON.parse(JSON.stringify(ubicacion));
             const bodega = yield database_1.default.query('SELECT ID_BODEGA FROM BODEGA WHERE SECTOR_UBICACION = ?',[stringUbicacion[0].ZONA_UBICACION]);
-            const stringBodega = JSON.parse(JSON.stringify(bodega))
-            yield database_1.default.query('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-? WHERE bodegaitem.ID_ITEM=? AND bodegaitem.ID_BODEGA=?', [cantidad, id_item, stringBodega[0].ID_BODEGA]);
+            const stringBodega = JSON.parse(JSON.stringify(bodega));
+            valor[0].map((item) => {
+                //consulta += ('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-'+item.cantidad_pedido+' WHERE bodegaitem.ID_ITEM='+item.id_item+' AND bodegaitem.ID_BODEGA='+stringBodega[0].ID_BODEGA+';');
+                database_1.default.query('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-? WHERE bodegaitem.ID_ITEM=? AND bodegaitem.ID_BODEGA=?', [item.cantidad_pedido, item.id_item, stringBodega[0].ID_BODEGA]);
+            })
+            //yield database_1.default.query('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-? WHERE bodegaitem.ID_ITEM=? AND bodegaitem.ID_BODEGA=?', [valor[0].map(item => [item.cantidad_pedido, item.id_item, stringBodega[0].ID_BODEGA])]);
+            //const resultado =yield database_1.default.query(consulta);
             res.json({ message: 'Bodega fue actualizada' });
         });
     }
@@ -60,12 +69,27 @@ class BodegaController{
     getQuantity(req, res){
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            const bodega = yield database_1.default.query(`SELECT bodega.NOMBRE, bodega.SECTOR_UBICACION ,item.NOMBRE_ITEM, bodegaitem.CANTIDAD FROM bodega INNER JOIN bodegaitem ON bodegaitem.ID_BODEGA = bodega.ID_BODEGA
+            const bodega = yield database_1.default.query(`SELECT item.ID_ITEM, bodega.NOMBRE, bodega.SECTOR_UBICACION ,item.NOMBRE_ITEM, item.LOTE_ITEM
+                                                                , item.CANTIDAD_LOTE_ITEM, item.UNIDAD_MEDIDA, item.PESO_ITEM
+                                                                , bodegaitem.CANTIDAD FROM bodega INNER JOIN bodegaitem ON bodegaitem.ID_BODEGA = bodega.ID_BODEGA
                                                                 INNER JOIN item ON bodegaitem.ID_ITEM = item.ID_ITEM where bodegaitem.ID_BODEGA = ?`,[id]);
             if (bodega.length > 0) {
                 return res.json(bodega);
             }
             res.status(404).json({ text: "Bodega no existe" });
+        });
+    }
+    updateItem(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const param1 = req.body.cantidad;
+            console.log(param1);
+            const param2 = req.body.id_item;
+            console.log(param2);
+            const param3 = req.body.id_bodega;
+            console.log(param2);
+            yield database_1.default.query('UPDATE bodegaitem set CANTIDAD = ?  WHERE ID_ITEM = ? AND ID_BODEGA=?', [param1, param2, param3]);
+            res.json({ message: 'Bodega fue actualizado' });
+            console.log("paso")
         });
     }
 }
