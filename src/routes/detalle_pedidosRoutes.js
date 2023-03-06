@@ -8,7 +8,7 @@ class Detalle_PedidoRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', detalle_pedidoController_1.detalle_pedidoController.list);
+        this.router.get('/:id', detalle_pedidoController_1.detalle_pedidoController.list);
         this.router.get('/:id', detalle_pedidoController_1.detalle_pedidoController.getOne);
         this.router.post('/', detalle_pedidoController_1.detalle_pedidoController.create);
         this.router.put('/:id', detalle_pedidoController_1.detalle_pedidoController.update);

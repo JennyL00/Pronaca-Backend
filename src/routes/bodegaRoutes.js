@@ -12,6 +12,7 @@ class BodegaRoutes {
         this.router.get('/:id', bodegaController_1.bodegaController.getQuantity);
         this.router.post('/', bodegaController_1.bodegaController.create);
         this.router.put('/', bodegaController_1.bodegaController.update);
+        this.router.put('/:id', bodegaController_1.bodegaController.updateItem);
         this.router.delete('/:id', bodegaController_1.bodegaController.delete);
     }
 }
