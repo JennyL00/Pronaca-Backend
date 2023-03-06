@@ -40,12 +40,22 @@ class BodegaController{
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const {cantidad, id_item, id_ubicacion} = req.body;
-            const ubicacion = yield database_1.default.query('SELECT ZONA_UBICACION FROM UBICACION WHERE ID_UBICACION = ?',[id_ubicacion]);
-            const stringUbicacion = JSON.parse(JSON.stringify(ubicacion))
+            //const {cantidad, id_item, id_cliente} = req.body;
+            var consulta = "";
+            console.log(req.body)
+            const valor = req.body;
+            const cliente = yield database_1.default.query('SELECT ID_UBICACION FROM CLIENTE WHERE ID_CLIENTE = ?',[valor[1].id_cliente]);
+            const stringCliente = JSON.parse(JSON.stringify(cliente));
+            const ubicacion = yield database_1.default.query('SELECT ZONA_UBICACION FROM UBICACION WHERE ID_UBICACION = ?',[stringCliente[0].ID_UBICACION]);
+            const stringUbicacion = JSON.parse(JSON.stringify(ubicacion));
             const bodega = yield database_1.default.query('SELECT ID_BODEGA FROM BODEGA WHERE SECTOR_UBICACION = ?',[stringUbicacion[0].ZONA_UBICACION]);
-            const stringBodega = JSON.parse(JSON.stringify(bodega))
-            yield database_1.default.query('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-? WHERE bodegaitem.ID_ITEM=? AND bodegaitem.ID_BODEGA=?', [cantidad, id_item, stringBodega[0].ID_BODEGA]);
+            const stringBodega = JSON.parse(JSON.stringify(bodega));
+            valor[0].map((item) => {
+                //consulta += ('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-'+item.cantidad_pedido+' WHERE bodegaitem.ID_ITEM='+item.id_item+' AND bodegaitem.ID_BODEGA='+stringBodega[0].ID_BODEGA+';');
+                database_1.default.query('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-? WHERE bodegaitem.ID_ITEM=? AND bodegaitem.ID_BODEGA=?', [item.cantidad_pedido, item.id_item, stringBodega[0].ID_BODEGA]);
+            })
+            //yield database_1.default.query('UPDATE bodegaitem SET CANTIDAD=CANTIDAD-? WHERE bodegaitem.ID_ITEM=? AND bodegaitem.ID_BODEGA=?', [valor[0].map(item => [item.cantidad_pedido, item.id_item, stringBodega[0].ID_BODEGA])]);
+            //const resultado =yield database_1.default.query(consulta);
             res.json({ message: 'Bodega fue actualizada' });
         });
     }

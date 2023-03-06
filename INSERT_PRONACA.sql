@@ -5,8 +5,9 @@ INSERT INTO `tipo_lista_produc`(`TIPO_LISTA_ITEMS`, `DETALLE_TIPO_LISTA`)
 VALUES ('Productos Produccion','Productos que son realizados en la empresa');*/
 
 /* ubicaciones */
-INSERT INTO `ubicacion` (`ID_UBICACION`, `ZONA_UBICACION`, `SECTOR_UBICACION`) VALUES (NULL, 'Norte', 'La delicia, el condado');
-INSERT INTO `ubicacion` (`ID_UBICACION`, `ZONA_UBICACION`, `SECTOR_UBICACION`) VALUES (NULL, 'Eloy Alfaro', 'San Bartolo');
+INSERT INTO `ubicacion` (`ID_UBICACION`, `ZONA_UBICACION`, `SECTOR_UBICACION`) VALUES ('1', 'Norte', 'La delicia, el condado');
+INSERT INTO `ubicacion` (`ID_UBICACION`, `ZONA_UBICACION`, `SECTOR_UBICACION`) VALUES ('2', 'Centro', 'San Blas');
+INSERT INTO `ubicacion` (`ID_UBICACION`, `ZONA_UBICACION`, `SECTOR_UBICACION`) VALUES ('3', 'Sur', 'Quitumbe');
 
 /*Estado Produccion*/
 INSERT INTO `estado_produccion`(`ESTADO_PRODUCCION`, `DETALLE_ESTADO_PRODU`) 
@@ -257,14 +258,14 @@ INSERT INTO `pedido` (`ID_PEDIDO`, `ID_CLIENTE`, `ID_EMPLEADO`, `ID_CUENTA`, `FE
 /*DETALLE PEDIDOS*/
 INSERT INTO `detalle_pedido` (`ID_DETALLE_PEDIDO`, `ID_PEDIDO`, `ID_ITEM`, `CANTIDAD_PEDIDO`, `SUBTOTAL_DETALLE_PEDIDO`, `PRECIO_DETALLE_PEDIDO`) VALUES (NULL, '1', '3', '20', '18.5', '21.78');
 
-INSERT INTO `bodega`(`NOMBRE`, `SECTOR_UBICACION`)
-VALUES ('Chillogallo','Sur');
+INSERT INTO `bodega`(`ID_BODEGA`, `NOMBRE`, `SECTOR_UBICACION`)
+VALUES ('1','Carcelén','Norte');
 
-INSERT INTO `bodega`(`NOMBRE`, `SECTOR_UBICACION`)
-VALUES ('Miraflores','Centro');
+INSERT INTO `bodega`(`ID_BODEGA`, `NOMBRE`, `SECTOR_UBICACION`)
+VALUES ('2','Miraflores','Centro');
 
-INSERT INTO `bodega`(`NOMBRE`, `SECTOR_UBICACION`)
-VALUES ('Carcelén','Norte');
+INSERT INTO `bodega`(`ID_BODEGA`, `NOMBRE`, `SECTOR_UBICACION`)
+VALUES ('3','Chillogallo','Sur');
 
 DELIMITER $$
 CREATE TRIGGER insert_intem_bodega 
