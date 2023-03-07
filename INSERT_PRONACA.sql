@@ -80,10 +80,10 @@ INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FI
 (24,"Sueldos, comisiones por pagar","2.1.6.",1,0.0),(35,"Nómina por pagar","2.1.6.01.",1,0.0),
 (23,"Pasivos fijos","2.2.",1,0.0),(37,"Obligaciones financieras","2.2.1.",1,-75.526),(37,"Pasivos por arrendamiento","2.2.2.",1,-3.571),
 (null,"Patrimonio","3.",1,0.0),(40,"Capital","3.1.",1,-407.166),(40,"Reservas","3.2.",1,-130.000),(null,"Ingresos","4.",2,0.0),
-(43,"Ingresos operativos","4.1.",2,0.0),(44,"Ventas y devoluciones","4.1.1.",2,0.0),(45,"Ventas","4.1.1.01.",2,0.0),(45,"Devoluciones","4.1.1.02.",2,0.0),
+(43,"Ingresos operativos","4.1.",2,0.0),(44,"Ventas y devoluciones","4.1.1.",2,0.0),(45,"Ventas","4.1.1.01.",2,-21.78),(45,"Devoluciones","4.1.1.02.",2,0.0),
 (null,"Costos","5",2,0.0),(48,"Costos Directos","5.1.",2,0.0),(49,"Costos operativos","5.1.1.",2,0.0),
 (50,"Costos personal comercial","5.1.1.01",2,0.0),(50,"Costos personal producción","5.1.1.02.",2,0.0),
-(49,"Costos de ventas","5.1.2.",2,0.0),(53,"Costos de ventas de mercancia","5.1.2.01.",2,0.0),(null,"Gastos","6.",2,0.0),(55,"Gastos operativos","6.1.",2,0.0),
+(49,"Costos de ventas","5.1.2.",2,0.0),(53,"Costos de ventas de mercancia","5.1.2.01.",2,15.98),(null,"Gastos","6.",2,0.0),(55,"Gastos operativos","6.1.",2,0.0),
 (56,"Gastos nómina","6.1.1.",2,0.0),(57,"Gastos personal administrativo","6.1.1.01",2,0.0),(57,"Gastos personal financiero","6.1.1.02.",2,0.0);
 
 INSERT INTO departamento( ID_CUENTA, NOMBRE_DEPARTAMENTO,CODIGO_CUENTA, CUENTA) VALUES (58,'Administrativo','6.1.1.01.','Gastos personal administrativo');

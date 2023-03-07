@@ -213,7 +213,7 @@ class CuentaController {
 
 
             /////// Cuenta costos de ventas
-            const cuentaCostosVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Costos de ventas"')
+            const cuentaCostosVentas = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Costos de ventas de mercancia"')
             const stringCuentaCostosVentas = JSON.parse(JSON.stringify(cuentaCostosVentas))
 
             // Obtención del detalle de pedido para obtener el costo de ventas
