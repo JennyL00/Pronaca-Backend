@@ -276,6 +276,16 @@ VALUES ('2','Miraflores','Centro');
 INSERT INTO `bodega`(`ID_BODEGA`, `NOMBRE`, `SECTOR_UBICACION`)
 VALUES ('3','Chillogallo','Sur');
 
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('1', '3', '150');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('1', '6', '250');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('1', '9', '350');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('2', '3', '129');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('2', '6', '187');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('2', '9', '120');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('3', '3', '151');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('3', '6', '223');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('3', '9', '407');
+
 DELIMITER $$
 CREATE TRIGGER insert_intem_bodega 
 AFTER UPDATE ON ITEM FOR EACH ROW 
