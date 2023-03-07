@@ -65,16 +65,16 @@ INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FI
 (null,"Activos","1.",1,0.0),(1,"Activos corrientes","1.1.",1,0.0),(2,"Caja","1.1.1.",1,0.0),
 (3,"Caja general","1.1.1.01.",1,0.0),(3,"Caja chica","1.1.1.02.",1,0.0),(2,"Bancos","1.1.2.",1,0.0),
 (6,"Banco Pichincha","1.1.2.01.",1,25000.0),(6,"Banco Internacional","1.1.2.02.",1,25000.0),
-(2,"Inventario","1.1.3.",1,0.0),(9,"Inventario materia prima","1.1.3.01.",1,0.0),(9,"Inventario insumos","1.1.3.02",1,0.0),
-(9,"Inventario producto","1.1.3.03.",1,0.0),(9,"Inventario subproducto","1.1.3.04.",1,0.0),(2,"Cuentas por cobrar","1.1.4.",1,0.0),
-(14,"Clientes","1.1.4.01",1,0.0),(2,"Cuentas por cobrar empleados","1.1.5.",1,0.0),
+(2,"Inventario","1.1.3.",1,0.0),(9,"Inventario materia prima","1.1.3.01.",1,555),(9,"Inventario insumos","1.1.3.02",1,0.0),
+(9,"Inventario producto","1.1.3.03.",1,125.2),(9,"Inventario subproducto","1.1.3.04.",1,0.0),(2,"Cuentas por cobrar","1.1.4.",1,0.0),
+(14,"Clientes","1.1.4.01",1,0.0),(2,"Cuentas por cobrar empleados","1.1.5.",1,21.78),
 (16,"Anticipos y prestamos a empleados","1.1.5.01",1,0.0),(2,"Impuestos anticipados","1.1.6.",1,0.0),
 (18,"Iva en compras 12%","1.1.6.01.",1,0.0),(1,"Activos fijos","1.2.",1,0.0),
 (20,"Propiedad planta y equipo","1.2.1.",1,0.0),(20,"Depreciaciones acumuladas","1.2.2.",1,0.0),
 (null,"Pasivos","2.",1,0.0),(23,"Pasivos corrientes","2.1.",1,0.0),
 (24,"Cuentas por pagar","2.1.1.",1,0.0),(25,"Cuentas por pagar proveedor","2.1.1.01.",1,-254),
 (24,"Anticipo de clientes","2.1.2.",1,0.0),(24,"Obligaciones fiscales por pagar","2.1.3.",1,0.0),
-(28,"IVA en ventas","2.1.3.01.",1,0.0),(28,"Impuestos por pagar","2.1.3.02.",1,0.0),
+(28,"IVA en ventas","2.1.3.01.",1,-3.28),(28,"Impuestos por pagar","2.1.3.02.",1,0.0),
 (24,"Obligaciones con el IESS","2.1.4.",1,0.0),(31,"Aporte personal por pagar","2.1.4.01.",1,0.0),
 (31,"Aporte patronal por pagar","2.1.4.02.",1,0.0),(24,"Provisión beneficios sociales","2.1.5.",1,0.0),
 (24,"Sueldos, comisiones por pagar","2.1.6.",1,0.0),(35,"Nómina por pagar","2.1.6.01.",1,0.0),
@@ -178,14 +178,14 @@ VALUES (1,'CONTROL DE CALIDAD','CONTROL DE EMPAQUE, PRODUCTO Y DATOS ETIQUETA','
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`, 						   
 				   `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
-VALUES (1,2,1,'MP1010','CARNE FRESCA','2023-01-20','2023-02-20','2023-03-20','23EN10',10,'BANDEJAS/KG',40,10,'Refrigerado',
+VALUES (1,2,1,'MP1010','CARNE FRESCA','2023-01-20','2023-02-20','2023-03-20','23EN10',10,'BANDEJAS/KG',4,10,'Refrigerado',
         'CARNE PARA EMBUTIDOS',1,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (1,3,1,'SP1010','CARNE LISTA PARA EMBUTIDOS','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',8,'BANDEJAS/KG',50,10,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',8,'BANDEJAS/KG',6.25,10,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
@@ -198,13 +198,13 @@ INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `COD
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (2,3,1,'SP1010','CARNE LISTA PARA POLLO','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',30,'BANDEJAS/KG',156,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',30,'BANDEJAS/KG',5.2,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (2,3,1,'SP1010','CARNE LISTA PARA POLLO','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',30,'BANDEJAS/KG',180,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',30,'BANDEJAS/KG',6,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
@@ -217,13 +217,13 @@ INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `COD
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (3,3,1,'SP1010','CARNE LISTA PARA CHULETA','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',10,'BANDEJAS/KG',58,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',10,'BANDEJAS/KG',5.8,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (3,3,1,'SP1010','CARNE LISTA PARA CHULETA','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',10,'BANDEJAS/KG',65,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',10,'BANDEJAS/KG',6.5,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
