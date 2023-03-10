@@ -20,7 +20,7 @@ class Detalle_PedidoController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params
             const consulta =
-            "SELECT detalle_pedido.ID_DETALLE_PEDIDO, detalle_pedido.ID_PEDIDO, item.NOMBRE_ITEM, detalle_pedido.CANTIDAD_PEDIDO, detalle_pedido.SUBTOTAL_DETALLE_PEDIDO, detalle_pedido.PRECIO_DETALLE_PEDIDO FROM detalle_pedido JOIN item ON detalle_pedido.ID_ITEM = item.ID_ITEM WHERE detalle_pedido.ID_PEDIDO = ?;"
+            "SELECT * FROM detalle_pedido JOIN item ON detalle_pedido.ID_ITEM = item.ID_ITEM WHERE detalle_pedido.ID_PEDIDO = ?;"
             const detalle_pedido = yield database_1.default.query(consulta, [id]);
             res.json(detalle_pedido);
         });
@@ -29,7 +29,7 @@ class Detalle_PedidoController {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             const consulta =
-            "SELECT ID_DETALLE_PEDIDO, ID_PEDIDO, ID_ITEM, CANTIDAD_PEDIDO, SUBTOTAL_DETALLE_PEDIDO, PRECIO_DETALLE_PEDIDO FROM detalle_pedido WHERE ID_DETALLE_PEDIDO = ?;"
+            "SELECT * FROM detalle_pedido WHERE ID_DETALLE_PEDIDO = ?;"
             const detalle_pedido = yield database_1.default.query(consulta, [id]);
             if (detalle_pedido.length > 0) {
                 return res.json(detalle_pedido[0]);

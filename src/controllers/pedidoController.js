@@ -19,7 +19,8 @@ class PedidoController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const consulta =
-            "SELECT pedido.ID_PEDIDO, cliente.NOMBRE_CLIENTE, cliente.APELLIDO_CLIENTE, empleado.NOMBRE_EMPLEADO, empleado.APELLIDO_EMPLEADO, pedido.FECHA_PEDIDO, pedido.ESTADO_PEDIDO FROM pedido JOIN empleado ON empleado.ID_EMPLEADO=pedido.ID_EMPLEADO JOIN cliente ON cliente.ID_CLIENTE=pedido.ID_CLIENTE;"
+            // "SELECT pedido.ID_PEDIDO, cliente.NOMBRE_CLIENTE, cliente.APELLIDO_CLIENTE, empleado.NOMBRE_EMPLEADO, empleado.APELLIDO_EMPLEADO, pedido.FECHA_PEDIDO, pedido.ESTADO_PEDIDO FROM pedido JOIN empleado ON empleado.ID_EMPLEADO=pedido.ID_EMPLEADO JOIN cliente ON cliente.ID_CLIENTE=pedido.ID_CLIENTE;"
+            "SELECT * FROM pedido JOIN empleado ON empleado.ID_EMPLEADO=pedido.ID_EMPLEADO JOIN cliente ON cliente.ID_CLIENTE=pedido.ID_CLIENTE;"
             const pedido = yield database_1.default.query(consulta);
             res.json(pedido);
         });
@@ -29,7 +30,7 @@ class PedidoController {
             const { id } = req.params;
             const consulta =
             // "SELECT pedido.ID_PEDIDO, cliente.NOMBRE_CLIENTE, cliente.APELLIDO_CLIENTE, empleado.NOMBRE_EMPLEADO, empleado.APELLIDO_EMPLEADO, pedido.FECHA_PEDIDO, pedido.ESTADO_PEDIDO FROM pedido JOIN empleado ON empleado.ID_EMPLEADO=pedido.ID_EMPLEADO JOIN cliente ON cliente.ID_CLIENTE=pedido.ID_CLIENTE WHERE ID_PEDIDO = ?;"
-            "SELECT * FROM pedido WHERE ID_PEDIDO = ?;"
+            "SELECT * FROM pedido JOIN empleado ON empleado.ID_EMPLEADO=pedido.ID_EMPLEADO JOIN cliente ON cliente.ID_CLIENTE=pedido.ID_CLIENTE WHERE ID_PEDIDO = ?;"
             const pedido = yield database_1.default.query(consulta, [id]);
             if (pedido.length > 0) {
                 return res.json(pedido[0]);
@@ -45,15 +46,6 @@ class PedidoController {
                 id_empleado,
                 FECHA_PEDIDO,
                 ESTADO_PEDIDO
-            }
-            if(ESTADO_PEDIDO=="Entregado"){
-                newPedido = {
-                    id_cliente,
-                    id_cuenta:46,
-                    id_empleado,
-                    FECHA_PEDIDO,
-                    ESTADO_PEDIDO
-                }
             }
             yield database_1.default.query('INSERT INTO pedido set?', [newPedido]);            
             res.json({ message: 'Pedido saved' });
