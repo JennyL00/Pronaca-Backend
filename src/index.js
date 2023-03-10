@@ -31,6 +31,10 @@ const detalle_asientoRoutes = require("./routes/detalle_asientoRoutes");
 const loginRoutes = require("./routes/loginRoutes")
 const bodegaRoutes = require("./routes/bodegaRoutes");
 
+//Pedido proveedores
+const pedidoProveedorRoutes = require("./routes/pedidosProveedorRoutes");
+const proveedorRoutes = require("./routes/proveedoresRoutes")
+
 //initialization
 const app = express();
 
@@ -96,6 +100,8 @@ app.use('/api/login',loginRoutes.default);
 app.use('/api/receta',receta_produccionRoutes.default);
 app.use('/api/pasos_receta',pasos_recetaRoutes.default);
 app.use('/api/bodega',bodegaRoutes.default);
+app.use('/api/pedidoProveedor',pedidoProveedorRoutes.default);
+app.use('/api/proveedor', proveedorRoutes.default);
 
 
 //public
