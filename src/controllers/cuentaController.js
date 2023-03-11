@@ -249,6 +249,17 @@ class CuentaController {
         });
     }
 
+    obtenercuentasPedidos(req,res){
+        return __awaiter(this, void 0, void 0, function* () {
+            //cuenta Iva en ventas, cuenta por cobrar clientes,costos de ventas, ventas
+            const cuentasPedidos = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="IVA en ventas" or descripcion_cuenta="clientes" or descripcion_cuenta="Costos de ventas de mercancia" or descripcion_cuenta="Ventas"')
+            const stringCuentasPedidos = JSON.parse(JSON.stringify(cuentasPedidos))
+            console.log(cuentasPedidos)
+            res.json(cuentasPedidos)
+
+        });
+    }
+
     actualizarIngresos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;

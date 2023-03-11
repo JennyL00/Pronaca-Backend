@@ -18,8 +18,13 @@ const database_1 = __importDefault(require("../database"));
 class Movimiento_empleadoController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const item = yield database_1.default.query('SELECT * FROM movimiento_empleado');
-            res.json(item);
+            const movimiento = yield database_1.default.query('SELECT * FROM movimiento_empleado');
+            const stringMov = JSON.parse(JSON.stringify(movimiento))
+            //cuentas que cumplen con los movimientos
+            const itemCuentas = yield database_1.default.query('SELECT * FROM cuenta where id_cuenta=? or id_cuenta=? or id_cuenta=?',[stringMov[0].ID_CUENTA, stringMov[1].ID_CUENTA,stringMov[2].ID_CUENTA])
+            const stringItemCuentas = JSON.parse(JSON.stringify(itemCuentas))
+            
+            res.json(stringItemCuentas);
         });
     }
     getOne(req, res) {
