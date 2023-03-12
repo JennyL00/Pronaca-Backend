@@ -67,12 +67,12 @@ INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FI
 (6,"Banco Pichincha","1.1.2.01.",1,25000.0),(6,"Banco Internacional","1.1.2.02.",1,25000.0),
 (2,"Inventario","1.1.3.",1,0.0),(9,"Inventario materia prima","1.1.3.01.",1,555),(9,"Inventario insumos","1.1.3.02",1,0.0),
 (9,"Inventario producto","1.1.3.03.",1,125.2),(9,"Inventario subproducto","1.1.3.04.",1,0.0),(2,"Cuentas por cobrar","1.1.4.",1,0.0),
-(14,"Clientes","1.1.4.01",1,24.86),(2,"Cuentas por cobrar empleados","1.1.5.",1,0.0),
+(14,"Clientes","1.1.4.01",1,0.0),(2,"Cuentas por cobrar empleados","1.1.5.",1,0.0),
 (16,"Anticipos y prestamos a empleados","1.1.5.01",1,0.0),(2,"Impuestos anticipados","1.1.6.",1,0.0),
-(18,"Iva en compras 12%","1.1.6.01.",1,0.0),(1,"Activos fijos","1.2.",1,0.0),
+(18,"Iva en compras 12%","1.1.6.01.",1,27.73),(1,"Activos fijos","1.2.",1,0.0),
 (20,"Propiedad planta y equipo","1.2.1.",1,0.0),(20,"Depreciaciones acumuladas","1.2.2.",1,0.0),
 (null,"Pasivos","2.",1,0.0),(23,"Pasivos corrientes","2.1.",1,0.0),
-(24,"Cuentas por pagar","2.1.1.",1,0.0),(25,"Cuentas por pagar proveedor","2.1.1.01.",1,-254),
+(24,"Cuentas por pagar","2.1.1.",1,0.0),(25,"Cuentas por pagar proveedor","2.1.1.01.",1,0.0),
 (24,"Anticipo de clientes","2.1.2.",1,0.0),(24,"Obligaciones fiscales por pagar","2.1.3.",1,0.0),
 (28,"IVA en ventas","2.1.3.01.",1,-3.28),(28,"Impuestos por pagar","2.1.3.02.",1,0.0),
 (24,"Obligaciones con el IESS","2.1.4.",1,0.0),(31,"Aporte personal por pagar","2.1.4.01.",1,0.0),
@@ -153,7 +153,7 @@ VALUES ('PROVEEDOR DE INSUMOS', 'INSUMOS', '1238767890001');
 
 /*Pedido_PROVEEDOR*/
 INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`, `ESTADO_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
-VALUES ('26', '1', '2023-01-18', 'PEDIDO CARNE PARA EMBUTIDOS PLUMROSE', 'ENTREGADO',10,4,40);
+VALUES ('26', '1', '2023-01-18', 'PEDIDO CARNE PARA EMBUTIDOS PLUMROSE', 'ENTREGADO',10,40,44.8);
 
 INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`, `ESTADO_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
 VALUES ('26', '2', '2023-01-18', 'PEDIDO MR POLLO', 'ENTREGADO',30,139.29,156);

@@ -190,7 +190,7 @@ class CuentaController {
             // Toma todos los pedidos con estado "Pendiente" y los suma (incluye el IVA)
             const porCobrar = yield database_1.default.query('SELECT SUM(P.TOTAL_PEDIDO) AS TOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Pendiente"')
             const stringPorCobrar = JSON.parse(JSON.stringify(porCobrar))
-            const cuentaPorCobrar = stringPorCobrar[0].TOTAL_PEDIDO * (-1) || 0.00;
+            const cuentaPorCobrar = stringPorCobrar[0].TOTAL_PEDIDO || 0.00;
 
             // Actualizar cuentas por cobrar (clientes)
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [cuentaPorCobrar, stringCuentaClientes[0].ID_CUENTA])
@@ -249,16 +249,63 @@ class CuentaController {
         });
     }
 
+    cuentasPedidosProveedor(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+
+            ////// Cuenta cuentas por pagar (proveedores)
+            const cuentaProveedores = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Cuentas por pagar proveedor"')
+            const stringCuentaProveedores = JSON.parse(JSON.stringify(cuentaProveedores))
+
+            // Cálculo de las cuentas por pagar
+            // Toma todos los pedidos con estado "Pendiente" y los suma (incluye el IVA)
+            const porPagar = yield database_1.default.query('SELECT SUM(P.TOTAL_PEDIDO_PROVEEDOR) AS TOTAL_PEDIDO FROM PEDIDO_PROVEEDOR P WHERE P.ESTADO_PEDIDO_PROVEEDOR="PENDIENTE"')
+            const stringPorPagar = JSON.parse(JSON.stringify(porPagar))
+            const cuentaPorPagar = stringPorPagar[0].TOTAL_PEDIDO * (-1) || 0.00;
+
+            // Actualizar cuentas por pagar (proveedor)
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [cuentaPorPagar, stringCuentaProveedores[0].ID_CUENTA])
+
+
+
+            ////// Cuenta IVA en compras
+            const cuentaIva = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Iva en compras 12%"')
+            const stringCuentaIva = JSON.parse(JSON.stringify(cuentaIva))
+
+            // Cálculo del IVA
+            // Toma todos los pedidos con estado "Entregado" y suma su IVA
+            const iva = yield database_1.default.query('SELECT (SUM(P.TOTAL_PEDIDO_PROVEEDOR)-SUM(P.SUBTOTAL_PEDIDO_PROVEEDOR)) AS IVA_PEDIDO FROM PEDIDO_PROVEEDOR P WHERE P.ESTADO_PEDIDO_PROVEEDOR="ENTREGADO"')
+            const stringIva = JSON.parse(JSON.stringify(iva))
+            const totalIva = stringIva[0].IVA_PEDIDO || 0.00;
+
+            // Actualizar cuenta IVA en ventas
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [totalIva, stringCuentaIva[0].ID_CUENTA])
+
+
+            res.json({ message: 'cuentas de pedidos actualizadas' });
+
+        });
+    }
+
     obtenercuentasPedidos(req,res){
         return __awaiter(this, void 0, void 0, function* () {
             //cuenta Iva en ventas, cuenta por cobrar clientes,costos de ventas, ventas
             const cuentasPedidos = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="IVA en ventas" or descripcion_cuenta="clientes" or descripcion_cuenta="Costos de ventas de mercancia" or descripcion_cuenta="Ventas"')
-            const stringCuentasPedidos = JSON.parse(JSON.stringify(cuentasPedidos))
-            console.log(cuentasPedidos)
+            
             res.json(cuentasPedidos)
 
         });
     }
+    obtenercuentasPedidosProveedor(req,res){
+        return __awaiter(this, void 0, void 0, function* () {
+            //cuenta Iva en cmpras, cuenta por pagar
+            const cuentasPedidosProveedor = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="Iva en compras 12%" or descripcion_cuenta="Cuentas por pagar proveedor"')
+            
+            res.json(cuentasPedidosProveedor)
+
+        });
+    }
+    
 
     actualizarIngresos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
