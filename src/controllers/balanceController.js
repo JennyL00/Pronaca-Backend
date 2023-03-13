@@ -43,21 +43,42 @@ class balanceController {
       const {date_end } = req.body;
   
       try {
-        // // Calcular el id
-        // const result = yield database_1.default.query('SELECT MAX(ID_INFORME_FINANCIERO) AS max_id FROM INFORME_FINANCIERO');
-        // const max_id = result[0].max_id;
-        // const id_informe = max_id + 1;
+ 
 
         const date_informe = new Date().toISOString().substring(0, 10);
   
-        // Filtrar por fecha
-        //const lista_asiento_fecha_filtro = yield database_1.default.query(`SELECT * FROM ASIENTO INNER JOIN DETALLE_ASIENTO ON ASIENTO.ID_ASIENTO = DETALLE_ASIENTO.ID_ASIENTO WHERE ASIENTO.FECHA_ASIENTO > '${date_init}' AND ASIENTO.FECHA_ASIENTO < '${date_end}'`);
 
-        //const lista_cuenta_codigo_filtro_activos = lista_asiento_fecha_filtro.filter(detalle_asiento => detalle_asiento.CODIGO_CUENTA.startsWith('1.'));
-        //const lista_cuenta_codigo_filtro_pasivos = lista_asiento_fecha_filtro.filter(detalle_asiento => detalle_asiento.CODIGO_CUENTA.startsWith('2.'));
-        
+        //ACTIVOS
         const lista_cuenta_codigo_filtro_activos=yield database_1.default.query(`SELECT * FROM CUENTA WHERE CODIGO_CUENTA LIKE '1%'`)
+        ////bancos01
+        const lista_cuenta_codigo_bancos=yield database_1.default.query(`SELECT * FROM CUENTA WHERE CODIGO_CUENTA LIKE '1.1.2.%'`)
+        ////inventario02
+        const inventarioo = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 9`)
+        const inventario=inventarioo[0].VALOR_CUENTA
+        ////cuentas por cobrar cliente  ///cambiar empleado por cliente
+        const cuentaxcobrar_empleadoo = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 15`)
+        const cuentaxcobrar_empleado=cuentaxcobrar_empleadoo[0].VALOR_CUENTA
+
+
+        /////PASIVOS
         const lista_cuenta_codigo_filtro_pasivos=yield database_1.default.query(`SELECT * FROM CUENTA WHERE CODIGO_CUENTA LIKE '2%'`)
+        /////cuentas por pagar proveedor
+        const cuentaxpagar_proveedorr = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 26`);
+        const cuentaxpagar_proveedor=cuentaxpagar_proveedorr[0].VALOR_CUENTA
+
+        /////iva en venta
+        const iva_ventass = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 29`);
+        const iva_ventas=iva_ventass[0].VALOR_CUENTA
+        /////aportes personal y patronal
+        const lista_cuenta_aportes=yield database_1.default.query(`SELECT * FROM CUENTA WHERE CODIGO_CUENTA LIKE '2.1.4.%'`)
+        /////nomina por pagar
+        const nomina_pagarr = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 36`);
+        const nomina_pagar=nomina_pagarr[0].VALOR_CUENTA  
+        ////pasivos fijos////usa id cuenta
+        const lista_pasivos_fijos=yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE CUE_ID_CUENTA = 37`)
+      
+
+
 
 
         //calcular el patrimonio
@@ -67,10 +88,30 @@ class balanceController {
         for (let i = 0; i < pasivos_lista.length; i++) {
           suma_patrimonio += pasivos_lista[i].VALOR_CUENTA;
         }
-  
-        // Sumar debe y haber
+        /////suma repetida
+
+
+        
+        // Sumar Activos totales
         let suma_activos = lista_cuenta_codigo_filtro_activos.reduce((total, cuenta) => total + cuenta.VALOR_CUENTA, 0);
+        /////suma repetida
+        suma_activos=suma_activos-inventario
+
+
+        ////sumar bancos
+        let suma_bancos = lista_cuenta_codigo_bancos.reduce((total, cuenta) => total + cuenta.VALOR_CUENTA, 0);
+
+
+
+
+
+        ///Suma Pasivos Totales
         let suma_pasivos = lista_cuenta_codigo_filtro_pasivos.reduce((total, cuenta) => total + cuenta.VALOR_CUENTA, 0);
+        ///suma aportes 
+        let suma_aportes = lista_cuenta_aportes.reduce((total, cuenta) => total + cuenta.VALOR_CUENTA, 0);
+        ///pasivos fijos suma
+        let suma_pasivos_fijos = lista_pasivos_fijos.reduce((total, cuenta) => total + cuenta.VALOR_CUENTA, 0);
+
   
         // Obtener const patrimonio de Pronaca
         const patrimonio_pronaca = suma_patrimonio;
@@ -85,10 +126,24 @@ class balanceController {
         activos: suma_activos,
         pasivos: suma_pasivos,
         patrimonio: patrimonio_pronaca,
-        tipo_informe: 1
+        tipo_informe: 1,
+        //////
+        bancos:suma_bancos,
+        inventario:inventario,
+        cuentas_por_cobrar_emp:cuentaxcobrar_empleado,
+        /////
+        cuenta_pagar_proveedor:cuentaxpagar_proveedor,
+        iva_ventas:iva_ventas,
+        aportes:suma_aportes,
+        nomina:nomina_pagar,
+        pasivos_fijos:suma_pasivos_fijos,
+
       };
 
-      yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe})`);
+      //yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe})`);
+      //yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_emp}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
+      yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, BANCOS, INVENTARIO, Cuentas_por_cobrar_emp, Cuenta_pagar_proveedor, Iva_ventas, Aportes, Nomina, Pasivos_fijos) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_emp}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
+
 
         
   

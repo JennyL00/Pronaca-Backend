@@ -81,6 +81,17 @@ create table balance_general (
   pasivos decimal(10,2) not null,
   patrimonio decimal(10,2) not null,
   ID_informe_financiero int not null,
+
+  bancos decimal(10,2) not null,
+  inventario decimal(10,2) not null,
+  cuentas_por_cobrar_emp decimal(10,2) not null,
+  
+  cuenta_pagar_proveedor decimal(10,2) not null,
+  iva_ventas decimal(10,2) not null,
+  aportes decimal(10,2) not null,
+  nomina decimal(10,2) not null,
+  pasivos_fijos decimal(10,2) not null,
+
   primary key (id_balance),
   foreign key (ID_informe_financiero) references informe_financiero(id_informe_financiero)
 );

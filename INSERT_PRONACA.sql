@@ -40,12 +40,21 @@ INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`) VALUE
 /*
 INformes Financieros , Balance */
 
-INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, ID_informe_financiero) VALUES
-('2022-01-31', 100000.00, 60000.00, 40000.00, 1),
-('2022-02-28', 120000.00, 70000.00, 50000.00, 1),
-('2022-03-31', 130000.00, 80000.00, 50000.00, 1),
-('2022-04-30', 140000.00, 90000.00, 50000.00, 1),
-('2022-05-31', 150000.00, 100000.00, 50000.00, 1);
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
+VALUES ('2023-03-12', 1000.00, 500.00, 500.00, 250.00, 200.00, 100.00, 150.00, 50.00, 100.00, 300.00, 50.00, 1);
+
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
+VALUES ('2023-03-12', 1500.00, 1000.00, 500.00, 500.00, 300.00, 200.00, 250.00, 100.00, 200.00, 400.00, 100.00, 1);
+
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
+VALUES ('2023-03-12', 2000.00, 1500.00, 500.00, 750.00, 400.00, 300.00, 350.00, 150.00, 300.00, 500.00, 150.00, 1);
+
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
+VALUES ('2023-03-12', 2500.00, 2000.00, 500.00, 1000.00, 500.00, 400.00, 450.00, 200.00, 400.00, 600.00, 200.00, 1);
+
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
+VALUES ('2023-03-12', 3000.00, 2500.00, 500.00, 1250.00, 600.00, 500.00, 550.00, 250.00, 500.00, 700.00, 250.00, 1);
+
 /* estado de Resultados */
 
 INSERT INTO estado_financiero (fecha, ingresos, costos, gastos, ID_informe_financiero)
