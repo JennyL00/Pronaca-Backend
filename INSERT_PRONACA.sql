@@ -67,7 +67,7 @@ INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FI
 (6,"Banco Pichincha","1.1.2.01.",1,25000.0),(6,"Banco Internacional","1.1.2.02.",1,25000.0),
 (2,"Inventario","1.1.3.",1,0.0),(9,"Inventario materia prima","1.1.3.01.",1,555),(9,"Inventario insumos","1.1.3.02",1,0.0),
 (9,"Inventario producto","1.1.3.03.",1,125.2),(9,"Inventario subproducto","1.1.3.04.",1,0.0),(2,"Cuentas por cobrar","1.1.4.",1,0.0),
-(14,"Clientes","1.1.4.01",1,0.0),(2,"Cuentas por cobrar empleados","1.1.5.",1,0.0),
+(14,"Cuentas por cobrar clientes","1.1.4.01",1,0.0),(2,"Cuentas por cobrar empleados","1.1.5.",1,0.0),
 (16,"Anticipos y prestamos a empleados","1.1.5.01",1,0.0),(2,"Impuestos anticipados","1.1.6.",1,0.0),
 (18,"Iva en compras 12%","1.1.6.01.",1,27.73),(1,"Activos fijos","1.2.",1,0.0),
 (20,"Propiedad planta y equipo","1.2.1.",1,0.0),(20,"Depreciaciones acumuladas","1.2.2.",1,0.0),
