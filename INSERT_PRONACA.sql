@@ -256,9 +256,9 @@ CREATE PROCEDURE ITEMS_ALL()
 SELECT item.ID_ITEM, item.ID_LISTA_ITEMS, .item.ID_ESTADO_PRODUCION,estado_produccion.ESTADO_PRODUCCION, item.ID_TIPO_ITEM,
 tipo_item.TIPO_ITEM,item.CODIGO_ITEM, item.NOMBRE_ITEM, item.FECHA_FABRI_ITEM, item.FECHA1_CADU_ITEM, item.FECHA2_CADU_ITEM,
 item.LOTE_ITEM, item.CANTIDAD_LOTE_ITEM, item.UNIDAD_MEDIDA, item.PESO_ITEM,item.PRECIO_ITEM, item.CONSERVACION_ITEM, item.DETALLE_ITEM, 
-item.ID_PASO_RECETA, item.ID_BODEGA, bodega.NOMBRE FROM item, estado_produccion, tipo_item, bodega 
+item.ID_PASO_RECETA,paso_receta.NOMBRE_PASO_RECETA, item.ID_BODEGA, bodega.NOMBRE FROM item, estado_produccion, tipo_item, bodega, paso_receta 
 WHERE item.ID_ESTADO_PRODUCION=estado_produccion.ID_ESTADO_PRODUCCION and item.ID_TIPO_ITEM=tipo_item.ID_TIPO_ITEM and 
-item.ID_BODEGA=bodega.ID_BODEGA;
+item.ID_BODEGA=bodega.ID_BODEGA and item.ID_PASO_RECETA=paso_receta.ID_PASO_RECETA;
 
 /*CLIENTE*/
 INSERT INTO `cliente` (`ID_CLIENTE`, `NOMBRE_CLIENTE`, `APELLIDO_CLIENTE`, `RUC_CEDULA`, `EMAIL_CLIENTE`, `ESTADO_CLIENTE`, `ID_UBICACION`, `NUMERO_UBICACION`, `TELEFONO_CLIENTE`) VALUES (NULL, 'Carlos', 'Mantilla', '1720195393', 'carlos.mantilla@epn.edu.ec', 'Activo', '1', 'Oe9-160', '0992586602');
