@@ -74,25 +74,25 @@ INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FI
 (null,"Activos","1.",1,0.0),(1,"Activos corrientes","1.1.",1,0.0),(2,"Caja","1.1.1.",1,0.0),
 (3,"Caja general","1.1.1.01.",1,0.0),(3,"Caja chica","1.1.1.02.",1,0.0),(2,"Bancos","1.1.2.",1,0.0),
 (6,"Banco Pichincha","1.1.2.01.",1,25000.0),(6,"Banco Internacional","1.1.2.02.",1,25000.0),
-(2,"Inventario","1.1.3.",1,0.0),(9,"Inventario materia prima","1.1.3.01.",1,0.0),(9,"Inventario insumos","1.1.3.02",1,0.0),
-(9,"Inventario producto","1.1.3.03.",1,0.0),(9,"Inventario subproducto","1.1.3.04.",1,0.0),(2,"Cuentas por cobrar","1.1.4.",1,0.0),
-(14,"Clientes","1.1.4.01",1,0.0),(2,"Cuentas por cobrar empleados","1.1.5.",1,0.0),
+(2,"Inventario","1.1.3.",1,0.0),(9,"Inventario materia prima","1.1.3.01.",1,555),(9,"Inventario insumos","1.1.3.02",1,0.0),
+(9,"Inventario producto","1.1.3.03.",1,125.2),(9,"Inventario subproducto","1.1.3.04.",1,0.0),(2,"Cuentas por cobrar","1.1.4.",1,0.0),
+(14,"Cuentas por cobrar clientes","1.1.4.01",1,0.0),(2,"Cuentas por cobrar empleados","1.1.5.",1,0.0),
 (16,"Anticipos y prestamos a empleados","1.1.5.01",1,0.0),(2,"Impuestos anticipados","1.1.6.",1,0.0),
-(18,"Iva en compras 12%","1.1.6.01.",1,0.0),(1,"Activos fijos","1.2.",1,0.0),
+(18,"Iva en compras 12%","1.1.6.01.",1,27.73),(1,"Activos fijos","1.2.",1,0.0),
 (20,"Propiedad planta y equipo","1.2.1.",1,0.0),(20,"Depreciaciones acumuladas","1.2.2.",1,0.0),
 (null,"Pasivos","2.",1,0.0),(23,"Pasivos corrientes","2.1.",1,0.0),
-(24,"Cuentas por pagar","2.1.1.",1,0.0),(25,"Cuentas por pagar proveedor","2.1.1.01.",1,-254),
+(24,"Cuentas por pagar","2.1.1.",1,0.0),(25,"Cuentas por pagar proveedor","2.1.1.01.",1,0.0),
 (24,"Anticipo de clientes","2.1.2.",1,0.0),(24,"Obligaciones fiscales por pagar","2.1.3.",1,0.0),
-(28,"IVA en ventas","2.1.3.01.",1,0.0),(28,"Retención del IVA","2.1.3.02.",1,0.0),
+(28,"IVA en ventas","2.1.3.01.",1,-3.28),(28,"Impuestos por pagar","2.1.3.02.",1,0.0),
 (24,"Obligaciones con el IESS","2.1.4.",1,0.0),(31,"Aporte personal por pagar","2.1.4.01.",1,0.0),
 (31,"Aporte patronal por pagar","2.1.4.02.",1,0.0),(24,"Provisión beneficios sociales","2.1.5.",1,0.0),
 (24,"Sueldos, comisiones por pagar","2.1.6.",1,0.0),(35,"Nómina por pagar","2.1.6.01.",1,0.0),
 (23,"Pasivos fijos","2.2.",1,0.0),(37,"Obligaciones financieras","2.2.1.",1,-75.526),(37,"Pasivos por arrendamiento","2.2.2.",1,-3.571),
 (null,"Patrimonio","3.",1,0.0),(40,"Capital","3.1.",1,-407.166),(40,"Reservas","3.2.",1,-130.000),(null,"Ingresos","4.",2,0.0),
-(43,"Ingresos operativos","4.1.",2,0.0),(44,"Ventas y devoluciones","4.1.1.",2,0.0),(45,"Ventas","4.1.1.01.",2,0.0),(45,"Devoluciones","4.1.1.02.",2,0.0),
+(43,"Ingresos operativos","4.1.",2,0.0),(44,"Ventas y devoluciones","4.1.1.",2,0.0),(45,"Ventas","4.1.1.01.",2,-21.78),(45,"Devoluciones","4.1.1.02.",2,0.0),
 (null,"Costos","5",2,0.0),(48,"Costos Directos","5.1.",2,0.0),(49,"Costos operativos","5.1.1.",2,0.0),
 (50,"Costos personal comercial","5.1.1.01",2,0.0),(50,"Costos personal producción","5.1.1.02.",2,0.0),
-(49,"Costos de ventas","5.1.2.",2,0.0),(53,"Costos de ventas de mercancia","5.1.2.01.",2,0.0),(null,"Gastos","6.",2,0.0),(55,"Gastos operativos","6.1.",2,0.0),
+(49,"Costos de ventas","5.1.2.",2,0.0),(53,"Costos de ventas de mercancia","5.1.2.01.",2,15.98),(null,"Gastos","6.",2,0.0),(55,"Gastos operativos","6.1.",2,0.0),
 (56,"Gastos nómina","6.1.1.",2,0.0),(57,"Gastos personal administrativo","6.1.1.01",2,0.0),(57,"Gastos personal financiero","6.1.1.02.",2,0.0);
 
 INSERT INTO departamento( ID_CUENTA, NOMBRE_DEPARTAMENTO,CODIGO_CUENTA, CUENTA) VALUES (58,'Administrativo','6.1.1.01.','Gastos personal administrativo');
@@ -113,9 +113,10 @@ INSERT INTO banco(ID_CUENTA,NOMBRE_BANCO, SALDO) VALUES (7,'Banco Pichincha',250
 INSERT INTO banco(ID_CUENTA,NOMBRE_BANCO, SALDO) VALUES (8,'Banco Internacional',25000);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Personal',9.4);
 INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Patronal',11.5);
-INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (23,1,'personal',0.0);
-INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (27,null,'Nómina por pagar',0.0);
-INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (24,2,'patronal',0.0);
+INSERT INTO parametro_iess(NOMBRE_PARAMETRO, VALOR) VALUES ('Impuesto a la renta',0.22);
+INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (32,1,'personal',0.0);
+INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (36,null,'Nómina por pagar',0.0);
+INSERT INTO `movimiento_empleado`(`ID_CUENTA`, `ID_PARAMETRO_IESS`, `DESCRIPCION_MOVIMIENTO_ENPLEADO`, `VALOR_MOVIMIENTO_EMPLEADO`) VALUES (33,2,'patronal',0.0);
 
 
 INSERT INTO `empleado` (`ID_EMPLEADO`, `ID_CARGO_EMPLEADO`, `ID_BANCO`, `ID_MOVIMIENTO_EMPLEADO`, `NOMBRE_EMPLEADO`, `APELLIDO_EMPLEADO`,
@@ -160,14 +161,14 @@ INSERT INTO `proveedor` (`NOMBRE_PROVEEDOR`, `TIPO_PROVEEDOR`, `RUC`)
 VALUES ('PROVEEDOR DE INSUMOS', 'INSUMOS', '1238767890001');
 
 /*Pedido_PROVEEDOR*/
-INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
-VALUES ('26', '1', '2023-01-18', 'PEDIDO CARNE PARA EMBUTIDOS PLUMROSE',10,4,40);
+INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`, `ESTADO_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
+VALUES ('26', '1', '2023-01-18', 'PEDIDO CARNE PARA EMBUTIDOS PLUMROSE', 'ENTREGADO',10,40,44.8);
 
-INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
-VALUES ('26', '2', '2023-01-18', 'PEDIDO MR POLLO',30,139.29,156);
+INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`, `ESTADO_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
+VALUES ('26', '2', '2023-01-18', 'PEDIDO MR POLLO', 'ENTREGADO',30,139.29,156);
 
-INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
-VALUES ('26', '3', '2023-01-18', 'PEDIDO MR CHANCHO',10,51.79,58);
+INSERT INTO `pedido_proveedor` (`ID_CUENTA`, `ID_PROVEEDOR`, `FECHA_PEDIDO_PROVEEDOR`, `DETALLE_PEDIDO_PROVEEDOR`, `ESTADO_PEDIDO_PROVEEDOR`,`CANTIDAD_PEDIDO`,`SUBTOTAL_PEDIDO_PROVEEDOR`,`TOTAL_PEDIDO_PROVEEDOR`) 
+VALUES ('26', '3', '2023-01-18', 'PEDIDO MR CHANCHO', 'ENTREGADO',10,51.79,58);
 
 /*receta*/
 INSERT INTO `receta_produccion`(`NOMBRE_RECETA`, `DETALLE_PEDIDO_PRODUCCION`) 
@@ -186,14 +187,14 @@ VALUES (1,'CONTROL DE CALIDAD','CONTROL DE EMPAQUE, PRODUCTO Y DATOS ETIQUETA','
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`, 						   
 				   `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
-VALUES (1,2,1,'MP1010','CARNE FRESCA','2023-01-20','2023-02-20','2023-03-20','23EN10',10,'BANDEJAS/KG',40,10,'Refrigerado',
+VALUES (1,2,1,'MP1010','CARNE FRESCA','2023-01-20','2023-02-20','2023-03-20','23EN10',10,'BANDEJAS/KG',4,10,'Refrigerado',
         'CARNE PARA EMBUTIDOS',1,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (1,3,1,'SP1010','CARNE LISTA PARA EMBUTIDOS','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',8,'BANDEJAS/KG',50,10,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',8,'BANDEJAS/KG',6.25,10,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
@@ -206,13 +207,13 @@ INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `COD
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (2,3,1,'SP1010','CARNE LISTA PARA POLLO','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',30,'BANDEJAS/KG',156,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',30,'BANDEJAS/KG',5.2,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (2,3,1,'SP1010','CARNE LISTA PARA POLLO','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',30,'BANDEJAS/KG',180,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',30,'BANDEJAS/KG',6,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
@@ -225,13 +226,13 @@ INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `COD
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (3,3,1,'SP1010','CARNE LISTA PARA CHULETA','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',10,'BANDEJAS/KG',58,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',10,'BANDEJAS/KG',5.8,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
                    `PESO_ITEM`,`CONSERVACION_ITEM`, `DETALLE_ITEM`,`ID_PASO_RECETA`,`ID_BODEGA`) 
 VALUES (3,3,1,'SP1010','CARNE LISTA PARA CHULETA','2023-01-20','2023-02-20','2023-03-
-        20','2301EN20',10,'BANDEJAS/KG',65,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
+        20','2301EN20',10,'BANDEJAS/KG',6.5,2.26,'Refrigerado','CONTENIDO PARA EMBUTIDOS',2,1);
 
 INSERT INTO `item`(`ID_LISTA_ITEMS`, `ID_ESTADO_PRODUCION`, `ID_TIPO_ITEM`, `CODIGO_ITEM`, `NOMBRE_ITEM`, `FECHA_FABRI_ITEM`,
                    `FECHA1_CADU_ITEM`, `FECHA2_CADU_ITEM`, `LOTE_ITEM`, `CANTIDAD_LOTE_ITEM`,`UNIDAD_MEDIDA`,`PRECIO_ITEM`,
@@ -263,7 +264,7 @@ WHERE lista_items.ID_EMPLEADO=empleado.ID_EMPLEADO;
 CREATE PROCEDURE ITEMS_ALL()
 SELECT item.ID_ITEM, item.ID_LISTA_ITEMS, .item.ID_ESTADO_PRODUCION,estado_produccion.ESTADO_PRODUCCION, item.ID_TIPO_ITEM,
 tipo_item.TIPO_ITEM,item.CODIGO_ITEM, item.NOMBRE_ITEM, item.FECHA_FABRI_ITEM, item.FECHA1_CADU_ITEM, item.FECHA2_CADU_ITEM,
-item.LOTE_ITEM, item.CANTIDAD_LOTE_ITEM, item.PRECIO_ITEM, item.PESO_ITEM, item.CONSERVACION_ITEM, item.DETALLE_ITEM, 
+item.LOTE_ITEM, item.CANTIDAD_LOTE_ITEM, item.UNIDAD_MEDIDA, item.PESO_ITEM,item.PRECIO_ITEM, item.CONSERVACION_ITEM, item.DETALLE_ITEM, 
 item.ID_PASO_RECETA, item.ID_BODEGA, bodega.NOMBRE FROM item, estado_produccion, tipo_item, bodega 
 WHERE item.ID_ESTADO_PRODUCION=estado_produccion.ID_ESTADO_PRODUCCION and item.ID_TIPO_ITEM=tipo_item.ID_TIPO_ITEM and 
 item.ID_BODEGA=bodega.ID_BODEGA;
@@ -271,9 +272,9 @@ item.ID_BODEGA=bodega.ID_BODEGA;
 /*CLIENTE*/
 INSERT INTO `cliente` (`ID_CLIENTE`, `NOMBRE_CLIENTE`, `APELLIDO_CLIENTE`, `RUC_CEDULA`, `EMAIL_CLIENTE`, `ESTADO_CLIENTE`, `ID_UBICACION`, `NUMERO_UBICACION`, `TELEFONO_CLIENTE`) VALUES (NULL, 'Carlos', 'Mantilla', '1720195393', 'carlos.mantilla@epn.edu.ec', 'Activo', '1', 'Oe9-160', '0992586602');
 /*PEDIDOS*/
-INSERT INTO `pedido` (`ID_PEDIDO`, `ID_CLIENTE`, `ID_EMPLEADO`, `ID_CUENTA`, `FECHA_PEDIDO`, `ESTADO_PEDIDO`, `IVA_PEDIDO`, `SUBTOTAL_PEDIDO`, `TOTAL_PEDIDO`) VALUES (NULL, '1', '1', '46', '2023-02-26', 'Entregado','2.614','19.166','21.78');
+INSERT INTO `pedido` (`ID_PEDIDO`, `ID_CLIENTE`, `ID_EMPLEADO`, `ID_CUENTA`, `FECHA_PEDIDO`, `ESTADO_PEDIDO`, `IVA_PEDIDO`, `SUBTOTAL_PEDIDO`, `TOTAL_PEDIDO`) VALUES (NULL, '1', '1', '46', '2023-02-26', 'Entregado','2.614','22.2','24.86');
 /*DETALLE PEDIDOS*/
-INSERT INTO `detalle_pedido` (`ID_DETALLE_PEDIDO`, `ID_PEDIDO`, `ID_ITEM`, `CANTIDAD_PEDIDO`, `SUBTOTAL_DETALLE_PEDIDO`, `PRECIO_DETALLE_PEDIDO`) VALUES (NULL, '1', '3', '20', '18.5', '21.78');
+INSERT INTO `detalle_pedido` (`ID_DETALLE_PEDIDO`, `ID_PEDIDO`, `ID_ITEM`, `CANTIDAD_PEDIDO`, `SUBTOTAL_DETALLE_PEDIDO`, `PRECIO_DETALLE_PEDIDO`) VALUES (NULL, '1', '3', '20', '18.5', '22.2');
 
 INSERT INTO `bodega`(`ID_BODEGA`, `NOMBRE`, `SECTOR_UBICACION`)
 VALUES ('1','Carcelén','Norte');
@@ -284,6 +285,16 @@ VALUES ('2','Miraflores','Centro');
 INSERT INTO `bodega`(`ID_BODEGA`, `NOMBRE`, `SECTOR_UBICACION`)
 VALUES ('3','Chillogallo','Sur');
 
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('1', '3', '150');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('1', '6', '250');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('1', '9', '350');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('2', '3', '129');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('2', '6', '187');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('2', '9', '120');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('3', '3', '151');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('3', '6', '223');
+INSERT INTO `bodegaitem` (`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) VALUES ('3', '9', '407');
+
 DELIMITER $$
 CREATE TRIGGER insert_intem_bodega 
 AFTER UPDATE ON ITEM FOR EACH ROW 
@@ -292,5 +303,22 @@ BEGIN
         INSERT INTO `bodegaitem`(`ID_BODEGA`, `ID_ITEM`, `CANTIDAD`) 
         VALUES (OLD.ID_BODEGA,OLD.ID_ITEM,NEW.CANTIDAD_LOTE_ITEM); 
         END IF; 
+END$$
+DELIMITER ;
+
+/* Trrigger para acutualizar los calores de IVA, SUBTOTAL Y TOTAL*/
+DELIMITER $$
+CREATE TRIGGER actualizar_pedido AFTER INSERT ON DETALLE_PEDIDO
+FOR EACH ROW
+BEGIN
+  DECLARE subtotal FLOAT(8,2);
+  DECLARE total FLOAT(8,2);
+  
+  -- Calcula el subtotal y el total del pedido actual
+  SELECT SUM(PRECIO_DETALLE_PEDIDO) INTO subtotal FROM DETALLE_PEDIDO WHERE ID_PEDIDO = NEW.ID_PEDIDO;
+  SELECT SUM(PRECIO_DETALLE_PEDIDO)*0.12 INTO total FROM DETALLE_PEDIDO WHERE ID_PEDIDO = NEW.ID_PEDIDO;
+  
+  -- Actualiza los campos SUBTOTAL_PEDIDO y TOTAL_PEDIDO de la tabla PEDIDO
+  UPDATE PEDIDO SET IVA_PEDIDO = total,SUBTOTAL_PEDIDO = subtotal, TOTAL_PEDIDO = total+subtotal WHERE ID_PEDIDO = NEW.ID_PEDIDO;
 END$$
 DELIMITER ;

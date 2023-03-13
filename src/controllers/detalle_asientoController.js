@@ -55,7 +55,7 @@ class Detalle_asientoController {
                 informe_financiero:stringinfCuenta[0].ID_INFORME_FINANCIERO,
                 id_cuenta:stringinfCuenta[0].ID_CUENTA,
                 codigo_cuenta:stringinfCuenta[0].CODIGO_CUENTA,
-                cuenta,
+                cuenta: stringinfCuenta[0].DESCRIPCION_CUENTA,
                 debe,
                 haber
             }

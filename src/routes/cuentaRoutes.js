@@ -16,7 +16,9 @@ class CuentaRoutes {
         this.router.get('/cuentasCostosGastos/:id', cuentaController_1.cuentaController.cuentasCostosGastos);
         this.router.get('/cuentasInventario/:id', cuentaController_1.cuentaController.cuentasInventario);
         this.router.get('/cuentasPedidos/:id', cuentaController_1.cuentaController.cuentasPedidos);
-
+        this.router.get('/numCuentasPedidos/:id', cuentaController_1.cuentaController.obtenercuentasPedidos);
+        this.router.get('/cuentasPedidosProveedor/:id', cuentaController_1.cuentaController.cuentasPedidosProveedor);
+        this.router.get('/numCuentasPedidosProveedor/:id', cuentaController_1.cuentaController.obtenercuentasPedidosProveedor);
     }
 }
 const cuentaRouter = new CuentaRoutes();

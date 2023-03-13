@@ -12,52 +12,50 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.detalle_pedidoController = void 0;
+exports.pedidoProveedorController = void 0;
 const database_1 = __importDefault(require("../database"));
 
-class Detalle_PedidoController {
+class PedidoProveedorController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const { id } = req.params
             const consulta =
-            "SELECT * FROM detalle_pedido JOIN item ON detalle_pedido.ID_ITEM = item.ID_ITEM WHERE detalle_pedido.ID_PEDIDO = ?;"
-            const detalle_pedido = yield database_1.default.query(consulta, [id]);
-            res.json(detalle_pedido);
+            "SELECT * FROM PEDIDO_PROVEEDOR JOIN PROVEEDOR ON PROVEEDOR.ID_PROVEEDOR=PEDIDO_PROVEEDOR.ID_PROVEEDOR"
+            const pedidoProveedor = yield database_1.default.query(consulta);
+            res.json(pedidoProveedor);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             const consulta =
-            "SELECT * FROM detalle_pedido WHERE ID_DETALLE_PEDIDO = ?;"
-            const detalle_pedido = yield database_1.default.query(consulta, [id]);
-            if (detalle_pedido.length > 0) {
-                return res.json(detalle_pedido[0]);
+            "SELECT * FROM PEDIDO_PROVEEDOR JOIN PROVEEDOR ON PROVEEDOR.ID_PROVEEDOR=PEDIDO_PROVEEDOR.ID_PROVEEDOR WHERE ID_PEDIDO_PROVEEDOR = ?;"
+            const pedidoProveedor = yield database_1.default.query(consulta, [id]);
+            if (pedidoProveedor.length > 0) {
+                return res.json(pedidoProveedor[0]);
             }
-            res.status(404).json({ text: "Detalle_Pedido doesn't exists" });
+            res.status(404).json({ text: "Pedido doesn't exists" });
         });
     }
     create(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            console.log(req.body);
-            yield database_1.default.query('INSERT INTO detalle_pedido (ID_PEDIDO, ID_ITEM, CANTIDAD_PEDIDO, SUBTOTAL_DETALLE_PEDIDO, PRECIO_DETALLE_PEDIDO) VALUES ?', [req.body.map( obj => [obj.id_pedido, obj.id_item, obj.cantidad_pedido, obj.subtotal_detalle_pedido, obj.precio_detalle_pedido])]);
-            
-            res.json({ message: 'Detalle Pedido saved' });
+            // const {id_cuenta,id_proveedor,FECHA_PEDIDO_PROVEEDOR,DETALLE_PEDIDO_PROVEEDOR, CANTIDAD_PEDIDO, SUBTOTAL_PEDIDO_PROVEEDOR, TOTAL_PEDIDO_PROVEEDOR} = req.body
+            yield database_1.default.query('INSERT INTO pedido_proveedor set?', [req.body]);            
+            res.json({ message: 'Pedido saved' });
         });
     }
     update(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('UPDATE detalle_pedido set ? WHERE id_detalle_pedido = ?', [req.body, id]);
-            res.json({ message: 'Detalle Pedido was updated' });
+            yield database_1.default.query('UPDATE pedido_proveedor set ? WHERE id_pedido_proveedor = ?', [req.body, id]);
+            res.json({ message: 'Pedido was updated' });
         });
     }
     delete(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
-            yield database_1.default.query('DELETE FROM detalle_pedido WHERE id_detalle_pedido = ?', [id]);
-            res.json({ message: 'Detalle Pedido was deleted' });
+            yield database_1.default.query('DELETE FROM pedido_proveedor WHERE id_pedido_proveedor = ?', [id]);
+            res.json({ message: 'Pedido was deleted' });
         });
     }
 }
-exports.detalle_pedidoController = new Detalle_PedidoController();
+exports.pedidoProveedorController = new PedidoProveedorController();
