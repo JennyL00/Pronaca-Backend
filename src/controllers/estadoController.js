@@ -50,7 +50,7 @@ class estadoController {
             const ingresos = ingresos_cuenta[0].VALOR_CUENTA;
             /// toma el valor de las cuentas (Costo de Ventas)
 
-            const costos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 53`);
+            const costos_cuenta = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 54`);
             const costos = costos_cuenta[0].VALOR_CUENTA;
             /// toma el valor de las cuentas (Gastos Operacion , 50,51,52) 
 
