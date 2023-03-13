@@ -53,11 +53,18 @@ class balanceController {
         ////bancos01
         const lista_cuenta_codigo_bancos=yield database_1.default.query(`SELECT * FROM CUENTA WHERE CODIGO_CUENTA LIKE '1.1.2.%'`)
         ////inventario02
-        const inventarioo = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 9`)
-        const inventario=inventarioo[0].VALOR_CUENTA
+        const lista_cuenta_inventario=yield database_1.default.query(`SELECT * FROM CUENTA WHERE CODIGO_CUENTA LIKE '1.1.3.%'`)
+          ///suma inventario del id 9 operacion
+          const inventarioo = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 9`)
+          const inventario=inventarioo[0].VALOR_CUENTA
+
         ////cuentas por cobrar cliente  ///cambiar empleado por cliente
-        const cuentaxcobrar_empleadoo = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 15`)
-        const cuentaxcobrar_empleado=cuentaxcobrar_empleadoo[0].VALOR_CUENTA
+        const cuentaxcobrar_clientee = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 15`)
+        const cuentaxcobrar_cliente=cuentaxcobrar_clientee[0].VALOR_CUENTA
+        ///// iva encompras
+        const iva_comprass= yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 19`)
+        const iva_compras=iva_comprass[0].VALOR_CUENTA
+
 
 
         /////PASIVOS
@@ -94,6 +101,8 @@ class balanceController {
         
         // Sumar Activos totales
         let suma_activos = lista_cuenta_codigo_filtro_activos.reduce((total, cuenta) => total + cuenta.VALOR_CUENTA, 0);
+        /// suma inventario
+        let suma_inventatio = lista_cuenta_inventario.reduce((total, cuenta) => total + cuenta.VALOR_CUENTA, 0);
         /////suma repetida
         suma_activos=suma_activos-inventario
 
@@ -129,8 +138,9 @@ class balanceController {
         tipo_informe: 1,
         //////
         bancos:suma_bancos,
-        inventario:inventario,
-        cuentas_por_cobrar_emp:cuentaxcobrar_empleado,
+        inventario:suma_inventatio,
+        cuentas_por_cobrar_cli:cuentaxcobrar_cliente,
+        iva_compras:iva_compras,
         /////
         cuenta_pagar_proveedor:cuentaxpagar_proveedor,
         iva_ventas:iva_ventas,
@@ -140,10 +150,8 @@ class balanceController {
 
       };
 
-      //yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe})`);
-      //yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_emp}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
-      yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, BANCOS, INVENTARIO, Cuentas_por_cobrar_emp, Cuenta_pagar_proveedor, Iva_ventas, Aportes, Nomina, Pasivos_fijos) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_emp}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
-
+      //yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, BANCOS, INVENTARIO, Cuentas_por_cobrar_cli, Cuenta_pagar_proveedor, Iva_ventas, Aportes, Nomina, Pasivos_fijos) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_cli}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
+      yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, BANCOS, INVENTARIO, CUENTAS_POR_COBRAR_CLI, IVA_COMPRAS, CUENTA_PAGAR_PROVEEDOR, IVA_VENTAS, APORTES, NOMINA, PASIVOS_FIJOS) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_cli}, ${newInformeFinanciero.iva_compras}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
 
         
   

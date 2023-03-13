@@ -84,7 +84,8 @@ create table balance_general (
 
   bancos decimal(10,2) not null,
   inventario decimal(10,2) not null,
-  cuentas_por_cobrar_emp decimal(10,2) not null,
+  cuentas_por_cobrar_cli decimal(10,2) not null,
+  iva_compras decimal(10,2) not null,
   
   cuenta_pagar_proveedor decimal(10,2) not null,
   iva_ventas decimal(10,2) not null,

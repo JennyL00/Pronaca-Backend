@@ -40,20 +40,14 @@ INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`) VALUE
 /*
 INformes Financieros , Balance */
 
-INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
-VALUES ('2023-03-12', 1000.00, 500.00, 500.00, 250.00, 200.00, 100.00, 150.00, 50.00, 100.00, 300.00, 50.00, 1);
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, ID_informe_financiero, bancos, inventario, cuentas_por_cobrar_cli, iva_compras, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos)
+VALUES 
+('2022-01-01', 1000.00, 500.00, 500.00, 1, 700.00, 200.00, 100.00, 50.00, 300.00, 50.00, 100.00, 200.00, 100.00),
+('2022-02-01', 1500.00, 800.00, 700.00, 1, 900.00, 300.00, 200.00, 70.00, 400.00, 100.00, 150.00, 300.00, 150.00),
+('2022-03-01', 2000.00, 1000.00, 1000.00, 1, 1200.00, 400.00, 300.00, 100.00, 500.00, 150.00, 200.00, 400.00, 250.00),
+('2022-04-01', 2500.00, 1200.00, 1300.00, 1, 1500.00, 500.00, 400.00, 150.00, 600.00, 200.00, 250.00, 500.00, 350.00),
+('2022-05-01', 3000.00, 1500.00, 1500.00, 1, 1800.00, 600.00, 500.00, 200.00, 700.00, 250.00, 300.00, 600.00, 450.00);
 
-INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
-VALUES ('2023-03-12', 1500.00, 1000.00, 500.00, 500.00, 300.00, 200.00, 250.00, 100.00, 200.00, 400.00, 100.00, 1);
-
-INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
-VALUES ('2023-03-12', 2000.00, 1500.00, 500.00, 750.00, 400.00, 300.00, 350.00, 150.00, 300.00, 500.00, 150.00, 1);
-
-INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
-VALUES ('2023-03-12', 2500.00, 2000.00, 500.00, 1000.00, 500.00, 400.00, 450.00, 200.00, 400.00, 600.00, 200.00, 1);
-
-INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, bancos, inventario, cuentas_por_cobrar_emp, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos, ID_informe_financiero) 
-VALUES ('2023-03-12', 3000.00, 2500.00, 500.00, 1250.00, 600.00, 500.00, 550.00, 250.00, 500.00, 700.00, 250.00, 1);
 
 /* estado de Resultados */
 
