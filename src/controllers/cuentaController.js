@@ -121,15 +121,16 @@ class CuentaController {
             ////// Cuenta inventario materia prima
             const cuentaMateriaPrima = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Inventario materia prima"')
             const stringCuentaMateriaPrima = JSON.parse(JSON.stringify(cuentaMateriaPrima))
+            
 
-            // Cálculo inventario materia prima
-            const materiaPrima = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaMateriaPrima[0].ID_CUENTA])
-            const stringMateriaPrima = JSON.parse(JSON.stringify(materiaPrima))
+            // Cálculo inventario de materia prima
+            const bodegasMateriaPrima = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=1');
+            const stringMateriaPrima = JSON.parse(JSON.stringify(bodegasMateriaPrima))
+
             let materiaPrimaPorSumar = stringMateriaPrima[0].PRECIO_ITEM || 0.00;
-
+            
             // Actualizar cuenta inventario materia prima
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [materiaPrimaPorSumar, stringCuentaMateriaPrima[0].ID_CUENTA])
-
 
 
             ////// Cuenta inventario insumos
@@ -137,7 +138,7 @@ class CuentaController {
             const stringCuentaInsumos = JSON.parse(JSON.stringify(cuentaInsumos))
 
             // Cálculo inventario insumos
-            const insumos = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaInsumos[0].ID_CUENTA])
+            const insumos = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=2')
             const stringInsumos = JSON.parse(JSON.stringify(insumos))
             let insumosPorSumar = stringInsumos[0].PRECIO_ITEM || 0.00;
 
@@ -151,12 +152,13 @@ class CuentaController {
             const stringCuentaProducto = JSON.parse(JSON.stringify(cuentaProducto))
 
             // Cálculo inventario producto
-            const producto = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=T.ID_TIPO_ITEM AND T.ID_CUENTA=?', [stringCuentaProducto[0].ID_CUENTA])
+            const producto = yield database_1.default.query('SELECT SUM(b.CANTIDAD * i.PRECIO_ITEM) AS TOTAL FROM BODEGAITEM b JOIN ITEM i ON b.ID_ITEM = i.ID_ITEM WHERE i.ID_TIPO_ITEM = 3')
             const stringProducto = JSON.parse(JSON.stringify(producto))
-            let productoPorSumar = stringProducto[0].PRECIO_ITEM || 0.00;
+            let productoPorSumar = stringProducto[0].TOTAL || 0.00;
 
             // Actualizar cuenta inventario producto
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [productoPorSumar, stringCuentaProducto[0].ID_CUENTA])
+
 
 
             // Actualización de la cuenta general de Inventario
@@ -172,7 +174,7 @@ class CuentaController {
             // Actualizar la cuenta de inventario
             yield database_1.default.query(
                 'UPDATE CUENTA SET VALOR_CUENTA = ? WHERE DESCRIPCION_CUENTA = "Inventario"', [totalInventario]
-            );
+            ); 
 
             res.json({ message: 'cuentas del inventario actualizadas' });
         });
@@ -296,12 +298,21 @@ class CuentaController {
 
         });
     }
+    
     obtenercuentasPedidosProveedor(req,res){
         return __awaiter(this, void 0, void 0, function* () {
             //cuenta Iva en cmpras, cuenta por pagar
             const cuentasPedidosProveedor = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="Iva en compras 12%" or descripcion_cuenta="Cuentas por pagar proveedor"')
             
             res.json(cuentasPedidosProveedor)
+
+        });
+    }
+
+    obtenerCuentasInventario(req,res){
+        return __awaiter(this, void 0, void 0, function* () {
+            const cuentasInventarios = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="Inventario materia prima" or descripcion_cuenta="Inventario insumos" or descripcion_cuenta="Inventario producto"')
+            res.json(cuentasInventarios)
 
         });
     }
