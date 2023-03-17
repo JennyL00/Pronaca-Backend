@@ -302,6 +302,7 @@ create table PEDIDO
    ID_CUENTA            int,
    FECHA_PEDIDO         date,
    ESTADO_PEDIDO        varchar(100),
+   ID_FLOTA             int,
    IVA_PEDIDO           float(8,2),
    SUBTOTAL_PEDIDO      float(8,2),
    TOTAL_PEDIDO         float(8,2),
@@ -401,6 +402,34 @@ create table UBICACION
    primary key (ID_UBICACION)
 );
 
+/*==============================================================*/
+/* Table: TRANSPORTE                                            */
+/*==============================================================*/
+
+create table TRANSPORTE
+(
+   ID_TRANSPORTE         int not null AUTO_INCREMENT,
+   NOMBRE_TRANSPORTE     varchar(100),
+   RUC_TRANSPORTE        varchar(100),
+   primary key (ID_TRANSPORTE)
+);
+
+/*==============================================================*/
+/* Table: FLOTA                                                 */
+/*==============================================================*/
+
+create table FLOTA
+(
+   ID_FLOTA              int not null AUTO_INCREMENT,
+   ID_TRANSPORTE         int,
+   SECTOR_FLOTA          varchar(100),
+   CANTIDAD_PEDIDOS      int,
+   CANTIDAD_MAX          int,
+   VALOR                 float(8,2),
+   primary key (ID_FLOTA)
+);
+
+
 alter table DETALLE_PEDIDO add constraint FK_RELATIONSHIP_1 foreign key (ID_ITEM)
       references ITEM (ID_ITEM);
 
@@ -486,7 +515,14 @@ alter table MOVIMIENTO_EMPLEADO add constraint FK_RELATIONSHIP_29 foreign key (I
       references PARAMETRO_IESS (ID_PARAMETRO_IESS);
 
 alter table BANCO add constraint FK_RELATIONSHIP_30 foreign key (ID_CUENTA)
-      references CUENTA (ID_CUENTA);  
+      references CUENTA (ID_CUENTA);
+
+alter table PEDIDO add constraint FK_RELATIONSHIP_32 foreign key (ID_FLOTA)
+      references FLOTA (ID_FLOTA);
+
+alter table FLOTA add constraint FK_RELATIONSHIP_33 foreign key (ID_TRANSPORTE)
+      references TRANSPORTE (ID_TRANSPORTE);
+
 /*relacion estadoproduccion-item*/
 ALTER TABLE `item` ADD CONSTRAINT `FK_RELATIONSHIP_40` FOREIGN KEY (`ID_ESTADO_PRODUCION`) 
 REFERENCES `estado_produccion`(`ID_ESTADO_PRODUCCION`) ON DELETE RESTRICT ON UPDATE RESTRICT;
