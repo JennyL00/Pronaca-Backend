@@ -35,6 +35,9 @@ const bodegaRoutes = require("./routes/bodegaRoutes");
 const pedidoProveedorRoutes = require("./routes/pedidosProveedorRoutes");
 const proveedorRoutes = require("./routes/proveedoresRoutes")
 
+// Transporte 
+const transporteRoutes = require("./routes/transporteRoutes")
+
 //initialization
 const app = express();
 
@@ -102,6 +105,7 @@ app.use('/api/pasos_receta',pasos_recetaRoutes.default);
 app.use('/api/bodega',bodegaRoutes.default);
 app.use('/api/pedidoProveedor',pedidoProveedorRoutes.default);
 app.use('/api/proveedor', proveedorRoutes.default);
+app.use('/api/transporte', transporteRoutes.default);
 
 
 //public
