@@ -37,6 +37,8 @@ const proveedorRoutes = require("./routes/proveedoresRoutes")
 
 // Transporte 
 const transporteRoutes = require("./routes/transporteRoutes")
+//Flota
+const flotaRoutes = require("./routes/flotaRoutes")
 
 //initialization
 const app = express();
@@ -106,6 +108,7 @@ app.use('/api/bodega',bodegaRoutes.default);
 app.use('/api/pedidoProveedor',pedidoProveedorRoutes.default);
 app.use('/api/proveedor', proveedorRoutes.default);
 app.use('/api/transporte', transporteRoutes.default);
+app.use('/api/flota', flotaRoutes.default);
 
 
 //public
