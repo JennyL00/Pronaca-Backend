@@ -372,7 +372,8 @@ create table PROVEEDOR
    /*ID_PEDIDO_MATERIAP   int,*/
    NOMBRE_PROVEEDOR     varchar(100),
    TIPO_PROVEEDOR       varchar(100),
-   RUC                  varchar(100),
+   RUC                  varchar(13),
+   TELEFONO_PROVEEDOR   varchar(10),
    primary key (ID_PROVEEDOR)
 );
 
@@ -410,7 +411,9 @@ create table TRANSPORTE
 (
    ID_TRANSPORTE         int not null AUTO_INCREMENT,
    NOMBRE_TRANSPORTE     varchar(100),
-   RUC_TRANSPORTE        varchar(100),
+   RUC_TRANSPORTE        varchar(13),
+   TELEFONO_TRANSPORTE   varchar(10),
+   DIRECCION_TRANSPORTE  varchar(100),
    primary key (ID_TRANSPORTE)
 );
 
@@ -420,12 +423,13 @@ create table TRANSPORTE
 
 create table FLOTA
 (
-   ID_FLOTA              int not null AUTO_INCREMENT,
-   ID_TRANSPORTE         int,
-   SECTOR_FLOTA          varchar(100),
-   CANTIDAD_PEDIDOS      int,
-   CANTIDAD_MAX          int,
-   VALOR                 float(8,2),
+   ID_FLOTA                   int not null AUTO_INCREMENT,
+   ID_TRANSPORTE              int,
+   SECTOR_FLOTA               varchar(100),
+   ESTADO_FLOTA               varchar(100),
+   CANTIDAD_PEDIDOS_FLOTA     int,
+   CAPACIDAD_FLOTA            int,
+   COSTO_FLOTA                float(8,2),
    primary key (ID_FLOTA)
 );
 
