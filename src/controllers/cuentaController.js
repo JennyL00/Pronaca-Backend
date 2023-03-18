@@ -190,7 +190,7 @@ class CuentaController {
 
             // Cálculo de las cuentas por cobrar
             // Toma todos los pedidos con estado "Pendiente" y los suma (incluye el IVA)
-            const porCobrar = yield database_1.default.query('SELECT SUM(P.TOTAL_PEDIDO) AS TOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Pendiente"')
+            const porCobrar = yield database_1.default.query('SELECT SUM(P.TOTAL_PEDIDO) AS TOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="PENDIENTE"')
             const stringPorCobrar = JSON.parse(JSON.stringify(porCobrar))
             const cuentaPorCobrar = stringPorCobrar[0].TOTAL_PEDIDO || 0.00;
 
@@ -205,7 +205,7 @@ class CuentaController {
 
             // Cálculo de las ventas
             // Toma el subtotal de todos los pedidos con estado "Entregado" y los suma
-            const ventas = yield database_1.default.query('SELECT SUM(P.SUBTOTAL_PEDIDO) AS SUBTOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Entregado"')
+            const ventas = yield database_1.default.query('SELECT SUM(P.SUBTOTAL_PEDIDO) AS SUBTOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="ENTREGADO"')
             const stringVentas = JSON.parse(JSON.stringify(ventas))
             const valorCuentaVentas = stringVentas[0].SUBTOTAL_PEDIDO * (-1) || 0.00;
 
@@ -219,7 +219,7 @@ class CuentaController {
             const stringCuentaCostosVentas = JSON.parse(JSON.stringify(cuentaCostosVentas))
 
             // Obtención del detalle de pedido para obtener el costo de ventas
-            const costoProduccion = yield database_1.default.query('SELECT SUM(D.SUBTOTAL_DETALLE_PEDIDO) AS COSTO_PRODUCCION FROM DETALLE_PEDIDO D INNER JOIN PEDIDO P ON D.ID_PEDIDO = P.ID_PEDIDO WHERE P.ESTADO_PEDIDO = "Entregado"')
+            const costoProduccion = yield database_1.default.query('SELECT SUM(D.SUBTOTAL_DETALLE_PEDIDO) AS COSTO_PRODUCCION FROM DETALLE_PEDIDO D INNER JOIN PEDIDO P ON D.ID_PEDIDO = P.ID_PEDIDO WHERE P.ESTADO_PEDIDO = "ENTREGADO"')
             const stringCostoProduccion = JSON.parse(JSON.stringify(costoProduccion))
 
             const valorCuentaCostosVentas = stringCostoProduccion[0].COSTO_PRODUCCION || 0.00;
@@ -238,7 +238,7 @@ class CuentaController {
 
             // Cálculo del IVA
             // Toma todos los pedidos con estado "Entregado" y suma su IVA
-            const iva = yield database_1.default.query('SELECT SUM(P.IVA_PEDIDO) AS IVA_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="Entregado"')
+            const iva = yield database_1.default.query('SELECT SUM(P.IVA_PEDIDO) AS IVA_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="ENTREGADO"')
             const stringIva = JSON.parse(JSON.stringify(iva))
             const totalIva = stringIva[0].IVA_PEDIDO * (-1) || 0.00;
 
