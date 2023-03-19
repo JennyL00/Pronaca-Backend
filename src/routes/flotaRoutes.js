@@ -8,7 +8,7 @@ class FlotaRoutes {
         this.config();
     }
     config() {
-        this.router.get('/', flotaController_1.flotaController.list);
+        this.router.get('/:id', flotaController_1.flotaController.list);
         this.router.get('/:id', flotaController_1.flotaController.getOne);
         this.router.post('/', flotaController_1.flotaController.create);
         this.router.put('/:id', flotaController_1.flotaController.update);

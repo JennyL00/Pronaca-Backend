@@ -18,15 +18,18 @@ const database_1 = __importDefault(require("../database"));
 class FlotaController {
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            const flota = yield database_1.default.query('SELECT * FROM flota;');
-            res.json(flota);
+            const { id } = req.params;
+            const consulta = 
+            'SELECT * FROM flota JOIN transporte ON transporte.ID_TRANSPORTE=flota.ID_TRANSPORTE WHERE flota.ID_TRANSPORTE = ?;'
+            const flotas = yield database_1.default.query(consulta, [id]);
+            res.json(flotas);
         });
     }
     getOne(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
             const consulta = 
-            "SELECT * FROM flota WHERE ID_FLOTA = ?;"
+            'SELECT * FROM flota JOIN transporte ON transporte.ID_TRANSPORTE=flota.ID_TRANSPORTE WHERE ID_FLOTA = ?;'
             const flota = yield database_1.default.query(consulta, [id]);
             if (flota.length > 0) {
                 return res.json(flota[0]);
