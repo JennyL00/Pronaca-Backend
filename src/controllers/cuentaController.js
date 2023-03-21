@@ -190,7 +190,7 @@ class CuentaController {
 
             // Cálculo de las cuentas por cobrar
             // Toma todos los pedidos con estado "Pendiente" y los suma (incluye el IVA)
-            const porCobrar = yield database_1.default.query('SELECT SUM(P.TOTAL_PEDIDO) AS TOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO="PENDIENTE"')
+            const porCobrar = yield database_1.default.query('SELECT SUM(P.TOTAL_PEDIDO) AS TOTAL_PEDIDO FROM PEDIDO P WHERE P.ESTADO_PEDIDO <> "ENTREGADO"')
             const stringPorCobrar = JSON.parse(JSON.stringify(porCobrar))
             const cuentaPorCobrar = stringPorCobrar[0].TOTAL_PEDIDO || 0.00;
 
