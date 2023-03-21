@@ -114,6 +114,56 @@ class CuentaController {
         });
     }
 
+    actualizarCuentasTransporte(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+
+            //Cuenta por cobrar transporte
+            const cuentasPorPagarTransporte = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Cuentas por pagar transporte"')
+            const stringCuentasPorPagarTransporte = JSON.parse(JSON.stringify(cuentasPorPagarTransporte))
+            
+            //Cálculo costos operativos
+            const gastosOperativos = yield database_1.default.query('SELECT SUM(F.COSTO_FLOTA) AS GASTO FROM FLOTA F')
+            const stringGastosOperativos = JSON.parse(JSON.stringify(gastosOperativos))
+
+            const cuentaPorPagar = stringGastosOperativos[0].GASTO * (-1) || 0.00;
+
+            //actualizar cuentas por pagar transporte
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [cuentaPorPagar, stringCuentasPorPagarTransporte[0].ID_CUENTA])
+
+
+            res.json({ message: 'cuentas por pagar de transporte actualizadas' });
+        });
+    }
+
+    pagarCuentasTransporte(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            const bancoId = id
+
+            //Cuenta gastos operativos
+            const cuentaGastosOperativos = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Gastos operativos"')
+            const stringCuentaGastosOperativos = JSON.parse(JSON.stringify(cuentaGastosOperativos))
+            
+            //Cálculo costos operativos
+            const gastosOperativos = yield database_1.default.query('SELECT SUM(F.COSTO_FLOTA) AS GASTO FROM FLOTA F')
+            const stringGastosOperativos = JSON.parse(JSON.stringify(gastosOperativos))
+
+            //actualizar cuenta gastos operativos
+            yield database_1.default.query('UPDATE cuenta c SET c.VALOR_CUENTA = c.VALOR_CUENTA + ? WHERE ID_CUENTA=?', [stringGastosOperativos[0].GASTO, stringCuentaGastosOperativos[0].ID_CUENTA])
+
+            //actualizar datos de las cuentas por pagar
+            yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = 0 WHERE DESCRIPCION_CUENTA = "Cuentas por pagar transporte"')
+
+            //actualizar banco
+            yield database_1.default.query('UPDATE banco b set b.saldo=b.saldo-? where b.id_banco=?', [stringGastosOperativos[0].GASTO, bancoId]);
+            console.log(bancoId + "aaaaaa")
+            //actualizar cuenta del banco
+            yield database_1.default.query('UPDATE cuenta c inner join banco b on c.id_cuenta=b.id_cuenta set c.valor_cuenta=b.saldo where c.id_cuenta=(select id_cuenta from banco where id_banco=?) and b.id_banco=?', [bancoId, bancoId]);
+
+            res.json({ message: 'cuenta gastos operativos actualizada' });
+        });
+    }
+
     cuentasInventario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
@@ -121,14 +171,14 @@ class CuentaController {
             ////// Cuenta inventario materia prima
             const cuentaMateriaPrima = yield database_1.default.query('SELECT * FROM CUENTA WHERE DESCRIPCION_CUENTA = "Inventario materia prima"')
             const stringCuentaMateriaPrima = JSON.parse(JSON.stringify(cuentaMateriaPrima))
-            
+
 
             // Cálculo inventario de materia prima
             const bodegasMateriaPrima = yield database_1.default.query('SELECT SUM(I.PRECIO_ITEM * I.CANTIDAD_LOTE_ITEM) AS PRECIO_ITEM FROM ITEM I INNER JOIN TIPO_ITEM T ON I.ID_TIPO_ITEM=T.ID_TIPO_ITEM WHERE I.ID_TIPO_ITEM=1');
             const stringMateriaPrima = JSON.parse(JSON.stringify(bodegasMateriaPrima))
 
             let materiaPrimaPorSumar = stringMateriaPrima[0].PRECIO_ITEM || 0.00;
-            
+
             // Actualizar cuenta inventario materia prima
             yield database_1.default.query('UPDATE cuenta SET VALOR_CUENTA = ? WHERE ID_CUENTA=?', [materiaPrimaPorSumar, stringCuentaMateriaPrima[0].ID_CUENTA])
 
@@ -174,7 +224,7 @@ class CuentaController {
             // Actualizar la cuenta de inventario
             yield database_1.default.query(
                 'UPDATE CUENTA SET VALOR_CUENTA = ? WHERE DESCRIPCION_CUENTA = "Inventario"', [totalInventario]
-            ); 
+            );
 
             res.json({ message: 'cuentas del inventario actualizadas' });
         });
@@ -289,33 +339,44 @@ class CuentaController {
         });
     }
 
-    obtenercuentasPedidos(req,res){
+    obtenercuentasPedidos(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //cuenta Iva en ventas, cuenta por cobrar clientes,costos de ventas, ventas
             const cuentasPedidos = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="IVA en ventas" or descripcion_cuenta="Cuentas por cobrar clientes" or descripcion_cuenta="Costos de ventas de mercancia" or descripcion_cuenta="Ventas"')
-            
+
             res.json(cuentasPedidos)
 
         });
     }
-    
-    obtenercuentasPedidosProveedor(req,res){
+
+    obtenercuentasPedidosProveedor(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             //cuenta Iva en cmpras, cuenta por pagar
             const cuentasPedidosProveedor = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="Iva en compras 12%" or descripcion_cuenta="Cuentas por pagar proveedor"')
-            
+
             res.json(cuentasPedidosProveedor)
 
         });
     }
 
-    obtenerCuentasInventario(req,res){
+    obtenercuentasTransporte(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+
+            const cuentasTransporte = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="Gastos operativos" or descripcion_cuenta="Cuentas por pagar transporte"')
+
+            console.log(cuentasTransporte)
+            res.json(cuentasTransporte)
+
+        });
+    }
+
+    obtenerCuentasInventario(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const cuentasInventarios = yield database_1.default.query('SELECT * FROM CUENTA WHERE descripcion_cuenta="Inventario materia prima" or descripcion_cuenta="Inventario insumos" or descripcion_cuenta="Inventario producto"')
             res.json(cuentasInventarios)
 
         });
     }
-    
+
 }
 exports.cuentaController = new CuentaController();

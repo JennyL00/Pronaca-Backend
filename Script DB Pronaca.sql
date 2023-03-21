@@ -88,6 +88,7 @@ create table balance_general (
   iva_compras decimal(10,2) not null,
   
   cuenta_pagar_proveedor decimal(10,2) not null,
+  cuenta_pagar_transporte decimal(10,2) not null,
   iva_ventas decimal(10,2) not null,
   aportes decimal(10,2) not null,
   nomina decimal(10,2) not null,

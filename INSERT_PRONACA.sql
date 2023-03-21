@@ -40,13 +40,13 @@ INSERT INTO `informe_financiero` (`ID_INFORME_FINANCIERO`, `TIPO_INFORME`) VALUE
 /*
 INformes Financieros , Balance */
 
-INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, ID_informe_financiero, bancos, inventario, cuentas_por_cobrar_cli, iva_compras, cuenta_pagar_proveedor, iva_ventas, aportes, nomina, pasivos_fijos)
+INSERT INTO balance_general (fecha, activos, pasivos, patrimonio, ID_informe_financiero, bancos, inventario, cuentas_por_cobrar_cli, iva_compras, cuenta_pagar_proveedor, cuenta_pagar_transporte, iva_ventas, aportes, nomina, pasivos_fijos)
 VALUES 
-('2022-01-01', 1000.00, 500.00, 500.00, 1, 700.00, 200.00, 100.00, 50.00, 300.00, 50.00, 100.00, 200.00, 100.00),
-('2022-02-01', 1500.00, 800.00, 700.00, 1, 900.00, 300.00, 200.00, 70.00, 400.00, 100.00, 150.00, 300.00, 150.00),
-('2022-03-01', 2000.00, 1000.00, 1000.00, 1, 1200.00, 400.00, 300.00, 100.00, 500.00, 150.00, 200.00, 400.00, 250.00),
-('2022-04-01', 2500.00, 1200.00, 1300.00, 1, 1500.00, 500.00, 400.00, 150.00, 600.00, 200.00, 250.00, 500.00, 350.00),
-('2022-05-01', 3000.00, 1500.00, 1500.00, 1, 1800.00, 600.00, 500.00, 200.00, 700.00, 250.00, 300.00, 600.00, 450.00);
+('2022-01-01', 1000.00, 500.00, 500.00, 1, 700.00, 200.00, 100.00, 50.00, 300.00, 40.00, 50.00, 100.00, 200.00, 100.00),
+('2022-02-01', 1500.00, 800.00, 700.00, 1, 900.00, 300.00, 200.00, 70.00, 400.00, 40.00, 100.00, 150.00, 300.00, 150.00),
+('2022-03-01', 2000.00, 1000.00, 1000.00, 1, 1200.00, 400.00, 300.00, 100.00, 500.00, 40.00, 150.00, 200.00, 400.00, 250.00),
+('2022-04-01', 2500.00, 1200.00, 1300.00, 1, 1500.00, 500.00, 400.00, 150.00, 600.00, 40.00, 200.00, 250.00, 500.00, 350.00),
+('2022-05-01', 3000.00, 1500.00, 1500.00, 1, 1800.00, 600.00, 500.00, 200.00, 700.00, 40.00, 250.00, 300.00, 600.00, 450.00);
 
 
 /* estado de Resultados */
@@ -87,7 +87,8 @@ INSERT INTO CUENTA (CUE_ID_CUENTA,DESCRIPCION_CUENTA,CODIGO_CUENTA,ID_INFORME_FI
 (null,"Costos","5",2,0.0),(48,"Costos Directos","5.1.",2,0.0),(49,"Costos operativos","5.1.1.",2,0.0),
 (50,"Costos personal comercial","5.1.1.01",2,0.0),(50,"Costos personal producción","5.1.1.02.",2,0.0),
 (49,"Costos de ventas","5.1.2.",2,0.0),(53,"Costos de ventas de mercancia","5.1.2.01.",2,15.98),(null,"Gastos","6.",2,0.0),(55,"Gastos operativos","6.1.",2,0.0),
-(56,"Gastos nómina","6.1.1.",2,0.0),(57,"Gastos personal administrativo","6.1.1.01",2,0.0),(57,"Gastos personal financiero","6.1.1.02.",2,0.0);
+(56,"Gastos nómina","6.1.1.",2,0.0),(57,"Gastos personal administrativo","6.1.1.01",2,0.0),(57,"Gastos personal financiero","6.1.1.02.",2,0.0),
+(25,"Cuentas por pagar transporte","2.1.1.02.",1,0.0);
 
 INSERT INTO departamento( ID_CUENTA, NOMBRE_DEPARTAMENTO,CODIGO_CUENTA, CUENTA) VALUES (58,'Administrativo','6.1.1.01.','Gastos personal administrativo');
 INSERT INTO `departamento`(`ID_CUENTA`, `NOMBRE_DEPARTAMENTO`, `CODIGO_CUENTA`, `CUENTA`) VALUES (52,'Produccion','5.1.1.02.','Costos personal producción');

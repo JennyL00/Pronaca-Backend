@@ -20,6 +20,9 @@ class CuentaRoutes {
         this.router.get('/numCuentasPedidos/:id', cuentaController_1.cuentaController.obtenercuentasPedidos);
         this.router.get('/cuentasPedidosProveedor/:id', cuentaController_1.cuentaController.cuentasPedidosProveedor);
         this.router.get('/numCuentasPedidosProveedor/:id', cuentaController_1.cuentaController.obtenercuentasPedidosProveedor);
+        this.router.get('/obtenerCuentasTransporte/:id', cuentaController_1.cuentaController.obtenercuentasTransporte);
+        this.router.get('/pagarCuentasTransporte/:id', cuentaController_1.cuentaController.pagarCuentasTransporte);
+        this.router.get('/actualizarCuentasTransporte/:id', cuentaController_1.cuentaController.actualizarCuentasTransporte);
     }
 }
 const cuentaRouter = new CuentaRoutes();

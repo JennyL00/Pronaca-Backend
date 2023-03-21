@@ -73,6 +73,10 @@ class balanceController {
         const cuentaxpagar_proveedorr = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 26`);
         const cuentaxpagar_proveedor=cuentaxpagar_proveedorr[0].VALOR_CUENTA
 
+        /////cuentas por pagar transporte
+        const cuentaTransporte = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE DESCRIPCION_CUENTA = "Cuentas por pagar transporte"`);
+        const cuentaPorPagarTransporte=cuentaTransporte[0].VALOR_CUENTA
+
         /////iva en venta
         const iva_ventass = yield database_1.default.query(`SELECT VALOR_CUENTA FROM CUENTA WHERE ID_CUENTA = 29`);
         const iva_ventas=iva_ventass[0].VALOR_CUENTA
@@ -143,6 +147,7 @@ class balanceController {
         iva_compras:iva_compras,
         /////
         cuenta_pagar_proveedor:cuentaxpagar_proveedor,
+        cuenta_pagar_transporte:cuentaPorPagarTransporte,
         iva_ventas:iva_ventas,
         aportes:suma_aportes,
         nomina:nomina_pagar,
@@ -151,7 +156,7 @@ class balanceController {
       };
 
       //yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, BANCOS, INVENTARIO, Cuentas_por_cobrar_cli, Cuenta_pagar_proveedor, Iva_ventas, Aportes, Nomina, Pasivos_fijos) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_cli}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
-      yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, BANCOS, INVENTARIO, CUENTAS_POR_COBRAR_CLI, IVA_COMPRAS, CUENTA_PAGAR_PROVEEDOR, IVA_VENTAS, APORTES, NOMINA, PASIVOS_FIJOS) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_cli}, ${newInformeFinanciero.iva_compras}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
+      yield database_1.default.query(`INSERT INTO BALANCE_GENERAL (FECHA, ACTIVOS, PASIVOS, PATRIMONIO, ID_informe_financiero, BANCOS, INVENTARIO, CUENTAS_POR_COBRAR_CLI, IVA_COMPRAS, CUENTA_PAGAR_PROVEEDOR, CUENTA_PAGAR_TRANSPORTE, IVA_VENTAS, APORTES, NOMINA, PASIVOS_FIJOS) VALUES ('${newInformeFinanciero.fecha}', ${newInformeFinanciero.activos}, ${newInformeFinanciero.pasivos}, ${newInformeFinanciero.patrimonio}, ${newInformeFinanciero.tipo_informe}, ${newInformeFinanciero.bancos}, ${newInformeFinanciero.inventario}, ${newInformeFinanciero.cuentas_por_cobrar_cli}, ${newInformeFinanciero.iva_compras}, ${newInformeFinanciero.cuenta_pagar_proveedor}, ${newInformeFinanciero.cuenta_pagar_transporte}, ${newInformeFinanciero.iva_ventas}, ${newInformeFinanciero.aportes}, ${newInformeFinanciero.nomina}, ${newInformeFinanciero.pasivos_fijos})`);
 
         
   
