@@ -428,7 +428,7 @@ create table FLOTA
    ID_TRANSPORTE              int,
    SECTOR_FLOTA               varchar(100),
    ESTADO_FLOTA               varchar(100),
-   CANTIDAD_PEDIDOS_FLOTA     int,
+   CANTIDAD_PEDIDOS_FLOTA     int CHECK (CANTIDAD_PEDIDOS_FLOTA>=0 AND CANTIDAD_PEDIDOS_FLOTA<=CAPACIDAD_FLOTA),
    CAPACIDAD_FLOTA            int,
    COSTO_FLOTA                float(8,2),
    primary key (ID_FLOTA)

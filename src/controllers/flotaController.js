@@ -16,6 +16,14 @@ exports.flotaController = void 0;
 const database_1 = __importDefault(require("../database"));
 
 class FlotaController {
+    all(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const consulta = 
+            'SELECT * FROM flota JOIN transporte ON transporte.ID_TRANSPORTE=flota.ID_TRANSPORTE;'
+            const flotas = yield database_1.default.query(consulta);
+            res.json(flotas);
+        });
+    }
     list(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             const { id } = req.params;
@@ -55,6 +63,20 @@ class FlotaController {
             const { id } = req.params;
             yield database_1.default.query('DELETE FROM flota WHERE id_flota = ?', [id]);
             res.json({ message: 'Flota was deleted' });
+        });
+    }
+    add(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            yield database_1.default.query('UPDATE flota SET CANTIDAD_PEDIDOS_FLOTA = CANTIDAD_PEDIDOS_FLOTA + 1 WHERE ID_FLOTA = ?;', [id]);
+            res.json({ message: 'Flota was updated' });
+        });
+    }
+    rest(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const { id } = req.params;
+            yield database_1.default.query('UPDATE flota set CANTIDAD_PEDIDOS_FLOTA=CANTIDAD_PEDIDOS_FLOTA-1 WHERE id_flota = ?', [id]);
+            res.json({ message: 'Flota was updated' });
         });
     }
 }

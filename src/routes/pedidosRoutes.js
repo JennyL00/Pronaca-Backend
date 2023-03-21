@@ -13,6 +13,7 @@ class PedidoRoutes {
         this.router.post('/', pedidoController_1.pedidoController.create);
         this.router.put('/:id', pedidoController_1.pedidoController.update);
         this.router.delete('/:id', pedidoController_1.pedidoController.delete);
+        this.router.put('/all/:id', pedidoController_1.pedidoController.updateState);
     }
 }
 const pedidoRouter = new PedidoRoutes();
